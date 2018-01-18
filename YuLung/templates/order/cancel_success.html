@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %}You reservation has been cancelled{% endblock %}
+
+{% block meta %} 
+{% endblock %}
+
+{% block extraheader %}
+{% endblock %}
+
+{% block body %}
+<div id="main" class="container mb-3">
+  <div id="section" class="row">
+    <div class="col-12">
+      <div class="card p-3">
+
+            <strong>You reservation has been cancelled</strong>
+            <a href="{% url 'my_reservation' %}">Click here to return to my reservation</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

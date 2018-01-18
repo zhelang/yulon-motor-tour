@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %}我的預約{% endblock %}
+
+{% block meta %} 
+{% endblock %}
+
+{% block extraheader %}
+{% endblock %}
+
+{% block body %}
+
+<!-- {{error_msg}} -->
+
+<div id="main" class="container mb-3">
+    <div id="section" class="row">
+        {% if user %}
+            {% for order in order_list %}
+            <div class="col-6 mb-3">
+                <div class="card p-3">
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">預約活動</label>
+                        <div class="col-9 font-weight-bold d-flex align-items-center"><a href="{% url 'reservation:reservation-confirm' order.pk %}">{{ order.service_type.service_title }}</a></div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">預約日期</label>
+                        <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.time_slot.date }}</div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">預約時間</label>
+                        <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.time_slot.start_time }}</div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">預約代碼</label>
+                        <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.code }}</div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">預約狀態</label>
+                        <div class="col-9 font-weight-bold d-flex align-items-center">
+                            {% if order.status == 'unconfirmed' %}
+                                <span class="text-danger mr-2">未確認</span>(<a class="sendemail" value="{{order.pk}}" href="{% url 'reservation:reservation-send-email' order.pk %}">電子郵件確認</a> / <a class="sendsms" value="{{order.pk}}" href="{% url 'reservation:reservation-send-sms' order.pk %}">電話簡訊確認</a>)
+                            {% elif order.status == 'confirmed' %}
+                                <span class="text-success">已確認</span>
+                            {% elif order.status == 'occupy' or order.status == 'completed' %}
+                                <span class="text-primary">已預約</span>
+                            {% else %}
+                                <span class="text-danger mr-2">STATUS ERROR</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-12 text-right">
+                            <a href="{% url 'reservation:reservation-cancel' order.pk %}" class="btn btn-danger">取消預約 <i class="fa fa-calendar-times-o" aria-hidden="true"></i></a>
+                            <a href="{% url 'reservation:reservation-index' %}#main" class="btn btn-info">增加預約 <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></a>
+                            <!-- <a href="{% url 'my_reservation' %}" class="btn btn-outline-info">顯示所有預約 <i class="fa fa-calender-check-o" aria-hidden="true"></i></a> -->
+                        </div>
+                    </div>
+                    <div class="form-group row mt-3 pt-3 border border-left-0 border-right-0 border-bottom-0">
+                        <label class="col-3">添加至日曆</label>
+                        <div class="col-9">
+                            <a href="{% url 'reservation:reservation-genics' order.pk %}" class="mr-3"><i class="fa fa-calendar" aria-hiddne="true"></i> Outlook</a>
+                            <a href="{% url 'reservation:reservation-genics' order.pk %}" class="mr-3"><i class="fa fa-calendar" aria-hiddne="true"></i> Apple</a>
+                            <a href="#" value="{{order.pk}}" class="mr-3 add-google"><i class="fa fa-calendar" aria-hidden="true"></i> Google</a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3">分享活動</label>
+                        <div class="col-9">
+                            <!-- AddToAny BEGIN -->
+                            <div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-url="{% url 'reservation:reservation-confirm' order.pk %}" data-a2a-title="{{ order.service_type.service_title }}">
+                                <!-- <a class="a2a_dd" href="https://www.addtoany.com/share"></a> -->
+                                <a class="a2a_button_facebook"></a>
+                                <a class="a2a_button_twitter"></a>
+                                <a class="a2a_button_google_plus"></a>
+                                <a class="a2a_button_line"></a>
+                            </div>
+                            <script>
+                                var a2a_config = a2a_config || {};
+                                a2a_config.locale = "zh-TW";
+                            </script>
+                            <script async src="https://static.addtoany.com/menu/page.js"></script>
+                            <!-- AddToAny END -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-warning" role="alert">
+                請先登入網站。
+            </div>
+            <button class="btn btn-primary d-flex mx-auto" onclick="window.open({% url 'sign-in' %}, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');">登入</button>
+        </div>
+        {% endif %}
+    </div> <!-- /#section -->
+</div>
+
+<script type="text/javascript">
+
+    
+    $( document ).ready(function() {
+        /*
+        $(".sendemail").on('click',function(){
+            $.ajax({
+                    url: "/reservation/sendvalidation_email/" + $(this).value + "/",
+                    success: function (response) {
+                        if(response == "OK"){
+                            //alert("Hello! I am an alert box!!");
+                            $('.alert').replaceWith('<div class="alert alert-info col-12 mx-auto" role="alert">電子郵件確認信已寄出，請到您的信箱查看訊息並按下確認連結以完成預約確認動作。</div>')
+                        }
+                    }
+                  });
+        });
+        
+        $('.sendsms').on('click' , function(){
+            $.ajax({
+                url: "/reservation/sendvalidation_sms/" + $(this).value + "/",
+                success: function (response) {
+                    if(response == "OK"){
+                        //alert("Hello! I am an alert box!!");
+                        $('.alert').replaceWith('<div class="alert alert-info col-12 mx-auto" role="alert">SMS確認信已寄出，請到您的信箱查看訊息並按下確認連結以完成預約確認動作。</div>')
+                    }
+                }
+            });
+        });
+        
+        */
+        $('.add-google').on('click', function(){
+            console.log($(this).attr('value'));
+            $.ajax({
+                url: "/reservation/gen_google/" + $(this).attr('value') + "/",
+                success:function(response){
+                
+                    href = "http://www.google.com/calendar/event?action=TEMPLATE&text=" + response.summary +  "&dates=";
+                    href = href + response.start.dateTime + "/" + response.end.dateTime; 
+                    href = href + "&details=相招來去裕隆導覽教育中心𨑨迌&location=367 苗栗縣三義鄉尖豐公路39-1號&trp=false&sprop=&sprop=name:";
+                    
+                    window.location.href = href;
+                },
+                error:function(error){
+                    console.log('error');
+                }
+                
+            })
+            
+        })
+        
+        
+    });
+
+</script>
+
+
+
+
+{% endblock %}

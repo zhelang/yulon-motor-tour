@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %}聯絡資訊{% endblock %}
+
+{% block meta %} 
+{% endblock %}
+
+{% block extraheader %}
+{% endblock %}
+
+{% block body %}
+<div id="main" class="container mb-3">
+
+    {% include 'order/order_step_bar.html' with page_name='info'  %}
+
+    <div id="section" class="row">
+        <div class="col-lg-6 col-sm-12">
+            <div class="form-group row">
+                <label for="theme" class="col-4 col-form-label">預約活動 / Subject:</label>
+                <div class="col-8 font-weight-bold d-flex align-items-center"><a class="" data-fancybox data-src="#popup" href="javascript:;">{{ selected_service_title }}</a></div>
+            </div>
+            <div class="form-group row">
+                <label for="date" class="col-4 col-form-label">預約日期 / Date:</label>
+                <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.date }}</div>
+            </div>
+            <div class="form-group row">
+                <label for="time" class="col-4 col-form-label">預約時間 / Time:</label>
+                {% if selected_timeslot.end_time %}
+                    <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.start_time }} - {{selected_timeslot.end_time}}</div>
+                {% else %}
+                    <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.start_time }}</div>
+                {% endif %}
+            </div>
+            
+        </div>
+        <div class="col-lg-6 col-sm-12">
+            {% if user_name %}
+            <form method="post">
+                {% csrf_token %}
+                
+                {% for field in form%}
+                
+                    {{field.errors}}
+                
+                    <div class="form-group row">
+                        <label for="name" class="col-4 col-form-label">{{field.label_tag}}</label>
+                        <div class="col-8">
+                            {{field}}
+                            <div class="invalid-feedback">
+                                {{field.errors}}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                    <div class="form-group row">
+                       <label for="note" class="col-4 col-form-label">參訪須知:</label>
+                       <div class="col-8 font-weight-bold d-flex align-items-center form-check"><label class="form-check-label"><input type="checkbox" id="checkbox" class="form-check-input">我已閱讀並同意<a href="#" onclick="window.open('{% url 'tos' %}', '_blank', 'location=yes,height=600,width=600,scrollbars=yes,status=yes');">約定條款說明</a>。</label></div>
+                    </div>
+                {% if error_msg %}
+                    {{error_msg}}
+                {% else %}
+                    <button id="submit" class="btn btn-primary d-flex mx-auto disabled" type="submit">送出預約 <i class="fa fa-check" aria-hidden="true"></i></button>
+                {% endif %}
+            </form>
+            {% else %}
+            <div class="alert alert-warning" role="alert">
+                請先登入網站或註冊帳號以繼續預約程序。
+            </div>
+            <button class="btn btn-primary d-flex mx-auto" onclick="window.open({% url 'sign-in' %}, '_blank', 'location=yes,height=600,width=420,scrollbars=yes,status=yes');">登入/註冊</button>
+            {% endif %}
+        </div>
+        <div id="popup" style="display: none;">
+            <div class="row">
+                <div class="col-4">
+                    <img class="img-fluid w-100 h-100" src="{{ selected_service_obj.service_type_image.url }}" alt="{{ selected_service_obj.service_title }}">
+                </div>
+                <div class="col-8">
+                    <h4 class="title">{{ selected_service_obj.service_title }}</h4>
+                    <p class="text">{{ selected_service_obj.service_description }}</p>
+                    <p class="text"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ selected_service_obj.session_time_length }} 小時。</p>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /#section -->
+</div>
+
+<script type="text/javascript">
+    
+    $( document ).ready(function() {
+        $("#checkbox").on('click',function(){
+            if ($(this).is(":checked")){
+                $("#submit").removeClass("disabled");
+            }
+            else{
+                $("#submit").addClass("disabled");
+            }
+        });
+    });
+    
+</script>
+
+
+{% endblock %}

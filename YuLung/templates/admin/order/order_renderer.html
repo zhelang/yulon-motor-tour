@@ -1,0 +1,119 @@
+<div class="col">
+  <ul class="nav nav-tabs col-11 mx-auto" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active text-danger" data-toggle="tab" href="#notassign">未指派</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-dark" data-toggle="tab" href="#assign">已指派</a>
+    </li>
+  </ul>
+
+  <!-- confirmed_orders -Array of confirmed orders ....  customer confirmed, not assiged to anyone  -->
+  <!-- unfinished_ticket -Array of unfinished_ticket ... assiged ticket  -->
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="row tab-pane active" id="notassign">
+      <div class="col-11 mx-auto">
+        <div class="card mt-2">
+          <div class="card-body">
+          
+          
+          
+            {% for order in confirmed_orders %}
+            <div class="row">
+                <a class="btn btn-light col m-1 text-left" data-toggle="collapse" href="#ord{{order.pk}}" aria-expanded="false" aria-controls="collapseExample">
+                    {{order}}
+                    <a value="{{order.pk}}" class="btn-edit-order btn btn-outline-secondary col-1 m-1" role="button">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                </a>
+                
+                <div class="collapse col-12" id="ord{{order.pk}}">
+                    <table class="table-sm table">
+                        <tr>
+                            <th scope="row" class="col-3">代碼</th>
+                            <td>{{order.code}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="col-3">Service title</th>
+                            <td>{{order.service_type.service_title}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="col-3">Customer title</th>
+                            <td>{{order.customer_type.customer_title}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="col-3">Time slot</th>
+                            <td>Date : {{order.time_slot.date}}    Time : {{order.time_slot.start_time}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="col-3">Number of Customer</th>
+                            <td>{{order.number_of_customer}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <div class="row tab-pane fade" id="assign">
+      <div class="col-11 mx-auto">
+        <div class="card mt-2">
+          <div class="card-body">
+          
+          
+          {% for ticket in unfinished_ticket %}
+            <div class="row mx-auto my-2">
+              <a class="btn btn-light col m-1 text-left" data-toggle="collapse" href="#ticket{{ticket.pk}}" aria-expanded="false" aria-controls="order3">
+                {{ticket.order}}
+                <a value="{{ticket.pk}}" class="btn-edit-ticket btn btn-outline-secondary col-1 m-1" role="button">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </a>
+              </a>
+              <div class="collapse col-12 px-1" id="ticket{{ticket.pk}}">
+                <div class="card card-body">
+                  <table class="table-sm">
+                    <thead>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Assigned By</th>
+                        <td>{{ticket.assigned_by}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Assigned To</th>
+                        <td>{{ticket.assigned_to}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">時間</th>
+                        <td>{{ticket.order.time_slot}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">人數</th>
+                        <td>{{ticket.order.number_of_customer}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Created at</th>
+                        <td>{{ticket.create_at}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

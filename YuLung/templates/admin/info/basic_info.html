@@ -1,0 +1,49 @@
+{% extends 'admin/admin-base.html' %}
+
+{% block title %}公司資訊{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div>
+    <div class="col-12">
+        <div class="card row my-3">
+        
+            <form method="post">
+            
+                {% csrf_token %}
+                <div class="card-header">
+                    <h4 class="card-title">簡介說明</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">* 此區塊顯示於首頁正中間</h6>
+                </div>
+            
+                <div class="card-body">
+                    {{ form.site_info_content | safe }}
+                </div>
+        </div>
+      
+        <div class="card row my-3">
+            <div class="card-header">
+                <h4 class="card-title">聯絡我們</h4>
+                <h6 class="card-subtitle mb-2 text-muted">* 此區塊顯示於首頁右側</h6>
+            </div>
+            <div class="card-body">
+                <div>
+                    <label>email: </label>{{form.email}}
+                </div>
+                <div>
+                    <label>phone: </label>{{form.phone}}
+                </div>
+                <div>
+                    <label>address: </label>{{form.address}}
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">儲存所有變更 <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+    </div>
+</div>
+{% endblock %}

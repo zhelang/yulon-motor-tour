@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+    <head>
+        <link rel="profile" href="http://www.w3.org/1999/xhtml/vocab">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>裕隆教育導覽中心</title>
+        {% load static %}
+        <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'lib/fullcalendar/fullcalendar.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'lib/fancybox/jquery.fancybox.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'lib/bootstrap/dist/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+        <script src="{% static 'lib/fullcalendar/lib/jquery.min.js' %}"></script>
+        <script src="{% static 'lib/fullcalendar/lib/moment.min.js' %}"></script>
+        <script src="{% static 'lib/fullcalendar/fullcalendar.min.js' %}"></script>
+        <script src="{% static 'lib/fullcalendar/locale-all.js' %}"></script>
+        <script src="{% static 'lib/fancybox/jquery.fancybox.min.js' %}"></script>
+        <script src="{% static 'lib/bootstrap/assets/js/vendor/popper.min.js' %}"></script>
+        <script src="{% static 'lib/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    </head>
+    <body>
+        {% if user.is_authenticated %}
+        <div class="container-fluid my-auto py-auto mh-100">
+            <div class="row my-auto">
+                <div class="alert alert-success col-9 mt-5 mx-auto" role="alert">
+                    您已成功登入網站，請按下方按鈕回到主頁
+                </div>
+            </div>
+            <div class="row my-auto">
+                    <a href="{% url 'index' %}" class="btn btn-primary btn-sm mx-auto col-2"  role="button">回到主頁</a>
+            </div>
+        </div>
+        {% else %}
+	<div id="sign-in" class="container-fluid">
+            <div class="row p-3 text-center">
+                <div class="col-12 mb-3">
+                    <div class="btn-group mx-auto">
+                        <a class='btn btn-danger disabled'><i class="fa fa-google-plus" style="width:16px; height:20px"></i></a>
+                        <a class='btn btn-danger' href='{% url "social:begin" "google-oauth2" %}' style="width:12em;"> Sign in with Google</a>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="btn-group mx-auto">
+                        <a class='btn btn-primary disabled'><i class="fa fa-facebook" style="width:16px; height:20px"></i></a>
+                        <a class='btn btn-primary' href='{% url "social:begin" "facebook" %}' onclick="fb_login();" style="width:12em"> Sign in with Facebook</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-3 mt-3 border border-bottom-0 border-left-0 border-right-0">
+                <div class="col-12 text-center" style="margin-top: -2rem; margin-bottom: 1rem;">
+                    <small id="passwordHelpBlock" class="form-text text-muted">或</small>
+                </div>
+                <ul class="col-12 nav nav-tabs justify-content-center mb-3">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'sign-in' %}">登入</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'sign-up' %}">註冊</a>
+                  </li>
+                </ul>
+                {{error_msg}}
+                <form id="loginForm" action="" method="post" class="col-12">
+                    {% csrf_token %}
+        
+                    {% for field in form %}
+                
+                    {{field.errors}}
+                
+                    <div class="form-group row">
+                        <label for="inputEmailPhone" class="col-4 col-form-label">{{field.label_tag}}</label>
+                        <div class="col-8">
+                        {{field}}
+                            <div class="invalid-feedback">
+                                {{field.errors}}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+        
+                    <div class="form-group row">
+                        <div class="mx-auto">
+                            <button type="submit" class="btn btn-primary">登入</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+        <script>
+        function fb_login() {
+           FB.login( function() {}, { scope: 'email,public_profile' } );
+        }
+        </script>
+    </body>
+</html>

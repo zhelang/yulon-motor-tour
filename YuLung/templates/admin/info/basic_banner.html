@@ -1,0 +1,38 @@
+{% extends 'admin/admin-base.html' %}
+
+{% block title %}橫幅圖管理{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+  <form enctype="multipart/form-data" method="post">
+    <div class="col-12">
+      <div class="card row my-3">
+        <div class="card-header">
+          <h4 class="card-title">當前使用的橫幅圖</h4>
+        </div>
+        <div class="card-body">
+          <img class="img-fluid" src="{{banner.banner_image.url}}" alt="{{ banner.banner_description }}" />
+        </div>
+      </div>
+      <div class="card row my-3">
+        <div class="card-body">
+            {% csrf_token %}
+            {% for field in form%}
+                <div class="form-group row">
+                    <label for="name" class="col-3 col-form-label">{{field.label_tag}}</label>
+                        <div class="col-9">
+                            {{field}}
+                        </div>
+                </div>
+            {% endfor %}
+            <button class="btn btn-success" type="submit">儲存  <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'admin/admin-base.html' %}
+
+{% block title %}統計分析{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+{% endblock%}
+
+{% block body %}
+<div>
+    <div class="col-12">
+        {% include 'admin/statistic/statistic_form.html' %}
+    </div>
+
+    <div class="col-12">
+        {% include 'admin/statistic/statistic_renderer.html' %}  
+    </div>
+</div>
+{% endblock %}

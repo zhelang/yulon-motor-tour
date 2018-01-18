@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %}首頁{% endblock %}
+
+{% block meta%}
+    <meta property="og:url" content="{{seo.url_address}}" />
+    <meta property="og:title" content="{{seo.title}}" />
+    <meta property="og:description" content="{{seo.description}}" />
+    <meta property="og:image" content="https://{{site}}{{seo.img.url}}" />
+    <meta property="og:type" content="{{seo.type}}" />
+    <meta name="twitter.card" content="summary" />
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div id="main" class="container-fluid mb-3">
+    <div class="row mb-3">         
+        {% include 'index/index_calendar.html' %}
+        {% include 'index/index_welcome.html' %}
+        {% include 'index/index_contact.html' %}
+    </div>
+    <div class="row" id="map">
+        {% include 'index/index_map.html' %}
+    </div>
+</div> <!-- /#main -->
+{% endblock %}

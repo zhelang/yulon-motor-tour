@@ -1,0 +1,38 @@
+<div class="col">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">2017/12/13 時段列表
+        <span>
+          <a class="btn btn-primary btn-sm float-right" href="#" role="button">
+            新增
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </a>
+        </span>
+      </h4>
+    </div>
+
+    <div class="card-body">
+      {% for timeslot in timeslot_list %}
+      <!-- only fetch timeslot for specific date -->
+      <div class="row">
+        <a class="btn btn-light col m-1 text-left" data-toggle="collapse" href="#cust1" aria-expanded="false" aria-controls="collapseExample">
+          {{timeslot}}
+          <a class="btn btn-outline-secondary col-1 m-1" role="button">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </a>
+        </a>
+        <div class="collapse" id="cust1">
+          <table class="table-sm table-striped">
+            <tr>
+              <td>
+                <a href="#">{{timeslot.timeslot_people}}
+                  <a/>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

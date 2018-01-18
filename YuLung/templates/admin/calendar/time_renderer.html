@@ -1,0 +1,61 @@
+<div class="col">
+    <div class="card mt-2">
+        <div class="card-header">
+            <h4 class="card-title">{{date}} 時段列表
+                <span>
+                    {% if edit %}
+                        <a id="btn-add" class="btn btn-primary btn-sm float-right" href="{% url 'admin-timeslot-date' date %}" role="button">
+                        <i class="fa fa-plus" aria-hidden="true"></i>新增</a>
+                    {% else %}
+                        <button id="btn-add" class="btn btn-primary btn-sm float-right" href="" role="button">
+                        <i class="fa fa-plus" aria-hidden="true"></i>新增</button>
+                    {% endif %}
+                </span>
+            </h4>
+        </div>    
+        <div class="card-body">
+        {% for time_slot in timeslot_list %}
+          <div class="row">
+            <a class="btn btn-light col m-1 text-left" data-toggle="collapse" href="#ts{{time_slot.pk}}" aria-expanded="false" aria-controls="collapseExample">
+              {{time_slot}}
+              <a href="{% url 'admin-timeslot-date-edit' date time_slot.pk %}" class="btn btn-outline-secondary col-1 m-1" role="button">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </a>
+            </a>
+            <div class="collapse col-12" id="ts{{time_slot.pk}}">
+              <table class="table-sm table">
+                <tr>
+                  <th scope="row" class="col-3">date</th>
+                  <td>{{time_slot.date}}</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="col-3">start_time</th>
+                  <td>{{time_slot.start_time}}</td>
+                </tr>
+
+                <tr>
+                  <th scope="row" class="col-3">available manpower</th>
+                  <td>{{time_slot.available_manpower}}</td>
+                </tr>
+                <!--
+                <tr>
+                  <th scope="row" class="col-3">remain manpower</th>
+                  <td>{{time_slot.remain_mainpower}}</td>
+                </tr>
+                -->
+                <tr>
+                  <th scope="row" class="col-3">capacity</th>
+                  <td>{{time_slot.capacity}}</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="col-3">active</th>
+                  <td>{{time_slot.active}}</td>
+                </tr>
+
+              </table>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>

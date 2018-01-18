@@ -1,0 +1,75 @@
+{% if edit or new %}
+    <div id="form-div" class="col-lg-6 col-sm-12">
+{% else %}
+    <div id="form-div" class="col-lg-6 col-sm-12 d-none">
+{% endif %}
+  <div class="card">
+    <div class="card-header">
+        {% if edit %}
+            <h4 class="card-title">編輯</h4>
+        {% else %}
+            <h4 class="card-title">新增</h4>
+        {% endif %}
+    </div>
+    <div class="card-body">
+      <form enctype="multipart/form-data" method="post">
+
+        {% csrf_token %} 
+
+        {{form.customer_title.error}}
+        <div class="form-group">
+            <label for="customName">客群名稱</label>
+            {{form.customer_title}}
+        </div>
+
+        {{form.customer_description.error}}
+        <div class="form-group">
+            <label for="customInfo">客群說明</label>
+            {{form.customer_description}}
+        </div>
+
+        {{form.customers_type_image.error}}
+        <div class="form-group">
+            <label for="customImage">代表圖片</label>
+            {{form.customers_type_image}}
+        </div>
+
+        {{form.customer_code.error}}
+        <div class="form-group">
+            <label for="customCode">客群代碼</label>
+            {{form.customer_code}}
+        </div>
+
+        {{form.available_service.error}}
+        <div class="form-group">
+            <label for="customServices">包含課程</label>
+            {{form.available_service}}
+        </div>
+
+        {{form.active.error}}
+        <div class="form-check">
+            <label class="form-check-label">
+                {{form.active}}
+                啟用
+            </label>
+        </div>
+
+        <div class="form-group text-center">
+          <button type="submit" class="btn btn-success col-3">儲存
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+          </button>
+          {% if edit %}
+              <a href="{% url 'admin-customer-delete' object.pk %}" type="submit" class="btn btn-danger col-3">刪除
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </a>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#customServices').multiselect();
+  });
+</script>

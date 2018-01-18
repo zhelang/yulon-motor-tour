@@ -1,0 +1,236 @@
+{% extends 'admin/admin-base.html' %}
+
+{% block title %}使用者管理{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">權限設定</h4>
+        </div>
+        <div class="card-body">
+          <form>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">項目</th>
+                  <th scope="col">管理者</th>
+                  <th scope="col">工作人員</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row" colspan="4">
+                    <i class="fa fa-info-circle"></i> 公司資訊</td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="companyinfo_mana" value="admin" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="companyinfo_mana" value="user" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row" colspan="4">
+                    <i class="fa fa-info-circle"></i> Banner</td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="banner_mana" value="admin" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="banner_mana" value="user" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row" colspan="4">
+                    <i class="fa fa-info-circle"></i> 搜尋引擎最佳化</td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="seo_mana" value="admin" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="seo_mana" value="user" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row" colspan="4">
+                    <i class="fa fa-info-circle"></i> FAQ</td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="faq_mana" value="admin" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="faq_mana" value="user" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row" colspan="4">
+                    <i class="fa fa-cogs"></i> 客群管理</td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="cust_mana" value="admin" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="cust_mana" value="user" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row" colspan="4">
+                    <i class="fa fa-cogs"></i> 課程管理</td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="class_mana" value="admin" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="class_mana" value="user" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row" colspan="4">
+                    <i class="fa fa-cogs"></i> 時段管理</td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="period_mana" value="admin" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="period_mana" value="user" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row" colspan="4">
+                    <i class="fa fa-cogs"></i> 人員管理</td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="personnel_mana" value="admin" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="personnel_mana" value="user" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row" colspan="4">
+                    <i class="fa fa-calendar-check-o"></i> 預約管理</td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="order_mana" value="admin" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="order" value="user" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row" colspan="4">
+                    <i class="fa fa-commenting"></i> 評論管理</td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="comment_mana" value="admin" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="comment_mana" value="user" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row" colspan="4">
+                    <i class="fa fa-eye"></i> 權限管理</td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="purview_mana" value="admin" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="purview_mana" value="user" aria-label="...">
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <a href="" class="btn btn-outline-success float-right col-1 m-3" role="button">
+              <i class="fa fa-check"></i> 儲存</a>
+          </form>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'admin/admin-base.html' %}
+
+{% block title %}首頁{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div>
+    <div class="col-12">
+	<!-- 顯示這個帳號被指派的行程活動 -->
+        <div class="card row my-3">
+            <div class="card-header">
+                <h4 class="card-title"><i class="fa fa-table"></i> 行程表</h4>
+            </div>
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-block">本日預約導覽：0</div>
+                </div>
+                <div class="card">
+                    <div class="card-block">本月預約導覽：0（未執行）/ 10（已執行）</div>
+                </div>
+                <div id="calendar">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+        });  
+    });    
+</script>
+{% endblock %}

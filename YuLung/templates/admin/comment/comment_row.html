@@ -1,0 +1,54 @@
+            
+            {% for comment in comment_list %}
+                <div class="row">
+                  <a class="btn btn-light col m-1 text-left" data-toggle="collapse" href="#comm{{comment.pk}}" aria-expanded="true" aria-controls="comm1">
+                    {{comment.title}}
+                    {% if check %}
+                        <a href="{% url 'admin-comment-approve' comment.pk %}" class="btn btn-outline-secondary col-1 m-1" role="button">
+                          <i class="fa fa-check" aria-hidden="true"></i>
+                        </a>
+                        <a href="{% url 'admin-comment-disapprove' comment.pk %}" class="btn btn-outline-secondary col-1 m-1" role="button">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'admin-comment-delete' comment.pk %}" class="btn btn-outline-secondary col-1 m-1" role="button">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    {% endif%}
+
+                  </a>
+                  <div class="collapse col-12 px-1" id="comm{{comment.pk}}">
+                    <div class="card card-body">
+                      <table class="table table-sm">
+                        <tbody>
+                          <tr class="row">
+                            <th scope="row" class="col-3">留言作者</th>
+                            <td class="col-9">{{comment.user.username}}</td>
+                          </tr>
+                          <tr class="row">
+                            <th scope="row" class="col-3">留言內容</th>
+                            <td class="col-9">{{comment.content}}</td>
+                          </tr>
+                          <tr class="row">
+                            <th scope="row" class="col-3">星等</th>
+                            <td class="col-9">
+                              <!-- 根據評論者評的星等顯示，有星星的是 fa-star，沒星星的是 fa-star-o，下面這個是評四顆星的 HTML -->
+                              <!--
+                              
+                              <i class="fa fa-star" aria-hidden="true"></i>
+                              <i class="fa fa-star" aria-hidden="true"></i>
+                              <i class="fa fa-star" aria-hidden="true"></i>
+                              <i class="fa fa-star" aria-hidden="true"></i>
+                              <i class="fa fa-star-o" aria-hidden="true"></i> -->
+                              {{comment.star}}
+                            </td>
+                          </tr>
+                          <tr class="row">
+                            <td class="small text-muted">{{comment.created_at}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+            {% endfor %}

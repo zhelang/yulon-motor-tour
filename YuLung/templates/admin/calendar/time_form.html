@@ -1,0 +1,52 @@
+<div class="col-lg-6 col-sm-12">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">新增/編輯</h4>
+    </div>
+    <div class="card-body">
+      <form method="post">
+
+        {% csrf_token %} 
+        
+        {{form.start_time.error}}
+        <div class="form-group mt-2">
+          <label for="custnumb">Start Time</label>
+          {{form.start_time}}
+        </div>
+
+        {{form.end_time.error}}
+        <div class="form-group mt-2">
+          <label for="custnumb">Available Manpower</label>
+          {{form.available_manpower}}
+        </div>
+        
+        {{form.capacity.error}}
+        <div class="form-group mt-2">
+          <label for="custnumb">Capacity</label>
+          {{form.capacity}}
+        </div>
+        
+        {{form.active.error}}
+        <div class="form-check">
+            啟用
+            <label class="form-check-label">
+                {{form.active}}
+            </label>
+        </div>
+
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-success col-3">儲存
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+          </button>
+          
+          {% if edit %}
+              <a href="{% url 'admin-timeslot-date-delete' date ts.pk %}" type="submit" class="btn btn-danger col-3">刪除
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </a>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

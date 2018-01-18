@@ -1,0 +1,11 @@
+      <!-- Tab for unpublished comment -->
+      <div class="tab-pane" id="unpublished">
+        <div class="card">
+          <div class="card-body">
+            <!-- for each comment -->
+                {% include 'admin/comment/comment_row.html' with comment_list=unpublished_comments %}
+            <!-- End of comment -->
+          </div>
+        </div>
+      </div>
+      <!-- End of unpublished comment tab -->

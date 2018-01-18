@@ -1,0 +1,27 @@
+{% extends 'admin/admin-base.html' %}
+
+{% block title %}搜尋引擎優化設定{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+  <form enctype="multipart/form-data" method="post">
+    <div class="col-12">
+      <div class="card row my-3">
+        <div class="card-header">
+          <h4 class="card-title">搜尋引擎優化設定</h4>
+        </div>
+        <div class="card-body">
+            {% csrf_token %}
+            
+            {% include 'admin/info/seo_form.html' %}
+
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock %}

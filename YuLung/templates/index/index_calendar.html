@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<div class="col-lg-4 col-sm-12 order-2 order-lg-1 mb-3 mb-lg-0">
+    <h4>中心行事曆</h4>
+    <div id='factoryCalendar'></div>
+</div>
+<script type="text/javascript">
+
+    $('#factoryCalendar').fullCalendar({
+        locale: 'zh-tw',
+        header: {
+            left: 'prev',
+            center: 'title',
+            right: 'next',
+        },
+        titleFormat: 'YYYY/MM',
+        firstDay: 1,
+        fixedWeekCount: false,
+        height: 'auto',
+        dayRender:function(date , cell){
+            //console.log(date.format());
+            $.ajax({
+                    url: "{% url 'reservation:ajax-dayrender'%}",
+                    data:{'date':date.format()},
+                    success: function (response) {
+                        if (response == "NO TIME SLOT"){
+                            /*cell.css({
+                                "background-color": "#ddd",
+                                "color": "#000",
+                                "pointer-events": "none",
+                            });*/
+                            cell.append("<span class='fc-event-holiday'></span>");
+                        }
+                        else if(response == "OK"){
+                            //cell.css("background-color" , "green");
+                            cell.append("<span class='fc-event-dot fc-event-slot-full'></span>");
+                            cell.append("<span class='fc-event-dot fc-event-slot-empty'></span>");
+                        }
+                        else if (response == "OUTDATED"){
+                            //cell.css("background-color" , "blue");
+                        }
+                        else{
+                            //cell.css("background-color", "#ffc107");
+                        }
+                    }
+                  });
+        },
+    /*events: [
+        {
+            title: 'My Event',
+            start: '2018-01-17',
+            description: 'This is a cool event'
+        }
+        // more events here
+    ],
+    /*eventRender: function(event, element) {
+        element.tooltip({
+            title: event.title,
+            //content: event.description
+            container: "body",
+        });
+    }*/
+    });
+   
+//$('td.fc-day-top').mouseover(function() {
+  $('td.fc-day-top').popover({
+    content: '<div>10:00 可預約(推薦<a href=#">汽車製造ABC</a>)<br />14:00 預約已滿</div>',
+    html: true,
+    delay: {
+      hide: 500,
+    },
+    container: 'body',
+    placement: 'right',
+    trigger: 'hover',
+  });
+//  console.log('abc');
+//}); 
+    
+</script>

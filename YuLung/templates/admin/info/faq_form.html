@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<form method="post">
+    {% csrf_token %}
+        
+    <div class="form-group">
+        <label for="question">問題</label>
+        {{form.question}}
+    </div>
+            
+    <div class="form-group">
+        <label for="ans">回答</label>
+        {{form.answer}}
+    </div>
+            
+    <div class="form-group">
+        <label for="priority">{{form.priority.label_tag}}</label>
+        {{form.priority}}
+    </div>
+            
+    <div class="form-group">
+        <label for="priority">{{form.active.label_tag}}</label>
+        {{form.active}}
+    </div>            
+            
+    <div class="row">
+        <button type="submit" class="btn btn-outline-info float-right col-6">送出</button>
+        
+        {% if edit %}
+            <a href="{% url 'admin-faq-delete' object.pk %}" class="btn btn-outline-info float-right col-6">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>刪除</a>
+        {% endif %}
+    </div>
+</form>

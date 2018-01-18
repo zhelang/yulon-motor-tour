@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label for="title">標題</label>
+      <small>* 預設的網頁標題。此設定只對首頁有效，其他頁面會顯示該頁面的標題。</small>
+      {{form.title}}
+    </div>
+
+    <div class="form-group">
+      <label for="url">網址</label>
+      <small>* 預設的網站網址。此設定只對首頁有效，其他頁面會顯示該頁面的網址。</small>
+      {{form.url_address}}
+    </div>
+
+    <div class="form-group">
+      <label for="description">說明</label>
+      <small>* 預設的描述說明。此設定只對首頁有效，其他頁面會自動擷取網頁內容片段當做描述說明。</small>
+      {{form.description}}
+    </div>
+
+    <div class="form-group">
+      <label for="thumbnail">代表圖片</label>
+      <small>* 預設的代表圖片。此設定對全部網頁有效，此圖片將顯示在搜尋結果的預覽圖片及 Facebook 分享連結的預覽圖片。</small>
+      <br>
+      <img src="{{form.instance.img.url}}"></img>
+      {{form.img}}
+    </div>
+
+    <div class="form-group">
+      <label for="type">網站類型</label>
+      <small>* 預設的網站類型。此設定對全部網頁有效，預設值為「website」（其他可供使用的還有 article、book、profile、music、video 等類型）。</small>
+      {{form.type}}
+    </div>
+
+    <div class="row">
+        <button type="submit" class="btn btn-outline-info float-right col-12">送出</button>
+        
+        <!--<i class="fa fa-trash-o" aria-hidden="true"></i>刪除</a>-->
+    </div>
+</form>

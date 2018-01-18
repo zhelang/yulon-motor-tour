@@ -1,0 +1,57 @@
+{% extends 'admin/admin-base.html' %}
+
+{% block title %}常見問題管理{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div class="row">
+    {% include 'admin/info/faq_renderer.html' with faq_list=faq_list %}
+
+  <div class="col-md-6 col-sm-12">
+    <div class="card my-3">
+      <div class="card-header">
+        <h4 class="card-title">新增/編輯</h4>
+      </div>
+      <div class="card-body">
+        
+        {% include 'admin/info/faq_form.html' %}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        
+        {% if edit %}
+            $('#btn-add').click(function(){
+                window.location.replace("{% url 'admin-faq' %}");
+            });
+        {% else %}
+            var showing = false;
+            $('#btn-add').click(function(){
+                if(!showing){
+                    $('#form-div').removeClass('d-none');        
+                    showing = true;
+                }
+                else{
+                    $('#form-div').addClass('d-none');        
+                    showing = false;
+                }
+            });
+        {% endif %}
+
+    });
+
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,54 @@
+  <div class="col-md-6 col-sm-12">
+    <div class="card my-3">
+      <div class="card-header">
+        <h4 class="card-title">常見問題列表</h4>                
+        <span>
+        {% if edit %}
+            <button id="btn-add" class="btn btn-primary btn-sm float-right" href="{% url 'admin-faq' %}" role="button">
+            <i class="fa fa-plus" aria-hidden="true"></i>新增</button>
+        {% else %}
+            <button id="btn-add" class="btn btn-primary btn-sm float-right" href="" role="button">
+            <i class="fa fa-plus" aria-hidden="true"></i>新增</button>
+        {% endif %}
+        </span>
+        
+      </div>
+      <div class="card-body">
+        {% for faq in faq_list %}
+
+        <div class="row">
+          <a class="btn btn-light col-11 text-left " data-toggle="collapse" href="#faq{{faq.pk}}" aria-expanded="false" aria-controls="faq{{faq.pk}}">
+            {{faq.question}}
+            <a href="{% url 'admin-faq-edit' faq.pk %}" class="btn btn-outline-secondary col-1" role="button">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
+          </a>
+
+          <div class="collapse col-12 px-1" id="faq{{faq.pk}}">
+            <table class="table-sm table">
+              <tbody class="row">
+                <tr class="col-12">
+                    <th scope="row" class="col-3">Answer</th>
+                    <td>
+                        <div>{{faq.answer|safe}}</div>
+                    </td>
+                </tr>
+                <tr class="col-12">
+                    <th scope="row" class="col-3">Priority</th>
+                    <td>{{faq.priority}}</td>
+                </tr>
+                <tr class="col-12">
+                    <th scope="row" class="col-3">Active</th>
+                    <td>{{faq.active}}</td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
