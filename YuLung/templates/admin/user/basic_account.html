@@ -1,0 +1,53 @@
+{% extends 'admin/admin-base.html' %}
+
+{% block title %}創建帳號{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div class="row">
+    {% include 'admin/user/account_renderer.html' with account_list=account_list %}
+    {% include 'admin/user/account_form.html' %}
+</div>
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+      
+        {% if edit %}
+            $('#btn-add').click(function(){
+                window.location.replace("{% url 'admin-customer-create' %}");
+            });
+        {% elif new %}
+            var showing = true;
+            $('#btn-add').click(function(){
+                if(!showing){
+                    $('#form-div').removeClass('d-none');        
+                    showing = true;
+                }
+                else{
+                    $('#form-div').addClass('d-none');        
+                    showing = false;
+                }
+            });
+        {% else %}
+            var showing = false;
+            $('#btn-add').click(function(){
+                if(!showing){
+                    $('#form-div').removeClass('d-none');        
+                    showing = true;
+                }
+                else{
+                    $('#form-div').addClass('d-none');        
+                    showing = false;
+                }
+            });
+        {% endif %}
+    });
+
+</script>
+{% endblock %}

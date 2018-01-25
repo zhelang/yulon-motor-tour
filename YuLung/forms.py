@@ -27,9 +27,9 @@ class AdminLoginForm(forms.Form):
                                                                                               }))
 class BannerCreateForm(forms.Form):
     
-    banner_image = forms.ImageField(label=u'選擇圖檔', required = True) 
-    banner_description = forms.CharField(label=u'描述說明' , required = True)
-    banner_url = forms.URLField(label=u'網址' , required = False)
+    banner_image = forms.ImageField(label=u'選擇圖檔', required = True, widget=forms.FileInput(attrs={'class':'form-control-file'})) 
+    banner_description = forms.CharField(label=u'描述說明' , required = True, widget=forms.TextInput(attrs={'class':'form-control p-input'}))
+    banner_url = forms.URLField(label=u'網址' , required = False, widget=forms.TextInput(attrs={'class':'form-control p-input'}))
     
 class SEOAdminForm(forms.ModelForm):
     
@@ -53,10 +53,14 @@ class FAQAdminForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(FAQAdminForm, self).__init__(*args, **kwargs)
-        self.fields['answer'].widget = CKEditorWidget()
+        self.fields['answer'].widget = CKEditorWidget(attrs={'class':'form-control ckeditor'})
     class Meta:
         model = FAQ
         fields = '__all__'
+        widgets = {'question':forms.TextInput(attrs={'class':'form-control p-input'}),
+                   'priority':forms.Select(attrs={'class':'form-control p-input'}),
+                   'active':forms.CheckboxInput(attrs={'class':'form-check-input'})
+                  }
         
     
 class SiteInfoAdminForm(forms.ModelForm):

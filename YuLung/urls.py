@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^site_admin/login/$' , views.AdminSignIn.as_view() , name='admin-login'),
     url(r'^site_admin/info/banner/$' , views.AdminBanner.as_view() , name='admin-banner'),
     url(r'^site_admin/info/faq/$' , views.AdminFAQ.as_view() , name='admin-faq'),
+    url(r'^site_admin/info/faq/add/$' , views.AdminFAQAdd.as_view() , name='admin-faq-add'),
     url(r'^site_admin/info/faq/(?P<pk>[0-9]+)/$' , views.AdminFAQEdit.as_view(), name = 'admin-faq-edit'),
     url(r'^site_admin/info/faq/(?P<pk>[0-9]+)/delete/$' , views.adminFAQDelete, name = 'admin-faq-delete'),
     url(r'^site_admin/info/settings/$', views.AdminSiteInfo.as_view() , name='admin-siteinfo'),

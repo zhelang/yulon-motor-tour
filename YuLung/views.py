@@ -266,6 +266,35 @@ class AdminFAQ(HasPermissionsMixin, View):
                                                              'form':form,
                                                              'error_msg':'Invalid Form'
                                                              })
+
+class AdminFAQAdd(HasPermissionsMixin, View):
+
+    required_permission = 'view_site_admin'
+    template_name = 'admin/info/faq_form.html'
+    form_class = FAQAdminForm
+    
+    
+    def get(self, request):
+        
+        faq_list = FAQ.objects.order_by('priority')    
+        form = self.form_class(None)
+        return render(request, self.template_name , context={'faq_list':faq_list,
+                                                             'form':form
+                                                             })
+        
+    
+    def post(self, request):
+        
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('admin-faq')
+            
+        faq_list = FAQ.objects.order_by('priority')
+        return render(request , self.template_name, context={'faq_list':faq_list,
+                                                             'form':form,
+                                                             'error_msg':'Invalid Form'
+                                                             })
     
     
 class AdminFAQEdit(HasPermissionsMixin , UpdateView):

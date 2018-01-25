@@ -9,49 +9,51 @@
 {% endblock%}
 
 {% block body %}
-<div class="row">
-    {% include 'admin/info/faq_renderer.html' with faq_list=faq_list %}
-
-  <div class="col-md-6 col-sm-12">
-    <div class="card my-3">
-      <div class="card-header">
-        <h4 class="card-title">新增/編輯</h4>
-      </div>
+<h3 class="page-heading mb-4">常見問題管理</h3>
+<div class="row mb-2">
+  <div class="col-lg-12">
+    <div class="card">
       <div class="card-body">
-        
-        {% include 'admin/info/faq_form.html' %}
-
+        <h5 class="card-title">常見問題列表</h5>
+        <p class="text-muted mb-4">
+          <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>要新增問題，請按下方的新增鈕
+        </p>
+        <a id="btn-add" class="btn btn-primary" href="{% url 'admin-faq-add' %}" role="button">
+          <i class="fa fa-plus" aria-hidden="true"></i>新增
+        </a>
+        <div class="table-responsive">
+          <table class="table center-aligned-table table-hover">
+            <thead>
+              <tr class="text-primary">
+                <th class="col-1"></th>
+                <th class="col-3">問題</th>
+                <th class="col-5">答案</th>
+                <th class="col-1">啟用?</th>
+                <th class="col-1"></th>
+                <th class="col-1"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for faq in faq_list %}
+              <tr class="">
+                <td></td>
+                <td>{{faq.question}}</td>
+                <td>{{faq.answer|safe}}</td>
+                <td>{{faq.active}}</td>
+                <td>
+                  <a href="{% url 'admin-faq-edit' faq.pk %}" class="btn btn-primary btn-sm">編輯</a>
+                </td>
+                <td>
+                  <a href="{% url 'admin-faq-delete' faq.pk %}" class="btn btn-danger btn-sm">刪除</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-
-<script type="text/javascript">
-    
-    $(document).ready(function () {
-        
-        {% if edit %}
-            $('#btn-add').click(function(){
-                window.location.replace("{% url 'admin-faq' %}");
-            });
-        {% else %}
-            var showing = false;
-            $('#btn-add').click(function(){
-                if(!showing){
-                    $('#form-div').removeClass('d-none');        
-                    showing = true;
-                }
-                else{
-                    $('#form-div').addClass('d-none');        
-                    showing = false;
-                }
-            });
-        {% endif %}
-
-    });
-
-</script>
-
 {% endblock %}
 

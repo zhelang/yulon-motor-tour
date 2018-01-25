@@ -15,27 +15,30 @@
 {% endblock %}
 
 {% block body %}
-<div class="card card-login mx-auto mt-5 admin-login">
-  <div class="card-header">登入</div>
-  <div class="card-body">
+<div class="card col-lg-4 mx-auto">
+  <div class="card-body px-5 py-5">
+    <h3 class="card-title text-left mb-3">登入</h3>
     <form method="post">
-        {% csrf_token %}
-    
+      {% csrf_token %}
       <div class="form-group">
-        <label for="inputEmail">Email</label>
-        
-        {{form.username}}
+        <!-- <input type="email" class="form-control p_input" placeholder="Email"> -->
+        {{ form.username }}
       </div>
       <div class="form-group">
-        <label for="inputPassword">密碼</label>
-        {{form.password}}
+        <!-- <input type="password" class="form-control p_input" placeholder="密碼"> -->
+        {{ form.password }}
       </div>
-      <button type="submit" class="btn btn-primary">登入</button>
+      <div class="form-group d-flex align-items-center justify-content-between">
+        <div class="form-check">
+          <label>
+            <input type="checkbox" class="form-check-input">維持已登入狀態</label>
+        </div>
+        <a href="#" class="forgot-pass">忘記密碼</a>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-block enter-btn">登入</button>
+      </div>
     </form>
-    <!-- <div class="text-center">
-      <a class="d-block small mt-3" href="register.html">Register an Account</a>
-      <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
-    </div> -->
   </div>
 </div>
 {% endblock %}

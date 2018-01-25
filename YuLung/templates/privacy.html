@@ -1,28 +1,20 @@
-<!DOCTYPE html>
-<html lang="zh-tw">
+{% extends 'base.html' %}
 
-<head>
-  <link rel="profile" href="http://www.w3.org/1999/xhtml/vocab">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>裕隆教育導覽中心</title>
-  {% load static %}
-  <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'lib/fullcalendar/fullcalendar.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'lib/fancybox/jquery.fancybox.min.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'lib/bootstrap/dist/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
-  <script src="{% static 'lib/fullcalendar/lib/jquery.min.js' %}"></script>
-  <script src="{% static 'lib/fullcalendar/lib/moment.min.js' %}"></script>
-  <script src="{% static 'lib/fullcalendar/fullcalendar.min.js' %}"></script>
-  <script src="{% static 'lib/fullcalendar/locale-all.js' %}"></script>
-  <script src="{% static 'lib/fancybox/jquery.fancybox.min.js' %}"></script>
-  <script src="{% static 'lib/bootstrap/assets/js/vendor/popper.min.js' %}"></script>
-  <script src="{% static 'lib/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-</head>
+{% block title %}隱私權保護聲明{% endblock %}
 
-<body>
+{% block meta%}
+    <meta property="og:url" content="{{seo.url_address}}" />
+    <meta property="og:title" content="{{seo.title}}" />
+    <meta property="og:description" content="{{seo.description}}" />
+    <meta property="og:image" content="https://{{site}}{{seo.img.url}}" />
+    <meta property="og:type" content="{{seo.type}}" />
+    <meta name="twitter.card" content="summary" />
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
   <div class="mastbody-inner grid-centre pd-bottom">
     <div class="headingbar">
       <div class="headingbar-main">
@@ -112,6 +104,4 @@
     </div>
 
   </div>
-</body>
-
-</html>
+{% endblock %}

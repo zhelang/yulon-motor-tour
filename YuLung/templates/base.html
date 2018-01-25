@@ -25,7 +25,16 @@
         <script>
           window.fcSettings = {
             token: "a4fd5e69-7498-448a-9539-4a56942b1cd9",
-            host: "https://wchat.freshchat.com"
+            host: "https://wchat.freshchat.com",
+            onInit: function() {
+              window.fcWidget.init({
+              config: {
+                headers: {
+                  chat: 'Test',
+                },
+              }
+              });
+            }
           };
         </script>
         <script src="https://wchat.freshchat.com/js/widget.js" async></script>

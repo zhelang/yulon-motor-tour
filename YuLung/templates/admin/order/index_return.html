@@ -1,0 +1,84 @@
+<div class="card  mt-2 col-md-5 col-sm-12 px-0">
+    <small class="card-title text-muted text-center">勾選已帶完的行程，並回報實際人數，點擊日期可查看詳細資訊</small>
+    <div class="card-body p-0">
+        <form>
+            <div>
+                <button type="submit" class="btn btn-success float-right m-1">儲存 <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+            </div>
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">日期</th>
+                        <th scope="col">課程</th>
+                        <th scope="col">客戶姓名</th>
+                        <th scope="col">實際人數</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                <input class="form-check-input position-static" type="checkbox" id="ordercheck">
+                                </label>
+                            </div>
+                        </th>
+                        <td class="ticket">2018-1-1</td>
+                        <td>課程管理</td>
+                        <td>辛普森</td>
+                        <td>
+                            <div class="form-group-sm">
+                                <input class="form-control col" id="number" type="number">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        
+    </div>
+</div>
+
+
+<div class="modal fade" id="check" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="comply-event__form">
+                <div class="modal-body">
+                    <div class="row">
+                        <p class="col-3">課程資訊</p><span class="col-9">10:00｜2018-1-1｜課程管理</span>
+                        <p class="col-3">課程代碼</p><span class="col-9">SYACDFU</span>
+                        <p class="col-3">課程備註</p><span class="col-9">無</span>
+                        <p class="col-3">客群名稱</p><span class="col-9">合作機關項目</span>
+                        <p class="col-3">客戶姓名</p><span class="col-9">辛普森</span>
+                        <p class="col-3">連絡電話</p><span class="col-9">0954871364</span>
+                        <p class="col-3">人數</p><span class="col-9">8</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="info">實際人數</label>
+                        <input class="form-control edit-event__number textarea-autosize" id="number" type="number">
+                        <i class="form-group__bar"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="info">備註</label>
+                        <textarea class="form-control edit-event__remarkdescription textarea-autosize" id="moreinfo" placeholder="備註" rows="4"></textarea>
+                        <i class="form-group__bar"></i>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="ordercheck">
+                            <label class="form-check-label" for="ordercheck">
+                                已完成
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-primary btn-block col-2" href="" type="submit">儲存 <i class="fa fa-floppy-o"></i></a>
+                    <button class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,65 +1,46 @@
 <!DOCTYPE html>
 <html lang="zh-tw">
-    <head>
-        <link rel="profile" href="http://www.w3.org/1999/xhtml/vocab">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>{% block title %}{% endblock %} | 裕隆教育導覽中心管理系統</title>
-        {% block meta %}
-        {% endblock %}
-        {% load static %}
-        <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'lib/fullcalendar/fullcalendar.css' %}" />
-        <link rel="stylesheet" type="text/css" href="{% static 'lib/fancybox/jquery.fancybox.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'lib/datatables/dataTables.bootstrap4.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'lib/bootstrap/dist/css/bootstrap.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/sb-admin.css' %}" />
-        <script src="{% static 'lib/jquery/dist/jquery.min.js' %}"></script>
-        <script src="{% static 'lib/fullcalendar/lib/moment.min.js' %}"></script>
-        <script src="{% static 'lib/fullcalendar/fullcalendar.min.js' %}"></script>
-        <script src="{% static 'lib/fullcalendar/locale-all.js' %}"></script>
-        <script src="{% static 'lib/fancybox/jquery.fancybox.min.js' %}"></script>
-        <script src="{% static 'lib/bootstrap/assets/js/vendor/popper.min.js' %}"></script>
-        <script src="{% static 'lib/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'lib/jquery-easing/jquery.easing.min.js' %}"></script>
-        <script src="{% static 'lib/chart.js/Chart.min.js' %}"></script>
-        <script src="{% static 'lib/datatables/jquery.dataTables.js' %}"></script>
-        <script src="{% static 'lib/datatables/dataTables.bootstrap4.js' %}"></script>
-        <script src="{% static 'lib/retina/retina.min.js' %}"></script>
-        <script src="{% static 'js/sb-admin.min.js' %}"></script>
-        <script src="{% static 'js/sb-admin-datatables.min.js' %}"></script>
-        <script src="{% static 'js/sb-admin-charts.min.js' %}"></script>
-        
 
-        <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
-        <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
-        
-        {% block extraheader %}
-        {% endblock %}
-    </head>
-    <body class="fixed-nav sticky-footer bg-light admin-login" id="">
-    
-        {% block navbar %}
-            {% include 'admin/admin-navbar.html' %}
-        {% endblock %}
-        
-        <div class="content-wrapper">
-            <div class="container">
-                {% block breadcrumb %}
-                    {% include 'admin/admin-breadcrumb.html' %}
-                {% endblock %}
-                {% block body %}
-                {% endblock %}
-            </div> <!-- /.container-fluid-->
-        </div> <!-- /.content-wrapper-->
-        
-        {% block footer %} 
-            {% include 'admin/admin-footer.html' %}
-        {% endblock %}
-        
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fa fa-angle-up"></i>
-        </a>
-    </body>
-  </html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}{% endblock %} | 裕隆教育導覽中心管理系統</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'lib/perfect-scrollbar/css/perfect-scrollbar.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'lib/fullcalendar/fullcalendar.css' %}" />
+  <link href="{% static 'lib/bootstrap-switch/css/bootstrap-switch.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+  <script src="{% static 'lib/fullcalendar/lib/jquery.min.js' %}"></script>
+  <script src="{% static 'lib/fullcalendar/lib/moment.min.js' %}"></script>
+  <script src="{% static 'lib/fullcalendar/fullcalendar.min.js' %}"></script>
+  <script src="{% static 'lib/fullcalendar/locale-all.js' %}"></script>
+  {% block extraheader %}
+  {% endblock %}
+</head>
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="content-wrapper full-page-wrapper d-flex align-items-center auth-pages">
+          {% block body %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'lib/popper.js/popper.min.js' %}"></script>
+  <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'lib/bootstrap-switch/js/bootstrap-switch.js' %}"></script>
+  <script src="{% static 'lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+  <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+  <script src="{% static 'js/off-canvas.js' %}"></script>
+  <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+  <script src="{% static 'js/misc.js' %}"></script>
+</body>
+
+</html>
