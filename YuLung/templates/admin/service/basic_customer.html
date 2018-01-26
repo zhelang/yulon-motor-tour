@@ -9,49 +9,67 @@
 {% endblock%}
 
 {% block body %}
-<div class="row my-3">
-    {% include 'admin/service/customer_renderer.html' %}
-    {% include 'admin/service/customer_form.html' %}
+<h3 class="page-heading mb-4">
+  客群管理
+  <a class="btn btn-warning float-right" href="{% url 'reservation:reservation-index' %}" target="_blank" role="button">
+    瀏覽客群選擇頁
+  </a>
+</h3>
+<div class="row mb-2">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">
+          客群列表
+          <a id="btn-add" class="btn btn-primary float-right" href="{% url 'admin-customer-create' %}" role="button">
+            <i class="fa fa-plus" aria-hidden="true"></i>新增
+          </a>
+        </h5>
+        <p class="text-muted mb-4">
+          <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>請直接編輯/刪除問題，或按右側的「新增」鈕新增問題
+        </p>
+        <div class="table-responsive">
+          <table class="table center-aligned-table table-hover">
+            <thead>
+              <tr class="text-primary">
+                <th class="col-1">#</th>
+                <th class="col-2">客群名稱</th>
+                <th class="col-1">代碼</th>
+                <th class="col-4">說明</th>
+                <th class="col-2">相關課程</th>
+                <th class="col-1"></th>
+                <th class="col-1"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for customer in customer_list %}
+              <tr class="">
+                <td></td>
+                <td>{{customer.customer_title}}</td>
+                <td>{{customer.customer_code}}</td>
+                <td>{{customer.customer_description}}</td>
+                <td>
+                  <ul>
+                    {% for service in customer.available_service.all %}
+                    <li>
+                      <a href="{% url 'admin-service-edit' service.pk %}">{{service.service_title}}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </td>
+                <td>
+                  <a href="{% url 'admin-customer-edit' customer.pk %}" class="btn btn-primary btn-sm">編輯</a>
+                </td>
+                <td>
+                  <a href="{% url 'admin-customer-delete' customer.pk %}" class="btn btn-danger btn-sm">刪除</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<script type="text/javascript">
-    
-    $(document).ready(function () {
-        
-        
-        
-        {% if edit %}
-            $('#btn-add').click(function(){
-                window.location.replace("{% url 'admin-customer-create' %}");
-            });
-        {% elif new %}
-            var showing = true;
-            $('#btn-add').click(function(){
-                if(!showing){
-                    $('#form-div').removeClass('d-none');        
-                    showing = true;
-                }
-                else{
-                    $('#form-div').addClass('d-none');        
-                    showing = false;
-                }
-            });
-        {% else %}
-            var showing = false;
-            $('#btn-add').click(function(){
-                if(!showing){
-                    $('#form-div').removeClass('d-none');        
-                    showing = true;
-                }
-                else{
-                    $('#form-div').addClass('d-none');        
-                    showing = false;
-                }
-            });
-        {% endif %}
-
-        
-    });
-
-</script>
 {% endblock %}

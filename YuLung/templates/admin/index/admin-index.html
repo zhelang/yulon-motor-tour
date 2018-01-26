@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 {% extends 'admin/admin-base.html' %}
 
 {% block title %}首頁{% endblock %}
@@ -10,7 +12,7 @@
 
 {% block body %}
 <div class="row">
-    {% include 'admin/order/index_calendar.html' %}
+    {% include 'admin/index/index_calendar.html' %}
     <div class="col pt-2">
         <ul class="nav nav-tabs col" role="tablist">
             <li class="nav-item">
@@ -25,9 +27,9 @@
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
-            {% include 'admin/order/assigned_aweek.html'%}
-            {% include 'admin/order/assigned_twomonth.html'%}
-            {% include 'admin/order/assigned_return.html'%}
+            {% include 'admin/index/assigned_aweek.html'%}
+            {% include 'admin/index/assigned_twomonth.html'%}
+            {% include 'admin/index/assigned_return.html'%}
         </div>
         <!-- End of tab panes -->
 </div>
@@ -53,11 +55,14 @@
     </div>
 </div>-->
 
-<script>
+<script type="text/javascript">
+
     $(document).ready(function() {
         var date = new Date();
         var m = date.getMonth();
         var y = date.getFullYear();
+
+
 
         $('#calendar').fullCalendar({
             header: {
@@ -73,21 +78,19 @@
             selectable: true,
             selectHelper: true,
             editable: true,
+
             events: [
-                {
-                    id: 1,
-                    title: '10:00｜1-1 \n課程管理',
-                    start: new Date(y, m, 1),
-                    allDay: true,
-                    description: '日期｜2018-1-1 10:00\n課程代碼｜SYACDFU\n客群名稱｜合作機關項目\n客戶姓名｜辛普森\n連絡電話｜0954871364\n人數｜8'
-                },
-                {
-                    id: 2,
-                    title: '14:00｜1-1 \n工廠管理',
-                    start: new Date(y, m, 1),
-                    allDay: true,
-                    description: '日期｜2018-1-1 10:00\n課程代碼｜SYACDFU\n客群名稱｜合作機關項目\n客戶姓名｜辛普森\n連絡電話｜0954871364\n人數｜8'
-                },
+            
+                {% for i in allOrder %}
+                    {
+                        "id":{{i.id}},
+                        "title":"{{i.title}}" + "\n" + "{{i.title2}}",
+                        "start":"{{i.start | safe}}",
+                        "allDay":true,
+                        "description":"{{i.description}}"
+                    },
+
+                {% endfor %}
             ],
 
             /*viewRender: function (view) {
@@ -101,9 +104,12 @@
                 $('.content__title--calendar > h1').html(view.title);
             },
             */
-
+            eventRender: function(evnet, element, view){
+                $('.fc-event').css('line-height','2.3');
+            },
             eventClick: function (event, element) {
-                $('#edit-event').modal('show');
+                var modal_id = "#edit-event" + String(event.id);
+                $(modal_id).modal('show');
                 $('.edit-event__id').val(event.id);
                 $('.edit-event__title').val(event.title);
                 $('.edit-event__description').val(event.description);

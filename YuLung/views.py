@@ -4,8 +4,11 @@ from django.views.generic import View
 from django.views.generic.edit import CreateView , UpdateView , DeleteView
 from django.contrib.auth import authenticate , login 
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils.safestring import mark_safe
 from django.http import HttpResponse , JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.core import serializers
 from rolepermissions.mixins import HasPermissionsMixin
 from rolepermissions.decorators import has_permission_decorator
 from django.db.models import Q
@@ -172,9 +175,42 @@ def tos(request):
     return render(request, 'tos.html' , context={})
 
 
-def AdminIndex(request):
+# ============================================================================================================================
 
-    return redirect('admin-banner')
+
+class AdminIndex(HasPermissionsMixin, View):
+
+    required_permission = 'view_site_admin'
+    template_name = 'admin/index/admin-index.html'
+
+    def get(self, request):
+        
+        allTicket = Ticket.objects.filter(assigned_to=request.user)
+        allOrder = []
+        for ticket in allTicket:
+            title = ticket.order.time_slot.start_time.strftime("%H:%M") +' '+ ticket.order.service_type.service_title 
+            title2 = str(ticket.order.number_of_customer) + ' people'
+            allOrder.append({'id':int(ticket.pk),
+                             'title':title,
+                             'title2':title2,
+                             'start':ticket.order.time_slot.date,
+                             #'allDay': True,
+                             'desciption':ticket.order.__unicode__()
+                             })
+            
+        today = datetime.datetime.now(pytz.timezone('Asia/Taipei'))
+        
+        weekTicket = Ticket.objects.filter(Q(order__time_slot__date__lte = today) & Q(order__time_slot__date__gte=today-datetime.timedelta(days=7)) & Q(assigned_to=request.user) )
+        twoMonthTicket = Ticket.objects.filter(Q(order__time_slot__date__lte = today) & Q(order__time_slot__date__gte=today-datetime.timedelta(days=60)) & Q(assigned_to=request.user))
+        finishedTicket = Ticket.objects.filter(Q(finished=True) & Q(assigned_to=request.user))
+        
+        
+        return render(request, 'admin//index/admin-index.html' , context={'allOrder':allOrder,
+                                                                          'weekTicket':weekTicket,
+                                                                          'twoMonthTicket':twoMonthTicket,
+                                                                          'finishedTicket':finishedTicket,
+                                                                          'allTicket':allTicket
+                                                                          })
         
 class AdminSignIn(View):
     
@@ -243,8 +279,7 @@ class AdminFAQ(HasPermissionsMixin, View):
     required_permission = 'view_site_admin'
     template_name = 'admin/info/basic_faq.html'
     form_class = FAQAdminForm
-    
-    
+
     def get(self, request):
         
         faq_list = FAQ.objects.order_by('priority')    
@@ -252,22 +287,9 @@ class AdminFAQ(HasPermissionsMixin, View):
         return render(request, self.template_name , context={'faq_list':faq_list,
                                                              'form':form
                                                              })
-        
-    
-    def post(self, request):
-        
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('admin-faq')
-            
-        faq_list = FAQ.objects.order_by('priority')
-        return render(request , self.template_name, context={'faq_list':faq_list,
-                                                             'form':form,
-                                                             'error_msg':'Invalid Form'
-                                                             })
 
-class AdminFAQAdd(HasPermissionsMixin, View):
+
+class AdminFAQCreate(HasPermissionsMixin, View):
 
     required_permission = 'view_site_admin'
     template_name = 'admin/info/faq_form.html'
@@ -443,23 +465,11 @@ class AdminCustomer(HasPermissionsMixin, View):
         return render(request, self.template_name, context={'customer_list':customer_list,
                                                             'form':form
                                                             })
-    
-    def post(self, request):
-
-        form = self.form_class(request.POST ,request.FILES)
-        if form.is_valid():
-            form.save()
-            redirect('admin-customer')
-            
-        customer_list = CustomersType.objects.all()
-        return render(request, self.template_name, context={'customer_list':customer_list,
-                                                            'form':form,
-                                                            'error_msg':'Ivalid form'})
         
 class AdminCustomerCreate(HasPermissionsMixin, CreateView):
 
     required_permission = 'view_site_admin'
-    template_name = 'admin/service/basic_customer.html'
+    template_name = 'admin/service/customer_form.html'
     form_class = CustomersTypeForm
     model = CustomersType
     
@@ -742,6 +752,28 @@ class AdminOrder(HasPermissionsMixin, View):
                                                               })
         
         
+        
+class AdminTicket(HasPermissionsMixin, View):
+    
+    required_permission = 'view_site_admin'
+    template_class = 'admin/order/basic_ticket.html'
+        
+        
+    def get(self, request):
+        
+        allTicket = Ticket.objects.all().order_by('-order__time_slot__date')
+        paginator = Paginator(allTicket, 20)
+        page = request.GET.get('page')
+        try:
+            pageTicket = paginator.page(page)
+        except PageNotAnInteger:
+            pageTicket = paginator.page(1)
+        except EmptyPage:
+            pageTicket = paginator.page(paginator.num_pages)
+        
+        return render(request, self.template_class, context={'pageTicket':pageTicket})
+        
+        
 class AdminComment(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
@@ -796,6 +828,17 @@ class AdminStatistic(HasPermissionsMixin, View):
         return render(request, self.template_name , context={})
         
         
+@has_permission_decorator('view_site_admin')
+def adminGetUserTicket(request):
+        
+    allTicket = Ticket.objects.filter(assigned_to=request.user)
+    allOrder = []
+    for ticket in allTicket:
+        allOrder.append(ticket.order)
+    
+    allOrder = serializers.serialize('json', allOrder)
+    print allOrder
+    return JsonResponse(allOrder, safe=False)
         
         
         

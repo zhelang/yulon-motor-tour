@@ -1,13 +1,13 @@
-<div class="row tab-pane active" id="aweek">
+<div class="row tab-pane" id="return">
     <div class="col">
         <div class="card">
             <div class="card-body">
                 <div class="card-title">
                     <label for="ticket_time">Time</label> ｜ <label for="ticket_date">Date</label> ｜ <label for="ticket_class">課程管理</label> ｜ <label for="ticket_customname">客戶姓名</label>
                 </div>
-                {% for t in weekTicket %}
+                {% for t in finishedTicket %}
                 
-                    {% include 'admin/index/ticket_content.html' with collapse_prefix='week' %}
+                    {% include 'admin/index/ticket_content.html' with collapse_prefix='finished' %}
                 
                 {% endfor %}
             </div>

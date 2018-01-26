@@ -1,63 +1,15 @@
-
 <div class="row tab-pane" id="twomonth">
     <div class="col">
         <div class="card">
-            <div class="card-body">
-                <div class="row mx-auto">
-                    <a class="btn btn-light col m-1 text-left" data-toggle="collapse" href="#ticket9" aria-expanded="false" aria-controls="order3">
-                        SPR050U || 2017-12-20 | 14:00:00
-                    </a>
-                    <a value="9" href="./alter.html" href="./alter.html" class="btn-edit-ticket btn btn-outline-secondary col-1 m-1" role="button">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </a>
-                                        
-                    <div class="collapse col-12 px-1" id="ticket9">
-                        <div class="card card-body">
-                            <table class="table-sm">
-                                <thead>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">課程</th>
-                                        <td>揪團吃饅頭</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">客群</th>
-                                        <td>合作機關建議項目</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">客戶姓名</th>
-                                        <td>root</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">客戶電話</th>
-                                        <td>0927288975</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Assigned By</th>
-                                        <td>root</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Assigned To</th>
-                                        <td>GloomCheng</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">時間</th>
-                                        <td>2017-12-20 | 14:00:00</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">人數</th>
-                                        <td>2</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Created at</th>
-                                        <td>Dec. 19, 2017, 5:12 p.m.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+             <div class="card-body">
+                <div class="card-title">
+                    <label for="ticket_time">Time</label> ｜ <label for="ticket_date">Date</label> ｜ <label for="ticket_class">課程管理</label> ｜ <label for="ticket_customname">客戶姓名</label>
                 </div>
+                {% for t in twoMonthTicket %}
+                
+                    {% include 'admin/index/ticket_content.html' with collapse_prefix='month' %}
+                
+                {% endfor %}
             </div>
         </div>
     </div>

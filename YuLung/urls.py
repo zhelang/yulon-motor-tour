@@ -34,11 +34,11 @@ urlpatterns = [
     url(r'^tos/$' , views.tos , name='tos'),
 
     
-    url(r'^site_admin/$' , views.AdminIndex , name='admin-index'),
+    url(r'^site_admin/$' , views.AdminIndex.as_view() , name='admin-index'),
     url(r'^site_admin/login/$' , views.AdminSignIn.as_view() , name='admin-login'),
     url(r'^site_admin/info/banner/$' , views.AdminBanner.as_view() , name='admin-banner'),
     url(r'^site_admin/info/faq/$' , views.AdminFAQ.as_view() , name='admin-faq'),
-    url(r'^site_admin/info/faq/add/$' , views.AdminFAQAdd.as_view() , name='admin-faq-add'),
+    url(r'^site_admin/info/faq/new/$' , views.AdminFAQCreate.as_view() , name='admin-faq-create'),
     url(r'^site_admin/info/faq/(?P<pk>[0-9]+)/$' , views.AdminFAQEdit.as_view(), name = 'admin-faq-edit'),
     url(r'^site_admin/info/faq/(?P<pk>[0-9]+)/delete/$' , views.adminFAQDelete, name = 'admin-faq-delete'),
     url(r'^site_admin/info/settings/$', views.AdminSiteInfo.as_view() , name='admin-siteinfo'),
@@ -59,6 +59,12 @@ urlpatterns = [
     url(r'^site_admin/calendar/time_slot/(?P<date>[0-9]{4}-?[0-9]{2}-?[0-9]{2})/delete/(?P<pk>[0-9]+)/$' , views.adminTimeSlotDelete, name='admin-timeslot-date-delete'),
     
     url(r'^site_admin/order/$' , views.AdminOrder.as_view(), name='admin-order'),
+    
+    url(r'^site_admin/ticket/$', views.AdminTicket.as_view(), name='admin-ticket'),
+    
+    
+    
+    
     url(r'^site_admin/comment/$' , views.AdminComment.as_view(), name='admin-comment'),
     url(r'^site_admin/comment/(?P<pk>[0-9]+)/approve/$' , views.adminCommentApprove, name='admin-comment-approve'),
     url(r'^site_admin/comment/(?P<pk>[0-9]+)/disapprove/$' , views.adminCommentDisapprove, name='admin-comment-disapprove'),
@@ -70,6 +76,7 @@ urlpatterns = [
     url(r'ajax/order/$' , views.getOrderDetails, name='ajax-get-order'),
     url(r'ajax/ticket/$' , views.getTicketDetails, name='ajax-get-ticket'),
     url(r'ajax/check_dayrender' , views.check_adminDayRender, name='ajax-admin-dayrender'),
+    url(r'ajax/get_user_ticket', views.adminGetUserTicket, name='ajax-admin-get-ticket'),
 
 
     url(r'^oauth/', include('social_django.urls', namespace='social')),
