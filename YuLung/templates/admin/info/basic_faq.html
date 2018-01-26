@@ -9,18 +9,25 @@
 {% endblock%}
 
 {% block body %}
-<h3 class="page-heading mb-4">常見問題管理</h3>
+<h3 class="page-heading mb-4">
+  常見問題管理
+  <a class="btn btn-warning float-right" href="{% url 'faq' %}" target="_blank" role="button">
+    瀏覽常見問題頁
+  </a>
+</h3>
 <div class="row mb-2">
   <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">常見問題列表</h5>
+        <h5 class="card-title">
+          常見問題列表
+          <a id="btn-add" class="btn btn-primary float-right" href="{% url 'admin-faq-add' %}" role="button">
+            <i class="fa fa-plus" aria-hidden="true"></i>新增
+          </a>
+        </h5>
         <p class="text-muted mb-4">
-          <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>要新增問題，請按下方的新增鈕
+          <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>請直接編輯/刪除問題，或按右側的「新增」鈕新增問題
         </p>
-        <a id="btn-add" class="btn btn-primary" href="{% url 'admin-faq-add' %}" role="button">
-          <i class="fa fa-plus" aria-hidden="true"></i>新增
-        </a>
         <div class="table-responsive">
           <table class="table center-aligned-table table-hover">
             <thead>

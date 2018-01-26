@@ -1,7 +1,7 @@
 <div class="col-8 mx-auto mt-2">
     <div class="card mb-3">
         <form method="post">
-            <input type="hidden" name="csrfmiddlewaretoken" value="9kPhIUbKAyKeux06ajSiOqwJOybnYcKyqKJ0cH0QRoWDloRYyOfbz57c7qemuJ4x">
+            {% csrf_token %}
             <div class="card-header">
                 <h4 class="card-title">編輯預約確認信內容</h4>
             </div>
