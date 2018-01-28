@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.pyc
+.settings
 
 # C extensions
 *.so
@@ -28,6 +29,14 @@ wheels/
 all_static
 media
 *.zip
+.settings
+
+# OS generated files
+.DS_Store?
+ehthumbs.db
+._*
+Thumbs.db
+*.swp
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
