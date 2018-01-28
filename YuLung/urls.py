@@ -77,6 +77,10 @@ urlpatterns = [
     url(r'ajax/ticket/$' , views.getTicketDetails, name='ajax-get-ticket'),
     url(r'ajax/check_dayrender' , views.check_adminDayRender, name='ajax-admin-dayrender'),
     url(r'ajax/get_user_ticket', views.adminGetUserTicket, name='ajax-admin-get-ticket'),
+    url(r'ajax/search_ticket/$' , views.adminSearchTicket, name='ajax-admin-search-ticket'),
+
+    url(r'ajax/get_barchart/$' , views.adminGetBarChart, name='ajax-admin-get-barchart'),
+    url(r'ajax/get_piechart/$' , views.adminGetPieChart, name='ajax-admin-get-piechart'),
 
 
     url(r'^oauth/', include('social_django.urls', namespace='social')),

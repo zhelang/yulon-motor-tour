@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'social_django',
     'ckeditor',
     'YuLung',
-    'reservation'
+    'reservation',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +77,9 @@ TEMPLATES = [
         },
     },
 ]
+
+
+
 
 ROLEPERMISSIONS_MODULE = 'YuLung.roles'
 

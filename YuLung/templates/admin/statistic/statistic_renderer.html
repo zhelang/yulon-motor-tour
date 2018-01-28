@@ -10,10 +10,10 @@
                     <canvas id="barChart" width="100" height="68"></canvas>
                   </div>
                   <div class="col-sm-4 text-center my-auto">
-                    <div class="h4 mb-0 text-primary">693</div>
+                    <div id="total-customer" class="h4 mb-0 text-primary">693</div>
                     <div class="small text-muted">總訂單數</div>
                     <hr>
-                    <div class="h4 mb-0 text-warning">$18,474</div>
+                    <div id="total-income" class="h4 mb-0 text-warning">$18,474</div>
                     <div class="small text-muted">總收入</div>
                     <hr>
                   </div>
@@ -62,168 +62,224 @@
           </div>
         </div>
 
-      <script>
+      <script type="text/javascript">
         //bar
-        var ctxB = document.getElementById("barChart").getContext('2d');
-        var myBarChart = new Chart(ctxB, {
-            type: 'bar',
-            data: {
-                labels: ["汽車製程 ABC", "工廠管理", "汽車製程 ABC", "汽車製程 ABC", "汽車製程 ABC", "汽車製程 ABC","汽車製程 ABC"],
-                datasets: [{
-                    label: '預約數',
-                    data: [20,5,5,5,24,45,34],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            optionss: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
+        $(document).ready(function () {
         
-        
-        //pie
-        var ctxP = document.getElementById("pieChart").getContext('2d');
-        var myPieChart = new Chart(ctxP, {
-            type: 'pie',
-            data: {
-                labels: ["合作機關", "一般遊客", "學校團體", "商務人士", "一般遊客", "學校團體", "一般遊客", "學校團體"],
-                datasets: [
-                    {
-                        data: [300, 50, 100, 40, 54, 515, 545, 64],
-                        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#ccbbcc", "#eebbbb", "#aaccee"],
-                        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#eeccee", "#ffcccc", "#bbddff"]
+            var drawBarChart = function(year,month){
+                
+                $.ajax({
+                    url:"{% url 'ajax-admin-get-barchart' %}",
+                    data:{"month":month,
+                          "year":year
+                    },
+                    success:function(response){
+                    
+                        //console.log(response);
+                        
+                        $('#total-customer').text(response.total_customer);
+                        $('#total-income').text(response.total_income);
+                    
+                        var ctxB = document.getElementById("barChart").getContext('2d');
+                        var myBarChart = new Chart(ctxB, {
+                            type: 'bar',
+                            data: {
+                                labels:response.labels,
+                                datasets: [{
+                                    label: '預約數',
+                                    data: response.data,
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255,99,132,1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            optionss: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero:true
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                
+                        
                     }
-                ]
-            },
-            options: {
-                responsive: true
-            }    
-        });
-        //highcharts 
-        Highcharts.chart('class-contrast', {
-          chart: {
-              type: 'column'
-          },
-          title: {
-              text: '總人數對比'
-          },
-          xAxis: {
-              categories: [
-                  '課程1',
-                  '課程2',
-                  '課程3',
-                  '課程4',
-                  '課程5',
-                  '課程6',
-                  '課程7',
-                  '課程8',
-                  '課程9',
-                  '課程10',
-                  '課程11',
-                  '課程12'
-                    ],
-             crosshair: true
+                    
+                });
+                                
+            }
+
+
+            //pie
+            var drawPieChart = function(year, month){            
+                $.ajax({
+                    url:"{% url 'ajax-admin-get-barchart' %}",
+                    data:{"month":month,
+                            "year":year
+                    },
+                    success:function(response){
+
+                        var ctxP = document.getElementById("pieChart").getContext('2d');
+                        var myPieChart = new Chart(ctxP, {
+                            type: 'pie',
+                            data: {
+                                labels:response.labels,
+                                datasets: [
+                                    {
+                                        data: response.data,
+                                        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#ccbbcc", "#eebbbb", "#aaccee"],
+                                        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#eeccee", "#ffcccc", "#bbddff"]
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true
+                            }    
+                        });                    
+                    }
+                });
+            }
+
+            
+            
+
+            
+            
+            
+            /*
+            
+            //highcharts 
+            Highcharts.chart('class-contrast', {
+              chart: {
+                  type: 'column'
               },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: '人數(人)'
-                }
-            },
-            tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true,
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [{
-                name: '$X(選擇)月',
-                data: [49, 71, 106, 129, 144, 176, 135, 148, 216, 194, 95, 54]
-
-            }, {
-                name: '$Y(選擇的上個)月',
-                data: [83, 78, 98, 93, 106, 84, 105, 104, 91, 83, 106, 92]
-
-            }]
-        });
-        Highcharts.chart('custom-contrast', {
-          chart: {
-              type: 'column'
-          },
-          title: {
-              text: '總人數對比'
-          },
-          xAxis: {
-              categories: [
-                  '客群1',
-                  '客群2',
-                  '客群3',
-                  '客群4',
-                  '客群5',
-                  '客群6',
-                  '客群7',
-                  '客群8',
-                    ],
-             crosshair: true
+              title: {
+                  text: '總人數對比'
               },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: '總人數(人)'
-                }
-            },
-            tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true,
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [{
-                name: '$X(選擇)月',
-                data: [49, 71, 106, 129, 144, 176, 135, 148]
-
-            }, {
-                name: '$Y(選擇的上個)月',
-                data: [83, 78, 98, 93, 106, 84, 105, 104]
-
-            }]
+              xAxis: {
+                  categories: [
+                      '課程1',
+                      '課程2',
+                      '課程3',
+                      '課程4',
+                      '課程5',
+                      '課程6',
+                      '課程7',
+                      '課程8',
+                      '課程9',
+                      '課程10',
+                      '課程11',
+                      '課程12'
+                        ],
+                 crosshair: true
+                  },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '人數(人)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true,
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: '$X(選擇)月',
+                    data: [49, 71, 106, 129, 144, 176, 135, 148, 216, 194, 95, 54]
+    
+                }, {
+                    name: '$Y(選擇的上個)月',
+                    data: [83, 78, 98, 93, 106, 84, 105, 104, 91, 83, 106, 92]
+    
+                }]
+            });
+            Highcharts.chart('custom-contrast', {
+              chart: {
+                  type: 'column'
+              },
+              title: {
+                  text: '總人數對比'
+              },
+              xAxis: {
+                  categories: [
+                      '客群1',
+                      '客群2',
+                      '客群3',
+                      '客群4',
+                      '客群5',
+                      '客群6',
+                      '客群7',
+                      '客群8',
+                        ],
+                 crosshair: true
+                  },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '總人數(人)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true,
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: '$X(選擇)月',
+                    data: [49, 71, 106, 129, 144, 176, 135, 148]
+    
+                }, {
+                    name: '$Y(選擇的上個)月',
+                    data: [83, 78, 98, 93, 106, 84, 105, 104]
+    
+                }]
+            });
+                        
+            
+            */
+            
+            var init = function(){
+                
+                drawBarChart(2017,12);
+                drawPieChart(2017, 12);
+            }
+            
+            init();
+            
         });
       </script>

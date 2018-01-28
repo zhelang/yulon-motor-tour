@@ -10,10 +10,12 @@
     <li class="nav-item">
       <a class="nav-link" data-toggle="collapse" href="#companyInfo" aria-expanded="false" aria-controls="companyInfo">
         <i class="fa fa-info-circle d-flex align-items-center" aria-hidden="true"></i>
-        <span class="menu-title">基本設定
+        <span class="menu-title">基本設定</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-right pull-right"></i>
         </span>
       </a>
-      <div class="collapse show" id="companyInfo">
+      <div class="collapse" id="companyInfo">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin-siteinfo' %}">公司資訊</a>
@@ -33,16 +35,18 @@
     <li class="nav-item">
       <a class="nav-link" data-toggle="collapse" href="#serviceManage" aria-expanded="false" aria-controls="serviceManage">
         <i class="fa fa-cogs d-flex align-items-center" aria-hidden="true"></i>
-        <span class="menu-title">服務管理
+        <span class="menu-title">服務管理</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-right pull-right"></i>
         </span>
       </a>
-      <div class="collapse show" id="serviceManage">
+      <div class="collapse" id="serviceManage">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'admin-customer' %}">客群管理</a>
+            <a class="nav-link" href="{% url 'admin-service' %}">課程管理</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'admin-service' %}">課程管理</a>
+            <a class="nav-link" href="{% url 'admin-customer' %}">客群管理</a>
           </li>
         </ul>
       </div>
@@ -50,10 +54,12 @@
     <li class="nav-item">
       <a class="nav-link" data-toggle="collapse" href="#workCalendar" aria-expanded="false" aria-controls="workCalendar">
         <i class="fa fa-calendar d-flex align-items-center" aria-hidden="true"></i>
-        <span class="menu-title">工廠開放日管理
+        <span class="menu-title">工廠開放日管理</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-right pull-right"></i>
         </span>
       </a>
-      <div class="collapse show" id="workCalendar">
+      <div class="collapse" id="workCalendar">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin-calendar' %}">批次設定開放時段</a>
@@ -62,11 +68,14 @@
       </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#reserveManage" aria-expanded="false" aria-controls="reserveManage">
+      <a class="nav-link" data-toggle="collapse" href="#reserveManage" aria-expanded="false" aria-controls="reserveManage">
         <i class="fa fa-calendar-check-o d-flex align-items-center" aria-hidden="true"></i>
         <span class="menu-title">預約管理</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-right pull-right"></i>
+        </span>
       </a>
-      <div class="collapse show" id="reserveManage">
+      <div class="collapse" id="reserveManage">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin-ticket' %}">預約單總覽</a>
@@ -77,17 +86,43 @@
         </ul>
       </div>
     </li>
-    <li class="nav-item" id="statisticManage">
-      <a class="nav-link" href="{% url 'admin-statistic' %}">
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="collapse" href="#statisticManage" aria-expanded="false" aria-controls="statisticManage">
         <i class="fa fa-bar-chart d-flex align-items-center" aria-hidden="true"></i>
         <span class="menu-title">統計分析</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-right pull-right"></i>
+        </span>
       </a>
+      <div class="collapse" id="statisticManage">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin-statistic' %}">瀏覽統計圖表</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">下載原始數據資料</a>
+          </li>
+        </ul>
+      </div>
     </li>
-    <li class="nav-item" id="commentManage">
-      <a class="nav-link" href="{% url 'admin-comment' %}">
-        <i class="fa fa-commenting d-flex align-items-center" aria-hidden="true"></i>
-        <span class="menu-title">評論管理</span>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="collapse" href="#confManage" aria-expanded="false" aria-controls="confManage">
+        <i class="fa fa-cogs d-flex align-items-center" aria-hidden="true"></i>
+        <span class="menu-title">其他</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-right pull-right"></i>
+        </span>
       </a>
+      <div class="collapse" id="confManage">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin-comment' %}">評論管理</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">...</a>
+          </li>
+        </ul>
+      </div>      
     </li>
   </ul>
 </nav>

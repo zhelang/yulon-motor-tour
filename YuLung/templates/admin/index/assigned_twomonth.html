@@ -1,16 +1,11 @@
 <div class="row tab-pane" id="twomonth">
-    <div class="col">
-        <div class="card">
-             <div class="card-body">
-                <div class="card-title">
-                    <label for="ticket_time">Time</label> ｜ <label for="ticket_date">Date</label> ｜ <label for="ticket_class">課程管理</label> ｜ <label for="ticket_customname">客戶姓名</label>
-                </div>
-                {% for t in twoMonthTicket %}
-                
-                    {% include 'admin/index/ticket_content.html' with collapse_prefix='month' %}
-                
-                {% endfor %}
-            </div>
-        </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+      {% for t in twoMonthTicket %} 
+        {% include 'admin/index/ticket_content.html' with collapse_prefix='month' %} 
+      {% endfor %}
+      </div>
     </div>
+  </div>
 </div>

@@ -1,33 +1,37 @@
-<div class="card mt-2">
+<div class="card mt-2 col-12">
     <div class="card-body p-2">
-        <form>
+        
+        
             <div class="form-row">
+                <table class="table">
+                    <thead>
+                        <tr class="row">
+                            <th scope="col" class="col-4">年</th>
+                            <th scope="col" class="col-4">月</th>
+                            <th scope="col" class="col-4">關鍵字</th>
+                        </tr>    
+                    </thead>
+                </table>
+            </div>
+        
+            <div class="form-row">
+                            
                 <div class="form-group col">
-                    <label for="ordermonth"></label>
-                    <input type="month" class="form-control" id="ordermonth" placeholder="月">
+                    <label for="ticketdate"></label>
+                    <input type="number" min="2017" class="form-control" id="ticket-year" placeholder="Year">
                 </div>
+            
                 <div class="form-group col">
-                    <label for="orderdate"></label>
-                    <input type="date" class="form-control" id="orderdate" placeholder="日">
+                    <label for="ticketmonth"></label>
+                    <input type="number" min="1" max="12" class="form-control" id="ticket-month" placeholder="月">
                 </div>
-                <div class="form-group col">
-                    <label for="custname"></label>
-                    <input type="text" class="form-control" id="custname" placeholder="客戶姓名">
-                </div>
-                <div class="form-group col">
-                    <label for="custphone"></label>
-                    <input type="tel" class="form-control" id="custphone" placeholder="客戶連絡電話">
-                </div>
-                <div class="form-group col">
-                    <label for="assignedstaff"></label>
-                    <input type="tel" class="form-control" id="assignedstaff" placeholder="被指派員工">
-                </div>
+
                 <div class="form-group col">
                     <label for="pastclass"></label>
-                    <input type="text" class="form-control" id="pastclass" placeholder="課程名稱">
+                    <input type="text" class="form-control" id="keywords" placeholder="Key Words">
                 </div>
             </div>
-            <a href="" class="btn btn-primary float-right col-2" role="button">篩選</a>
-        </form>
+            <button id="btn-search" class="btn btn-primary float-right col-2" role="button">篩選</button>
+        
     </div>
 </div>

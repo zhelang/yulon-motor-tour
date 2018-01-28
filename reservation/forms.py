@@ -55,8 +55,8 @@ class CustomersTypeForm(forms.ModelForm):
                 'customer_description' : forms.Textarea(attrs={'type':'text' , 'class':'form-control froala-editor' ,'id':'customInfo' , 'placeholder':u'請輸入說明描述'}),
                 'customers_type_image' : forms.FileInput(attrs={'type':'file','class':'form-control-file','id':'customImage','aria-describedby':'customImage'}),
                 'customer_code' : forms.TextInput(attrs={'type':'text','class':'form-control','id':'customCode', 'aria-describedby':'customCode','placeholder':u'請設定客群代碼'}),
-                'available_service' : forms.CheckboxSelectMultiple(),
-                'active' : forms.CheckboxInput(attrs={'type':'checkbox','class':'form-check-input' , 'id':'customEnable'})
+                'available_service' : forms.SelectMultiple(attrs={'class': 'form-control', 'id':'customServices'}),
+                'active' : forms.CheckboxInput(attrs={'type':'checkbox','class':'form-check-input ml-1' , 'id':'customEnable'})
             }
         
         

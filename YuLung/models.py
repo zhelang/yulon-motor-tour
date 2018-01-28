@@ -81,9 +81,10 @@ class Ticket(models.Model):
     assigned_to = models.ForeignKey(User, related_name="%(class)s_assigned_to", on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Orders, on_delete=models.SET_NULL, null=True)
     finished = models.BooleanField(default=False)
+    reported_customer_number = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0)])
     create_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
-    
+    reminder = models.TextField(max_length=2048, null=True, blank=True)
             
 
 class SEO(models.Model):

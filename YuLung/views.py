@@ -14,11 +14,14 @@ from rolepermissions.decorators import has_permission_decorator
 from django.db.models import Q
 from forms import *
 from models import *
+from serializers import *
 from reservation.models import *
 from reservation.forms import *
 import datetime
 import pytz
 import json
+import pandas as pd
+
 from YuLung.settings import ALLOWED_HOSTS
 
 def index(request):
@@ -322,7 +325,7 @@ class AdminFAQCreate(HasPermissionsMixin, View):
 class AdminFAQEdit(HasPermissionsMixin , UpdateView):
     
     required_permission = 'view_site_admin'
-    template_name = 'admin/info/basic_faq.html'
+    template_name = 'admin/info/faq_form.html'
     form_class = FAQAdminForm
     model = FAQ
     
@@ -397,30 +400,16 @@ class AdminService(HasPermissionsMixin, View):
         return render(request, self.template_name, context={'service_list':service_list,
                                                             'form':form
                                                             })
-    
-    def post(self, request):
-    
-        form = self.form_class(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('admin-service')
-        
-        service_list = ServicesType.objects.all()
-        return render(request, self.template_name , context={'service_list':service_list,
-                                                             'form':form,
-                                                             'error_msg':'Ivalid form'
-                                                             })
-        
 class AdminServiceCreate(HasPermissionsMixin, CreateView):
     
     required_permission = 'view_site_admin'
     form_class = ServicesTypeCreateForm
     model = ServicesType
-    template_name = 'admin/service/basic_service.html'
+    template_name = 'admin/service/service_form.html'
     
     def get_context_data(self, *args, **kwargs):
         context = super(AdminServiceCreate, self).get_context_data(*args, **kwargs)
-        context['service_list'] = ServicesType.objects.all()
+        context['service_list'] = ServicesType.objects.values('service_title').all()
         context['new'] = True
         return context        
         
@@ -432,7 +421,7 @@ class AdminServiceEdit(HasPermissionsMixin, UpdateView):
     required_permission = 'view_site_admin'
     form_class = ServicesTypeCreateForm
     model = ServicesType
-    template_name = 'admin/service/basic_service.html'
+    template_name = 'admin/service/service_form.html'
     
     def get_context_data(self, *args, **kwargs):
         context = super(AdminServiceEdit, self).get_context_data(*args, **kwargs)
@@ -487,7 +476,7 @@ class AdminCustomerEdit(HasPermissionsMixin, UpdateView):
     required_permission = 'view_site_admin'
     form_class = CustomersTypeForm
     model = CustomersType
-    template_name = 'admin/service/basic_customer.html'
+    template_name = 'admin/service/customer_form.html'
     
     
     def get_context_data(self, *args, **kwargs):
@@ -774,6 +763,63 @@ class AdminTicket(HasPermissionsMixin, View):
         return render(request, self.template_class, context={'pageTicket':pageTicket})
         
         
+
+        
+@has_permission_decorator('view_site_admin') 
+def adminSearchTicket(request):
+    
+    year = request.GET.get('year')
+    month = request.GET.get('month')
+    keywords = request.GET.get('keywords')
+    
+    #print 'Year = ', year
+    #print 'Month =', month
+    #print 'keywords', keywords
+    
+    if year=="" and month == "" and keywords == "":
+        print "No input"
+        return HttpResponse("NULL");
+    
+    ticketSet = None
+    
+    if ticketSet == None and year != '':
+        ticketSet = Ticket.objects.filter(order__time_slot__date__year = int(year))
+        
+    
+    if month != "" and ticketSet == None:
+        ticketSet = Ticket.objects.filter(order__time_slot__date__month = int(month))
+    
+    elif month !="":
+        ticketSet = ticketSet.filter(order__time_slot__date__month = int(month))
+    
+    
+    if keywords != '':
+        
+        Qname = Q(order__customer_details__name__icontains=keywords)
+        Qphone = Q(order__customer_details__phone__icontains=keywords)
+        Qemail = Q(order__customer_details__email__icontains=keywords)
+        Qcust = Q(order__customer_type__customer_title__icontains=keywords)
+        Qser = Q(order__service_type__service_title__icontains=keywords)
+        Qassignto = Q(assigned_to__username=keywords)
+        Qassignby = Q(assigned_by__username=keywords)
+        
+        if ticketSet == None:
+            ticketSet = Ticket.objects.filter(Qname | Qphone| Qemail | Qcust | Qser | Qassignto | Qassignby)
+        else:
+            ticketSet = ticketSet.filter(Qname | Qphone| Qemail | Qcust | Qser | Qassignto | Qassignby)
+    
+    #print ticketSet
+    if not ticketSet.exists():
+        return HttpResponse("NULL");
+    else:
+        #ticketSetJson = serializers.serialize('json', ticketSet)
+        ticketSetSerializer = TicketSerializer(ticketSet, many=True)
+        
+        return JsonResponse(ticketSetSerializer.data, safe=False)
+    
+    
+    
+        
 class AdminComment(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
@@ -827,6 +873,105 @@ class AdminStatistic(HasPermissionsMixin, View):
         
         return render(request, self.template_name , context={})
         
+        
+        
+def getBarPieDataFrame(year, month):
+        
+    ticketSet = Ticket.objects.filter(order__time_slot__date__year = int(year), order__time_slot__date__month = int(month))
+    
+    if ticketSet.exists():
+        ticketData = []
+        
+        for t in ticketSet:
+            ticketData.append({"service_title":t.order.service_type.service_title,
+                               "customer_count":t.order.number_of_customer,
+                               "service_fee":t.order.service_type.service_fee
+                               })
+        
+        
+        df_ticket = pd.DataFrame(ticketData)
+        
+        df_ticket = df_ticket.groupby('service_title').agg({'customer_count':sum, "service_fee":sum})
+            
+        return df_ticket
+    else:
+        return "NULL"    
+    
+        
+@has_permission_decorator('view_site_admin')        
+def adminGetBarChart(request):
+    
+    year = request.GET.get('year')
+    month = request.GET.get('month')
+
+    
+    #print df_ticket
+    
+    df_ticket = getBarPieDataFrame(year, month)
+    
+    if df_ticket == "NULL":
+        return HttpResponse(df_ticket)
+    else:
+        outJson = {"labels":df_ticket.index.values.tolist(),
+                   "data":df_ticket['customer_count'].values.tolist(),
+                   "total_income":df_ticket['service_fee'].sum(),
+                   "total_customer":df_ticket['customer_count'].sum()
+                   }
+        
+        return JsonResponse(outJson)
+    
+    
+@has_permission_decorator('view_site_admin')              
+def adminGetPieChart(request):
+        
+    year = request.GET.get('year')
+    month = request.GEt.get('month')
+        
+    df_ticket = getBarPieDataFrame(year, month)
+        
+    outJson = {"labels":df_ticket.index.values.tolist(),
+               "data":df_ticket['customer_count'].values.tolist()
+               }
+    
+    return JsonResponse(outJson)
+
+
+def getLineDataFrame(year):
+
+    ticketSet = Ticket.objects.filter(order__time_slot__date__year = int(year))
+    
+    if ticketSet.exists():
+        ticketData = []
+        
+        for t in ticketSet:
+            ticketData.append({ "month":t.order.time_slot.date.month,
+                                "service_title":t.order.service_type.service_title,
+                                "customer_count":t.order.number_of_customer
+                                })
+        
+        df_ticket = pd.DataFrame(ticketData)
+        
+        table = pd.pivot_table(df,values="customer_count", index=["month"],columns=["service_title"],aggfunc=sum)
+        table = table.reindex(range(1,13))
+        
+        
+        return table
+    else:
+        return "NULL"
+
+
+
+
+def adminGetLineChartService(request):
+
+    year = request.GET.get('year')
+    
+    
+
+
+
+
+
         
 @has_permission_decorator('view_site_admin')
 def adminGetUserTicket(request):

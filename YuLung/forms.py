@@ -44,7 +44,7 @@ class SEOAdminForm(forms.ModelForm):
         widgets = {'title':forms.TextInput(attrs={'class':'form-control','type':'text','aria-describedby':'seotitle'}),
                    'url_address':forms.URLInput(attrs={'class':'form-control','type':'text','aria-describedby':'seourl'}),
                    'description':forms.TextInput(attrs={'class':'form-control','type':'text'}),
-                   'img':forms.FileInput(attrs={'class':'form-control-file btn btn-outline-secondary','id':'thumbnail'}),
+                   'img':forms.FileInput(attrs={'class':'form-control-file','id':'thumbnail'}),
                    'type':forms.TextInput(attrs={'class':'form-control'})
                    }
     
@@ -58,8 +58,8 @@ class FAQAdminForm(forms.ModelForm):
         model = FAQ
         fields = '__all__'
         widgets = {'question':forms.TextInput(attrs={'class':'form-control p-input'}),
-                   'priority':forms.Select(attrs={'class':'form-control p-input'}),
-                   'active':forms.CheckboxInput(attrs={'class':'form-check-input'})
+                   'priority':forms.TextInput(attrs={'class':'form-control p-input'}),
+                   'active':forms.CheckboxInput(attrs={'class':'form-check-input ml-1'})
                   }
         
     
