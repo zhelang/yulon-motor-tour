@@ -1,23 +1,14 @@
-<form>
+
             <div class="dropdown mt-1 mb-2">
-                <select class="custom-select">
-<!-- 年份用程式抓最早的訂單到今年為止即可 -->
-                    <option selected>選擇年份</option>
-                    <option value="1">106</option>
-                    <option value="2">107</option>
-                    <option value="3">108</option>
-                    <option value="4">109</option>
-                    <option value="5">110</option>
-                    <option value="6">111</option>
-                    <option value="7">112</option>
-                    <option value="8">113</option>
-                    <option value="9">114</option>
-                    <option value="10">115</option>
-                    <option value="11">116</option>
-                    <option value="12">117</option>
+                <select id="select-year" class="custom-select">
+
+                    <option disabled selected value>選擇年份</option>
+                    {% for y in yearList %}
+                        <option value="{{y}}">{{y}}</option>
+                    {% endfor %}
                 </select>
-                <select class="custom-select">
-                    <option selected>選擇月份</option>
+                <select id="select-month" class="custom-select">
+                    <option disabled selected value>選擇月份</option>
                     <option value="1">一月</option>
                     <option value="2">二月</option>
                     <option value="3">三月</option>
@@ -32,4 +23,4 @@
                     <option value="12">十二月</option>
                 </select>
         </div>
-</form>
+

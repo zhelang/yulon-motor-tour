@@ -10,7 +10,7 @@
 
 {% block body %}
 <div class="row">
-    {% include 'admin/user/account_renderer.html' with account_list=account_list %}
+    {% include 'admin/user/account_renderer.html' %}
     {% include 'admin/user/account_form.html' %}
 </div>
 
@@ -18,35 +18,83 @@
     
     $(document).ready(function () {
       
-        {% if edit %}
-            $('#btn-add').click(function(){
-                window.location.replace("{% url 'admin-customer-create' %}");
-            });
-        {% elif new %}
-            var showing = true;
-            $('#btn-add').click(function(){
-                if(!showing){
-                    $('#form-div').removeClass('d-none');        
-                    showing = true;
-                }
-                else{
-                    $('#form-div').addClass('d-none');        
-                    showing = false;
-                }
-            });
-        {% else %}
-            var showing = false;
-            $('#btn-add').click(function(){
-                if(!showing){
-                    $('#form-div').removeClass('d-none');        
-                    showing = true;
-                }
-                else{
-                    $('#form-div').addClass('d-none');        
-                    showing = false;
+
+        
+        $('.btn-edit').click(function(){
+            
+            var username = $(this).attr('value')
+            $.ajax({
+                url:"{% url 'ajax-admin-get-user-account' %}",
+                data:{"username":username},
+                success:function(response){
+                
+                    if (response != "non-admin"){
+                        //console.log(response);
+                        $("#form-create").addClass('d-none');
+                        $("#form-edit").removeClass('d-none');
+                        
+                        $("#hidden-username").val(username);
+                        $("#in-fist-name").val(response.first_name);
+                        $("#in-last-name").val(response.last_name);
+                        $("#in-email").val(response.email);
+                        $('#in-role').val(response.role).change();
+                    }
                 }
             });
-        {% endif %}
+            
+        });
+        
+        $('#btn-create').click(function(){
+            $("#form-create").removeClass('d-none');
+            $("#form-edit").addClass('d-none');
+            $("#hidden-username").val("");
+        });
+        
+        
+        $('#btn-save').click(function(){
+           
+            var username = $("#hidden-username").val();
+            if (username != ""){
+                $.ajax({
+                    url:"{% url 'ajax-admin-user-account-edit' %}",
+                    type:'POST',
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}',
+                            username:username,
+                            first_name:$("#in-fist-name").val(),
+                            last_name:$("#in-last-name").val(),
+                            email:$("#in-email").val(),
+                            role:$('#in-role').val()
+                    },
+                    success:function(response){
+                        if (response == "success"){
+                            window.location.replace("{% url 'admin-user-account' %}");
+                        }
+                    }
+                });
+            }
+        });
+        
+        $('#btn-del').click(function(){
+            
+            var username = $("#hidden-username").val();
+            if (username != ""){
+                $.ajax({
+                    url:"{% url 'ajax-admin-user-account-del' %}",
+                    type:'POST',
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}',
+                            username:username,
+                    },
+                    success:function(response){
+                        if (response == "success"){
+                            window.location.replace("{% url 'admin-user-account' %}");
+                        }
+                    }
+                });
+            }
+        });
+        
+        
+        
     });
 
 </script>

@@ -83,7 +83,7 @@ class Orders(models.Model):
     validation_key = models.CharField(max_length=30, null=True)
 
     def __unicode__(self):
-        return str(self.code) + ' || ' + self.time_slot.__unicode__()
+        return str(self.code) + ' || '# + self.time_slot.__unicode__()
 
 
 

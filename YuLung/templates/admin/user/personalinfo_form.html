@@ -2,49 +2,60 @@
     <div class="card">
         <div class="card-header">編輯個人資料</div>
             <div class="card-body">
-                <form>
+            
+                {% if error_msg %}
+                    {{error_msg}}
+                {% endif %}
+                <form method="post">
+                
+                    {% csrf_token %}
+                
                     <div class="form-row">
                         <label for="account" class="col-1 col-form-label">帳號</label>
                         <div class="col">
-                            <input type="text" readonly class="form-control-plaintext" id="account" value="dachen">
+                            <input type="text" readonly class="form-control-plaintext" id="account" value="{{request.user.username}}">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-6 mb-2">
                             <label for="first-name">名</label>
-                            <input type="text" class="form-control" id="first-name" placeholder="First name" value="大謙" required>
+                            <input type="text" class="form-control" name="first_name" placeholder="{{request.user.first_name}}" value="{{request.user.first_name}}" required>
                         </div>
                         <div class="col-6 mb-2">
                             <label for="last-name">姓</label>
-                            <input type="text" class="form-control" id="last-name" placeholder="Last name" value="張" required>
+                            <input type="text" class="form-control" name="last_name" placeholder="{{request.user.last_name}}" value="{{request.user.last_name}}" required>
                         </div>
                     </div>
+                    <!--
                     <div class="form-row">
                         <div class="col-12 mb-2">
                             <label for="phonenumber">連絡電話</label>
                             <input type="tel" class="form-control" id="phonenumber" placeholder="phonenumber" value="0936458716" required>
                         </div>
                     </div>
+                    -->
                     <div class="form-row">
                         <div class="col-12 mb-2">
                             <label for="email">E-mail</label>
-                            <input type="email" class="form-control" id="email" placeholder="E-mail" value="dachen@gmail.com" required>
+                            <input type="email" class="form-control" name="email" placeholder="{{request.user.email}}" value="{{request.user.email}}" required>
                         </div>
                     </div>
+                    
                     <div class="form-row">
                         <div class="col-12 mb-2">
                             <label for="password">密碼</label>
-                            <input type="password" class="form-control" id="password" placeholder="密碼" value="64165165" required>
+                            <input type="password" class="form-control" name="password" id="password">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-12 mb-2">
                             <label for="password">再次輸入密碼</label>
-                            <input type="password" class="form-control" id="password" placeholder="密碼" value="64165165" required>
+                            <input type="password" class="form-control" name="password-confirm" id="password-confirm">
                         </div>
                     </div>
+                    
                     <div class="row">
-                        <a class="btn btn-primary btn-block mx-auto col-2" href="" type="submit">儲存 <i class="fa fa-floppy-o"></i></a>
+                        <button id="btn-submit" class="btn btn-primary btn-block mx-auto col-2" href="" type="submit">儲存 <i class="fa fa-floppy-o"></i></button>
                     </div>
                 </form>
             </div>

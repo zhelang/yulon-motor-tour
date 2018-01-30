@@ -25,6 +25,8 @@
     <div class="container-fluid">
       <div class="row">
         <div class="content-wrapper full-page-wrapper d-flex align-items-center auth-pages">
+          {% block alert %}
+          {% endblock %}
           {% block body %}
           {% endblock %}
         </div>

@@ -32,6 +32,8 @@
         {% include 'admin/admin-sidebar.html' %}
 
         <div class="content-wrapper">
+          {% block alert %}
+          {% endblock %}
           {% block body %}
           {% endblock %}
         </div>

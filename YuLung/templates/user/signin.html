@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %}登入{% endblock %}
+
+{% block meta%} 
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div id="sign-in" class="container">
+    <div class="row p-3 text-center">
+        <div class="col-12 mb-3">
+            <div class="btn-group mx-auto">
+                <a class="btn btn-danger disabled"><i class="fa fa-google-plus" style="width:16px; height:20px"></i></a>
+                <a class="btn btn-danger" href="/oauth/login/google-oauth2/" style="width:12em;"> Sign in with Google</a>
+            </div>
+        </div>
+        <div class="col-12 mb-3">
+            <div class="btn-group mx-auto">
+                <a class="btn btn-primary disabled"><i class="fa fa-facebook" style="width:16px; height:20px"></i></a>
+                <a class="btn btn-primary" href="/oauth/login/facebook/" onclick="fb_login();" style="width:12em"> Sign in with Facebook</a>
+            </div>
+        </div>
+    </div>
+    <div class="row p-3 mt-3 border border-bottom-0 border-left-0 border-right-0">
+        <div class="col-12 text-center" style="margin-top: -2rem; margin-bottom: 1rem;">
+            <small id="passwordHelpBlock" class="form-text text-muted">或</small>
+        </div>
+            
+        <form id="loginForm" action="" method="post" class="col-12">
+            <input type="hidden" name="csrfmiddlewaretoken" value="UfggGjO6iuihBZqY1VnlqRbZ0eXsbRMng4Y2MRE2eOqh3KfFWMfvxd15kv1wGXpq">
+    
+            <ul class="nav nav-tabs justify-content-center mb-4">
+                <li class="nav-item">
+                    <a class="nav-link active" href="">登入</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">註冊</a>
+                </li>
+            </ul>
+            
+            <div class="form-group row mx-5 d-flex justify-content-around">
+                <label for="inputEmail" class="col-2 col-form-label d-flex justify-content-end"><label for="id_username"> E-mail :</label></label>
+                <div class="col-6">
+                    <input type="text" name="username" required="" placeholder="請輸入E-mai" id="id_username">
+                        <div class="invalid-feedback">
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group row mx-5 d-flex justify-content-around">
+                    <label for="password" class="col-2 col-form-label d-flex justify-content-end"><label for="id_password"> 密碼 :</label></label>
+                    <div class="col-6">
+                    <input type="password" name="password" required="" placeholder="請輸入密碼" id="id_password">
+                        <div class="invalid-feedback">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mx-auto">
+                    <div class="mx-auto col-3">
+                        <button type="submit" class="btn btn-primary w-100">登入</button>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a class="small" href="">忘記密碼</a>
+                <!--user/forgot_password.html-->
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

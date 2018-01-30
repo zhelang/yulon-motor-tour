@@ -51,9 +51,34 @@
             <th scope="row">Reminder</th>
             <td>{{t.reminder}}</td>
           </tr>
-
+<!--**********************
+**************************
+**************************
+**************************
+**************************
+**************************
+**************************
+**************************
+**************************
+**************************
+**************************
+**************************以下新增兩個欄位跟一個button-->
+          <tr>
+              <th scope="row">實際人數</th>
+              <td><input type="number" class="form-control" id="actual_number" placeholder="實際人數"></td>
+          </tr>
+          <tr>
+              <th scope="row">備註</th>
+              <td>
+                  <label for="return"></label>
+                  <textarea type="text" class="col" placeholder="備註"></textarea>
+              </td>
+          </tr>
         </tbody>
       </table>
+      <button type="submit" class="btn btn-primary float-right">回報
+          <i class="fa fa-floppy-o" aria-hidden="true"></i>
+      </button>
     </div>
   </div>
 </div>

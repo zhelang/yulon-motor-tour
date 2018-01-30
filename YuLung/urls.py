@@ -51,26 +51,26 @@ urlpatterns = [
     url(r'^site_admin/service/customer/new/$' , views.AdminCustomerCreate.as_view(), name='admin-customer-create'),
     url(r'^site_admin/service/customer/(?P<pk>[0-9]+)/$' , views.AdminCustomerEdit.as_view() , name='admin-customer-edit'),
     url(r'^site_admin/service/customer/(?P<pk>[0-9]+)/delete/$' , views.adminCustomerDelete, name='admin-customer-delete'),
-    url(r'^site_admin/calendar/$' , views.AdminCalendar.as_view(), name='admin-calendar'),
-    
+    url(r'^site_admin/calendar/$' , views.AdminCalendar.as_view(), name='admin-calendar'),    
     url(r'^site_admin/calendar/time_slot/$' , views.AdminTimeSlot.as_view(), name='admin-timeslot'),
     url(r'^site_admin/calendar/time_slot/(?P<date>[0-9]{4}-?[0-9]{2}-?[0-9]{2})/$' , views.AdminTimeSlot.as_view(), name='admin-timeslot-date'),
     url(r'^site_admin/calendar/time_slot/(?P<date>[0-9]{4}-?[0-9]{2}-?[0-9]{2})/edit/(?P<pk>[0-9]+)/$' , views.AdminTimeSlotEdit.as_view(), name='admin-timeslot-date-edit'),
     url(r'^site_admin/calendar/time_slot/(?P<date>[0-9]{4}-?[0-9]{2}-?[0-9]{2})/delete/(?P<pk>[0-9]+)/$' , views.adminTimeSlotDelete, name='admin-timeslot-date-delete'),
-    
     url(r'^site_admin/order/$' , views.AdminOrder.as_view(), name='admin-order'),
-    
     url(r'^site_admin/ticket/$', views.AdminTicket.as_view(), name='admin-ticket'),
-    
-    
-    
-    
     url(r'^site_admin/comment/$' , views.AdminComment.as_view(), name='admin-comment'),
     url(r'^site_admin/comment/(?P<pk>[0-9]+)/approve/$' , views.adminCommentApprove, name='admin-comment-approve'),
     url(r'^site_admin/comment/(?P<pk>[0-9]+)/disapprove/$' , views.adminCommentDisapprove, name='admin-comment-disapprove'),
     url(r'^site_admin/comment/(?P<pk>[0-9]+)/delete/$' , views.adminCommentDelete, name='admin-comment-delete'),
 
+    
+
     url(r'^site_admin/statistic/$' , views.AdminStatistic.as_view() , name='admin-statistic'),
+    url(r'^site_admin/data_export/$', views.AdminDataExport.as_view(), name='admin-data'),
+
+    url(r'^site_admin/user_account/$' , views.AdminUserAccount.as_view(), name='admin-user-account'),
+    url(r'^site_admin/user_profile/$', views.AdmonUserProfile.as_view(), name='admin-user-profile'),
+    
 
 
     url(r'ajax/order/$' , views.getOrderDetails, name='ajax-get-order'),
@@ -78,9 +78,16 @@ urlpatterns = [
     url(r'ajax/check_dayrender' , views.check_adminDayRender, name='ajax-admin-dayrender'),
     url(r'ajax/get_user_ticket', views.adminGetUserTicket, name='ajax-admin-get-ticket'),
     url(r'ajax/search_ticket/$' , views.adminSearchTicket, name='ajax-admin-search-ticket'),
-
     url(r'ajax/get_barchart/$' , views.adminGetBarChart, name='ajax-admin-get-barchart'),
     url(r'ajax/get_piechart/$' , views.adminGetPieChart, name='ajax-admin-get-piechart'),
+    url(r'ajax/get_service_lines/$' , views.adminGetLineChartService, name='ajax-admin-get-service-lines'),
+    url(r'ajax/get_custerm_lines/$' , views.adminGetLineChartCustomer, name='ajax-admin-get-customer-lines'),
+    url(r'ajax/get_user/$' , views.adminGetUserAccount, name='ajax-admin-get-user-account'),
+    url(r'ajax/edit_user/$' , views.adminUserAccountEdit, name='ajax-admin-user-account-edit'),
+    url(r'ajax/del_user/$' , views.adminUserAccountDelete, name='ajax-admin-user-account-del'),
+    url(r'ajax/update_faq_order/$', views.adminUpdateFAQOrder, name='ajax-admin-update-faq-order'),
+    url(r'ajax/get_record_count/$', views.adminGetRecordCount, name='ajax-admin-get-record-count'),
+    
 
 
     url(r'^oauth/', include('social_django.urls', namespace='social')),

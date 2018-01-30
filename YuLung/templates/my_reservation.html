@@ -69,7 +69,7 @@
                         <label class="col-3">分享活動</label>
                         <div class="col-9">
                             <!-- AddToAny BEGIN -->
-                            <div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-url="{% url 'reservation:reservation-confirm' order.pk %}" data-a2a-title="{{ order.service_type.service_title }}">
+                            <div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-url="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'reservation:reservation-confirm' order.pk %}" data-a2a-title="{{ order.service_type.service_title }}">
                                 <!-- <a class="a2a_dd" href="https://www.addtoany.com/share"></a> -->
                                 <a class="a2a_button_facebook"></a>
                                 <a class="a2a_button_twitter"></a>

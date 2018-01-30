@@ -44,6 +44,16 @@
                     }
                   });
         },
+        events:[
+            {% for i in eventData %}
+                {
+                    "start":"{{i.start}}",
+                    "title":"{{i.title}}"
+                },
+            {% endfor %}
+        ],
+        
+        
     /*events: [
         {
             title: 'My Event',

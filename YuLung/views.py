@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect , reverse, get_object_or_404
 from django.views.generic import View
 from django.views.generic.edit import CreateView , UpdateView , DeleteView
+from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate , login 
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -11,6 +12,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core import serializers
 from rolepermissions.mixins import HasPermissionsMixin
 from rolepermissions.decorators import has_permission_decorator
+from rolepermissions.roles import get_user_roles , assign_role , remove_role, clear_roles
+from rolepermissions.checkers import has_role
 from django.db.models import Q
 from forms import *
 from models import *
@@ -21,6 +24,7 @@ import datetime
 import pytz
 import json
 import pandas as pd
+import numpy as np
 
 from YuLung.settings import ALLOWED_HOSTS
 
@@ -29,11 +33,56 @@ def index(request):
     site_info = SiteInfo.objects.last()
     seo = SEO.objects.last()
     site = ALLOWED_HOSTS[1]
+    
+    today = datetime.datetime.now()
+    year = today.year
+    month = today.month
+    
+    allTicket = Ticket.objects.filter(order__time_slot__date__year__icontains=year, order__time_slot__date__month__icontains=month)
+        
+    if allTicket.exists():
+        data = []
+        for ticket in allTicket:
+            data.append({"date":datetime.datetime.combine(ticket.order.time_slot.date,ticket.order.time_slot.start_time),
+                         "service_title":ticket.order.service_type.service_title,
+                         "customer_count":ticket.order.number_of_customer
+                         })
+            
+        df_ticket = pd.DataFrame(data)
+    
+    
+        table = pd.pivot_table(df_ticket,values="customer_count", index=["date"],columns=["service_title"],aggfunc=sum)
+        mask = np.where(~np.isnan(table))
+        
+        #print table
+        #print mask
+        
+        ind = table.index.values.tolist()
+        col = table.columns.values.tolist()
+        
+        eventData = []
+        
+        for i in range(len(mask[0])):
+            
+            if table.iloc[mask[0][i],mask[1][i]] >= 15:
+                s = "Full"
+            else:
+                s = "Remaining " + str(table.iloc[mask[0][i],mask[1][i]])
+            
+            eventData.append({"start":ind[mask[0][i]],
+                             "title":col[mask[1][i]]+s
+                             })
+    
+    else:
+        eventData = None
+    
+    
     return render(request , 'index/index.html', context={'banner_obj':last_banner,
                                                          'current_page':'index',
                                                          'site_info':site_info,
                                                          'seo' : seo,
-                                                         'site':site
+                                                         'site':site,
+                                                         'eventData':eventData
                                                          })
 
 def loginSuccess(request):
@@ -208,12 +257,12 @@ class AdminIndex(HasPermissionsMixin, View):
         finishedTicket = Ticket.objects.filter(Q(finished=True) & Q(assigned_to=request.user))
         
         
-        return render(request, 'admin//index/admin-index.html' , context={'allOrder':allOrder,
-                                                                          'weekTicket':weekTicket,
-                                                                          'twoMonthTicket':twoMonthTicket,
-                                                                          'finishedTicket':finishedTicket,
-                                                                          'allTicket':allTicket
-                                                                          })
+        return render(request, self.template_name , context={'allOrder':allOrder,
+                                                             'weekTicket':weekTicket,
+                                                             'twoMonthTicket':twoMonthTicket,
+                                                             'finishedTicket':finishedTicket,
+                                                             'allTicket':allTicket
+                                                            })
         
 class AdminSignIn(View):
     
@@ -237,7 +286,12 @@ class AdminSignIn(View):
             if user !=None:
                 login(request, user)
                 return redirect('admin-index')
-            return render(request, self.template_name, context={'error_msg':'User do not exist'})
+            
+            print "User does not exist"
+            
+            return render(request, self.template_name, context={'error_msg':'User does not exist'})
+        
+        print "Invalid Form"
         return render(request, self.template_name , context={'error_msg':'Invalid Form'})
         
         
@@ -339,6 +393,25 @@ class AdminFAQEdit(HasPermissionsMixin , UpdateView):
     def get_success_url(self):
         return reverse('admin-faq')
     
+
+@has_permission_decorator('view_site_admin')    
+def adminUpdateFAQOrder(request):
+
+    faqOrder = request.GET.getlist('faqOrder[]')
+
+    #print faqOrder
+
+    if faqOrder != "" and faqOrder != None and faqOrder != []:
+        
+        for i in range(len(faqOrder)):
+            faq = FAQ.objects.get(pk=faqOrder[i])
+            faq.priority = i
+            faq.save()
+        
+        return HttpResponse("success")
+    
+    return HttpResponse("fail")
+
     
 @has_permission_decorator('view_site_admin')
 def adminFAQDelete(request, pk):
@@ -803,6 +876,7 @@ def adminSearchTicket(request):
         Qassignto = Q(assigned_to__username=keywords)
         Qassignby = Q(assigned_by__username=keywords)
         
+        
         if ticketSet == None:
             ticketSet = Ticket.objects.filter(Qname | Qphone| Qemail | Qcust | Qser | Qassignto | Qassignby)
         else:
@@ -871,7 +945,10 @@ class AdminStatistic(HasPermissionsMixin, View):
     
     def get(self, request):
         
-        return render(request, self.template_name , context={})
+        earliestYear = Ticket.objects.first().order.time_slot.date.year
+        thisYear = datetime.datetime.now().year
+        
+        return render(request, self.template_name , context={"yearList":range(earliestYear, thisYear+1)})
         
         
         
@@ -905,16 +982,17 @@ def adminGetBarChart(request):
     month = request.GET.get('month')
 
     
-    #print df_ticket
-    
     df_ticket = getBarPieDataFrame(year, month)
     
-    if df_ticket == "NULL":
+    if isinstance(df_ticket, str):
         return HttpResponse(df_ticket)
     else:
+        
+        df_ticket['income'] = df_ticket['service_fee'] * df_ticket['customer_count']
+        
         outJson = {"labels":df_ticket.index.values.tolist(),
                    "data":df_ticket['customer_count'].values.tolist(),
-                   "total_income":df_ticket['service_fee'].sum(),
+                   "total_income":df_ticket['income'].sum(),
                    "total_customer":df_ticket['customer_count'].sum()
                    }
         
@@ -939,38 +1017,108 @@ def adminGetPieChart(request):
 def getLineDataFrame(year):
 
     ticketSet = Ticket.objects.filter(order__time_slot__date__year = int(year))
+
+    #print 'ticketSet' , ticketSet
     
     if ticketSet.exists():
         ticketData = []
         
         for t in ticketSet:
-            ticketData.append({ "month":t.order.time_slot.date.month,
-                                "service_title":t.order.service_type.service_title,
-                                "customer_count":t.order.number_of_customer
-                                })
+            #print 'Ticket pk = ' , t.order
+            
+            try:
+            
+                ticketData.append({ "month":t.order.time_slot.date.month,
+                                    "service_title":t.order.service_type.service_title,
+                                    "customer_count":t.order.number_of_customer,
+                                    "customer_title":t.order.customer_type.customer_title
+                                    })
+        
+            except AttributeError:
+                continue
         
         df_ticket = pd.DataFrame(ticketData)
         
-        table = pd.pivot_table(df,values="customer_count", index=["month"],columns=["service_title"],aggfunc=sum)
-        table = table.reindex(range(1,13))
-        
-        
-        return table
+        return df_ticket
     else:
         return "NULL"
 
 
-
-
+@has_permission_decorator('view_site_admin')
 def adminGetLineChartService(request):
 
     year = request.GET.get('year')
     
+    df_ticket = getLineDataFrame(year)
+    allServiceTitle = []
+    allService = ServicesType.objects.all()
     
+    for s in allService:
+        allServiceTitle.append(s.service_title)
+    
+    
+    if isinstance(df_ticket, str):
+        
+        table = pd.DataFrame(0 , index=range(1,13) , columns=allServiceTitle)
+        
+    else:
+    
+        table = pd.pivot_table(df_ticket,values="customer_count", index=["month"],columns=["service_title"],aggfunc=sum)
+        table = table.reindex(range(1,13))
+        table = table.transpose()
+        table = table.reindex(allServiceTitle)
+        table = table.transpose()
+        table = table.fillna(0)
+    
+    #print table
+    
+    col_data = []
+    
+    for column in table:
+        col_data.append(table[column].values.tolist())
+    
+    
+    outJson = {"labels":table.columns.values.tolist(),
+                "x_labels":table.index.values.tolist(),
+                "col_data":col_data,
+                }
+    
+    return JsonResponse(outJson)
 
 
+def adminGetLineChartCustomer(request):
+    
+    year = request.GET.get('year')
+    
+    df_ticket = getLineDataFrame(year)
+    allCustomerTitle = []
+    allCustomer = CustomersType.objects.all()
 
+    for c in allCustomer:
+        allCustomerTitle.append(c.customer_title)
 
+    if isinstance(df_ticket, str):
+        table = pd.DataFrame(0, index=range(1,13) , columns=allCustomerTitle)
+    else:
+        table = pd.pivot_table(df_ticket,values="customer_count", index=["month"],columns=["customer_title"],aggfunc=sum)
+        table = table.reindex(range(1,13))
+        table = table.transpose()
+        table = table.reindex(allCustomerTitle)
+        table = table.transpose()
+        table = table.fillna(0)
+        
+    col_data = []
+    
+    for column in table:
+        col_data.append(table[column].values.tolist())
+    
+    
+    outJson = {"labels":table.columns.values.tolist(),
+                "x_labels":table.index.values.tolist(),
+                "col_data":col_data,
+                }
+    
+    return JsonResponse(outJson)
 
         
 @has_permission_decorator('view_site_admin')
@@ -986,5 +1134,184 @@ def adminGetUserTicket(request):
     return JsonResponse(allOrder, safe=False)
         
         
+class AdminDataExport(HasPermissionsMixin, View):
+    
+    required_permission = 'view_site_admin'
+    template_name = 'admin/statistic/basic_download.html'
         
         
+    def get(self, request):
+        
+        return render(request, self.template_name, context={})
+        
+        
+class AdminUserAccount(HasPermissionsMixin, View):
+        
+    required_permission = 'view_site_admin'
+    template_name = 'admin/user/basic_account.html'
+    form_class = AdminUserCreateForm
+        
+    def get(self, request):
+        
+        allUser = User.objects.all()
+        
+        roleUser = []
+        
+        for user in allUser:
+            if get_user_roles(user) != []:
+                roleUser.append(user)
+        
+        form = self.form_class(None)
+        
+        return render(request, self.template_name, context={"roleUser":roleUser,'form':form})
+        
+        
+        
+    def post(self, request):
+        
+        #print "POST!!!"
+        form = self.form_class(request.POST)
+        
+        allUser = User.objects.all()
+        roleUser = []
+            
+        for user in allUser:
+            if get_user_roles(user) != []:
+                roleUser.append(user)
+        
+        
+        
+        if form.is_valid():            
+            username = form.cleaned_data['username']
+            
+            try:
+                user = User.objects.get(username=username)
+                return render(request, self.template_name, context={"roleUser":roleUser,'form':form, 'error_msg':'Username has been taken'})
+            except User.DoesNotExist:
+                password = form.cleaned_data['password']
+                first_name = form.cleaned_data['first_name']
+                last_name = form.cleaned_data['last_name']
+                email = form.cleaned_data['email']
+                
+                user = User.objects.create(username=username, first_name=first_name, last_name=last_name, email=email)
+                user.set_password(password)
+                user.save()
+                print request.POST.get('role')
+                assign_role(user, request.POST.get('role'))
+    
+                return redirect('admin-user-account')
+
+
+
+        return render(request, self.template_name, context={"roleUser":roleUser,'form':form, 'error_msg':'invalid form'})
+
+
+@has_permission_decorator('view_site_admin')
+def adminGetUserAccount(request):
+
+    username = request.GET.get('username')
+    user = User.objects.get(username=username)
+
+    role = get_user_roles(user)
+    if role == []:
+        return HttpResponse("non-admin")
+
+    outJson = {'first_name':user.first_name,
+               'last_name':user.last_name,
+               'email':user.email,
+               'role':role[0].get_name()
+               }
+    
+    return JsonResponse(outJson)
+
+@csrf_protect
+@has_permission_decorator('view_site_admin')
+def adminUserAccountEdit(request):
+
+    requestUser = User.objects.get(username=request.user.username)
+    if has_role(requestUser, 'manager'):
+
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        role = request.POST.get('role')
+        
+        user = User.objects.get(username=username)
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.save()
+        
+        clear_roles(user)
+        assign_role(user, role)
+        
+        return HttpResponse("success")
+    else:
+        return HttpResponse("no permission")
+
+@csrf_protect
+@has_permission_decorator('view_site_admin')
+def adminUserAccountDelete(request):
+    
+    requestUser = User.objects.get(username=request.user.username)
+    if has_role(requestUser, 'manager'):
+        
+        username = request.POST.get('username')
+        user = User.objects.get(username=username)
+        user.delete()
+        
+        return HttpResponse("success")
+    else:
+        return HttpResponse("no permission")
+    
+    
+class AdmonUserProfile(HasPermissionsMixin, View):
+    
+    required_permission = 'view_site_admin'
+    template_name = 'admin/user/alter_personalinfo.html'
+    
+    def get(self, request):
+        
+        return render(request, self.template_name, context={})
+        
+        
+    def post(self, request):
+        
+        user = User.objects.get(username=request.user.username)
+        
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        
+        if request.POST.get('password') != "":
+            user.set_password(request.POST.get('password'))
+        
+        user.save()
+    
+        return redirect('admin-user-profile')
+    
+@has_permission_decorator('view_site_admin')
+def adminGetRecordCount(request):
+    
+    yearFrom = request.GET.get('yearFrom')
+    yearTo = request.GET.get('yearTo')
+    monthFrom = request.GET.get('monthFrom')
+    monthTo = request.GET.get('monthTo')
+    
+    if yearFrom != None and yearTo != None and monthFrom != None and monthTo !=None:
+        fromDate = datetime.date(int(yearFrom), int(monthFrom), 1)
+        toDate = datetime.date(int(yearTo) + (int(monthTo) == 12), (int(monthTo) + 1 if int(monthTo) < 12 else 1), 1) - datetime.timedelta(1)
+    
+        ticketSet = Ticket.objects.filter(order__time_slot__date__gte = fromDate, order__time_slot__date__lte = toDate)
+    
+        count = str(ticketSet.count())
+        return HttpResponse(count)
+    
+    return HttpResponse("0")
+    
+    
+    
+
+
+

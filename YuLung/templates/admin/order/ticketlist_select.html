@@ -6,9 +6,11 @@
                 <table class="table">
                     <thead>
                         <tr class="row">
-                            <th scope="col" class="col-4">年</th>
-                            <th scope="col" class="col-4">月</th>
-                            <th scope="col" class="col-4">關鍵字</th>
+                            <th scope="col" class="col">年</th>
+                            <th scope="col" class="col">月</th>
+                            <th scope="col" class="col">指派人員</th><!--********************新增的*****************-->
+                            <th scope="col" class="col">被指派人員</th><!--********************新增的*****************-->
+                            <th scope="col" class="col">關鍵字</th>
                         </tr>    
                     </thead>
                 </table>
@@ -24,6 +26,16 @@
                 <div class="form-group col">
                     <label for="ticketmonth"></label>
                     <input type="number" min="1" max="12" class="form-control" id="ticket-month" placeholder="月">
+                </div>
+
+                <div class="form-group col">
+                    <label for="pastclass"></label>
+                    <input type="text" class="form-control" id="assigned_by" placeholder="指派人員"><!--********************新增的*****************-->
+                </div>
+
+                <div class="form-group col">
+                    <label for="pastclass"></label>
+                    <input type="text" class="form-control" id="assigned_to" placeholder="被指派人員"><!--********************新增的*****************-->
                 </div>
 
                 <div class="form-group col">

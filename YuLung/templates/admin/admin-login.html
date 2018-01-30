@@ -14,6 +14,14 @@
 {% block breadcrumb %}
 {% endblock %}
 
+{% block alert %}
+{% if error_msg %}
+<div class="alert alert-danger" role="alert">
+  {{ error_msg }}
+</div>
+{% endif %}
+{% endblock %}
+
 {% block body %}
 <div class="card col-lg-4 mx-auto">
   <div class="card-body px-5 py-5">

@@ -1,9 +1,17 @@
 <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
   <div class="user-info">
-    <h2 class="rounded-circle d-flex justify-content-center align-items-center bg-info mx-auto" style="width: 60px; height: 60px;">R</h2>
-    <p class="name">Richard V.Welsh</p>
-    <p class="designation">Manager</p>
-    <a href="#" class="btn btn-success w-50 mx-auto">變更個人資料</a>
+    <h2 class="rounded-circle d-flex justify-content-center align-items-center bg-info mx-auto" style="width: 60px; height: 60px;">{{ request.user.first_name|slice:":1" }}</h2>
+    
+    <p class="name">{{ request.user.username }}</p>
+    
+    {% if request.user.groups.all.0.name == 'manager' %}
+        <p class="designation">Manager</p>
+    {% else %}
+        <p class="designation">Staff</p>
+    {% endif %}
+        
+    <a href="{% url 'admin-user-profile' %}" class="btn btn-success w-50 mx-auto">變更個人資料</a>
+  
   </div>
   <hr />
   <ul class="nav">
@@ -100,7 +108,7 @@
             <a class="nav-link" href="{% url 'admin-statistic' %}">瀏覽統計圖表</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">下載原始數據資料</a>
+            <a class="nav-link" href="{% url 'admin-data' %}">下載原始數據資料</a>
           </li>
         </ul>
       </div>
@@ -117,6 +125,12 @@
         <ul class="nav flex-column sub-menu">
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin-comment' %}">評論管理</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin-user-account' %}">創建帳號</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">權限管理</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">...</a>

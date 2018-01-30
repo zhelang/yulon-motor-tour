@@ -79,4 +79,11 @@ class SiteInfoAdminForm(forms.ModelForm):
             }
         
     
+class AdminUserCreateForm(forms.Form):
+        
+    first_name = forms.CharField(label="first name" , required=True , widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'first name', 'type':'text'}))
+    last_name = forms.CharField(label="last name" , required=True , widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'last name', 'type':'text'}))
+    username = forms.CharField(label="Username" ,required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'type':'text', 'aria-describedby':"useraccount"}))
+    password = forms.CharField(label="Password" , required=True, widget=forms.PasswordInput(attrs={'class': 'form-control', 'type':'password', 'aria-describedby':"password"}))
+    email = forms.CharField(label="Email" , required=True, widget=forms.EmailInput(attrs={'class':'form-control','aria-describedby':"email"}))
         
