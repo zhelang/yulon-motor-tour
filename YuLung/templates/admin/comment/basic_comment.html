@@ -1,4 +1,4 @@
-{% extends 'admin/admin-base.html' %}
+{% extends 'admin/base.html' %}
 
 {% block title %}評論管理{% endblock %}
 
@@ -23,26 +23,12 @@
       </li>
     </ul>
 
-    <!-- Tab panes -->
     <div class="tab-content">
       {% include 'admin/comment/comment_new.html' with comment_new_list=comment_new_list %}
       {% include 'admin/comment/comment_published.html' with comment_published_list=comment_published_list %}
       {% include 'admin/comment/comment_unpublished.html' with comment_unpublished_list=comment_unpublihsed_list %}
     </div>
-    <!-- End of tab panes -->
   </div>
 </div>
-<script type="text/javascritp">
-
-    $(document).ready(function () {
-        
-        
-        
-        
-        
-    });
-    
-</script>
-
 {% endblock %}
 

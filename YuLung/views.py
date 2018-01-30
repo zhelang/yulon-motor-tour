@@ -233,7 +233,7 @@ def tos(request):
 class AdminIndex(HasPermissionsMixin, View):
 
     required_permission = 'view_site_admin'
-    template_name = 'admin/index/admin-index.html'
+    template_name = 'admin/index/index.html'
 
     def get(self, request):
         
@@ -266,7 +266,7 @@ class AdminIndex(HasPermissionsMixin, View):
         
 class AdminSignIn(View):
     
-    template_name = 'admin/admin-login.html'
+    template_name = 'admin/login.html'
     form_class = AdminLoginForm
         
     def get(self, request):

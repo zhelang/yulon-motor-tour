@@ -9,7 +9,7 @@ local_settings.py
 # Editor stuff:
 .settings
 .project
-.pydevprojec
+.pydevproject
 
 # Other stuff:
 *.swp

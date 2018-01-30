@@ -25,11 +25,11 @@
 
 <body>
   <div class="container-scroller">
-    {% include 'admin/admin-navbar.html' %}
+    {% include 'admin/navbar.html' %}
 
     <div class="container-fluid">
       <div class="row row-offcanvas row-offcanvas-right">
-        {% include 'admin/admin-sidebar.html' %}
+        {% include 'admin/sidebar.html' %}
 
         <div class="content-wrapper">
           {% block alert %}
@@ -38,7 +38,7 @@
           {% endblock %}
         </div>
 
-        {% include 'admin/admin-footer.html' %}
+        {% include 'admin/footer.html' %}
       </div>
     </div>
   </div>
@@ -47,12 +47,32 @@
   <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
   <script src="{% static 'lib/bootstrap-switch/js/bootstrap-switch.js' %}"></script>
   <script src="{% static 'lib/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
+  <script src="{% static 'lib/js-cookie/js.cookie.min.js' %}"></script>
   <script src="{% static 'lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js' %}"></script>
   <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
   <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
   <script src="{% static 'js/off-canvas.js' %}"></script>
   <script src="{% static 'js/hoverable-collapse.js' %}"></script>
   <script src="{% static 'js/misc.js' %}"></script>
+  <script>
+    $(document).ready(function() {
+      /*($('.nav-item').on('shown.bs.collapse', function() {
+        var active = $(this).find('.nav-link').attr('aria-controls');
+        $.cookie('activeNavLink', active);
+      });
+      $('.nav-item').on('hidden.bs.collapse', function() {
+        $.removeCookie('activeNavLink');
+      });*/
+      $('.collapse .nav .nav-item .nav-link').click(function(e) {
+        var active = $(this).closest('.collapse').attr('id');
+        Cookies.set('activeNav', active);
+      });
+      var last = Cookies.get('activeNav');
+      if (last != null) {
+        $('#'+last).addClass('show');
+      }
+    });
+  </script>
 </body>
 
 </html>
