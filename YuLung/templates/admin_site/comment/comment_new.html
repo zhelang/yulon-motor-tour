@@ -1,0 +1,13 @@
+      <!-- Tab for new comment -->
+      <div class="tab-pane active" id="new">
+        <div class="card">
+          <div class="card-body">
+            <!-- for each comment -->
+            
+                {% include 'admin_site/comment/comment_row.html' with comment_list=new_comments check=True %}
+            
+            <!-- End of comment -->
+          </div>
+        </div>
+      </div>
+      <!-- End of new comment tab -->

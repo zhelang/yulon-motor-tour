@@ -1,0 +1,271 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}統計分析{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader %}
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+{% endblock%}
+
+{% block body %}
+<div>
+    <div class="col-12">
+        {% include 'admin_site/statistic/statistic_form.html' %}
+    </div>
+
+    <div class="col-12">
+        {% include 'admin_site/statistic/statistic_renderer.html' %}  
+    </div>
+</div>
+
+
+<script type="text/javascript">
+        //bar
+        $(document).ready(function () {
+        
+            var myBarChart = null;
+            var myPieChart = null;
+            var slineChart = null;
+            var clineChart = null;
+        
+            var drawBarChart = function(year,month){
+                $.ajax({
+                    url:"{% url 'ajax-admin-get-barchart' %}",
+                    data:{"month":month,
+                          "year":year
+                    },
+                    success:function(response){
+                        //console.log(response);
+                        if (response == "NULL"){
+                            $('#total-customer').text("0");
+                            $('#total-income').text("$ 0 ");
+                            if (myBarChart != null){
+                                $("#barChart").remove();
+                                $("#barChartContainer").append('<canvas id="barChart" width="100" height="68"></canvas>');
+                            }
+                        }
+                        else{
+                            if (myBarChart != null){
+                                myBarChart.destroy();
+                                $("#barChart").remove();
+                                $("#barChartContainer").append('<canvas id="barChart" width="100" height="68"></canvas>');
+                            }
+                            $('#total-customer').text(response.total_customer);
+                            $('#total-income').text(response.total_income);
+                            
+                            var ctxB = document.getElementById("barChart").getContext('2d');
+                            myBarChart = new Chart(ctxB, {
+                                type: 'bar',
+                                data: {
+                                    labels:response.labels,
+                                    datasets: [{
+                                        label: '預約數',
+                                        data: response.data,
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgba(255,99,132,1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ],
+                                        borderWidth: 1
+                                    }]
+                                },
+                                optionss: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero:true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            
+                        }
+                    }
+                });
+            }
+
+            //pie
+            var drawPieChart = function(year, month){            
+                $.ajax({
+                    url:"{% url 'ajax-admin-get-barchart' %}",
+                    data:{"month":month,
+                            "year":year
+                    },
+                    success:function(response){
+
+                        if (response == "NULL"){
+                            if(myPieChart != null){
+                                $("#pieChart").remove();
+                                $("#pieChartContainer").append(`<canvas id="pieChart" width="100%" height="100"></canvas>`);
+                            }
+                        }
+                        else{
+                            if(myPieChart != null){
+                                $("#pieChart").remove();
+                                $("#pieChartContainer").append(`<canvas id="pieChart" width="100%" height="100"></canvas>`);
+                            }
+                            var ctxP = document.getElementById("pieChart").getContext('2d');
+                            myPieChart = new Chart(ctxP, {
+                                type: 'pie',
+                                data: {
+                                    labels:response.labels,
+                                    datasets: [
+                                        {
+                                            data: response.data,
+                                            backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#ccbbcc", "#eebbbb", "#aaccee"],
+                                            hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#eeccee", "#ffcccc", "#bbddff"]
+                                        }
+                                    ]
+                                },
+                                options: {
+                                    responsive: true
+                                }    
+                            });   
+                        }                 
+                    }
+                });
+            }
+
+            
+            var drawServiceLines = function(year){
+                $.ajax({
+                    url: "{% url 'ajax-admin-get-service-lines' %}",
+                    data:{"year":year},
+                    success:function(response){
+                        //console.log(response);
+                        
+                        var dataset = [];
+                        var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC']
+                        
+                        for (var i =0; i <response.labels.length; i++){
+                            
+                            dataset.push({  label:response.labels[i],
+                                            data:response.col_data[i],
+                                            borderColor:default_colors[i%20],
+                                            backgroundColor:'transparent',
+                                            pointRadius: 5,
+                                            pointHoverRadius: 15,
+                                            pointHitRadius: 30,
+                            });             
+                        }
+                        var serviceData = {
+                            labels: response.x_labels,
+                            datasets:dataset
+                        };
+                        var chartOptions = {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    boxWidth: 80,
+                                    fontColor: 'black'
+                                }
+                            }
+                        };
+                        
+                        if (slineChart != null){
+                            $("#service-lines").remove();
+                            $("#slineContainer").append(`<canvas id="service-lines" class="w-45"></canvas>`);
+                        }
+                        var ctxSL = document.getElementById("service-lines").getContext('2d');
+                        slineChart = new Chart(ctxSL, {
+                            type: 'line',
+                            data: serviceData,
+                            options: chartOptions
+                        });   
+                    }
+                });
+            }
+
+            var drawCustomerLines = function(year){
+                $.ajax({
+                    url: "{% url 'ajax-admin-get-customer-lines' %}",
+                    data:{"year":year},
+                    success:function(response){
+                        //console.log(response);
+                        
+                        var dataset = [];
+                        var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC']
+                        
+                        for (var i =0; i <response.labels.length; i++){
+                            
+                            dataset.push({  label:response.labels[i],
+                                            data:response.col_data[i],
+                                            borderColor:default_colors[i%20],
+                                            backgroundColor:'transparent',
+                                            pointRadius: 5,
+                                            pointHoverRadius: 15,
+                                            pointHitRadius: 30,
+                            });
+                                                        
+                        }
+                        var customerData = {
+                            labels: response.x_labels,
+                            datasets:dataset
+                        };
+                        var chartOptions = {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    boxWidth: 80,
+                                    fontColor: 'black'
+                                }
+                            }
+                        };
+                        
+                        if (clineChart != null){
+                            $('#customer-lines').remove();
+                            $("#clineContainer").append(`<canvas id="customer-lines" class="w-45"></canvas>`);
+                        }
+                        var ctxCL = document.getElementById("customer-lines").getContext('2d');
+                        clineChart = new Chart(ctxCL, {
+                            type: 'line',
+                            data: customerData,
+                            options: chartOptions
+                        });   
+                    }
+                });
+            }
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = today.getMonth() + 1;
+
+            var drawAll = function(){
+                drawBarChart(year, month);
+                drawPieChart(year, month);
+                drawServiceLines(year);
+                drawCustomerLines(year);
+            }
+            var init = function(){
+                drawAll();
+            }
+            $('#select-year').change(function(){
+                year = $(this).val();
+                drawAll();
+            });
+            $('#select-month').change(function(){
+                month = $(this).val();
+                drawAll();
+            });
+            init();
+            
+        });
+</script>
+
+{% endblock %}

@@ -1,0 +1,309 @@
+{% extends 'admin_site/ebase.html' %}
+
+{% block title %}權限管理{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div>
+  
+    <div class="col-12">
+        <h3 class="page-heading mb-4">
+            權限管理
+        </h3>
+        <div class="row mb-2">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">項目</th>
+                                        <th scope="col">管理者</th>
+                                        <th scope="col">工作人員</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                      <td scope="row" colspan="4">
+                                          <i class="fa fa-info-circle d-flex align-items-center"></i> 公司資訊
+                                      </td>
+                                      <td>
+                                          <div class="form-check">
+                                              <label class="form-check-label">
+                                                  <input class="form-check-input position-static" type="checkbox" id="permission_settings" value="manager">
+                                              </label>
+                                          </div>
+                                      </td>
+                                      <td>
+                                          <div class="form-check">
+                                              <label class="form-check-label">
+                                                  <input class="form-check-input position-static" type="checkbox" id="permission_settings" value="staff">
+                                              </label>
+                                          </div>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-info-circle d-flex align-items-center"></i> 橫幅圖管理
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_banner" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_banner" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-info-circle d-flex align-items-center"></i> 常見問題管理
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_faq" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_faq" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-info-circle d-flex align-items-center"></i> 搜尋引擎優化
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_seo" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_seo" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-cogs d-flex align-items-center"></i> 課程管理
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_course" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_course" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-cogs d-flex align-items-center"></i> 客群管理
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_customer" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_customer" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-calendar d-flex align-items-center"></i> 批次設定開放時段
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_calendar" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_calendar" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-calendar-check-o d-flex align-items-center"></i> 預約單總覽
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_ticket" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_ticket" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-calendar-check-o d-flex align-items-center"></i> 指派導覽人員
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_order" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_order" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-bar-chart d-flex align-items-center"></i> 瀏覽統計圖表
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_statistic" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_statistic" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-bar-chart d-flex align-items-center"></i> 下載原始數據資料
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_data_export" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_data_export" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-cogs d-flex align-items-center"></i> 評論管理
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_comment" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_comment" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-cogs d-flex align-items-center"></i> 創建帳號
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_user_account" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_user_account" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <i class="fa fa-cogs d-flex align-items-center"></i> 權限管理
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_permission" value="manager">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input position-static" type="checkbox" id="permission_permission" value="staff">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <a id="btn-save" class="btn btn-outline-success col-2 mx-auto" role="button">儲存 <i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

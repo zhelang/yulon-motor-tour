@@ -1,0 +1,11 @@
+<div class="row tab-pane" id="twomonth">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+      {% for t in twoMonthTicket %} 
+        {% include 'admin_site/index/ticket_content.html' with collapse_prefix='month' %} 
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

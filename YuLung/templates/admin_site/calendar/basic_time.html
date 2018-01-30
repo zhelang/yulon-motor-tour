@@ -1,0 +1,16 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}時段管理{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div class="row my-3">
+    {% include 'admin_site/calendar/time_renderer.html' %}
+    {% include 'admin_site/calendar/time_form.html' %}
+</div>
+{% endblock %}

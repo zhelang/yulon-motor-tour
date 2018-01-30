@@ -233,7 +233,7 @@ def tos(request):
 class AdminIndex(HasPermissionsMixin, View):
 
     required_permission = 'view_site_admin'
-    template_name = 'admin/index/index.html'
+    template_name = 'admin_site/index/index.html'
 
     def get(self, request):
         
@@ -266,7 +266,7 @@ class AdminIndex(HasPermissionsMixin, View):
         
 class AdminSignIn(View):
     
-    template_name = 'admin/login.html'
+    template_name = 'admin_site/login.html'
     form_class = AdminLoginForm
         
     def get(self, request):
@@ -298,7 +298,7 @@ class AdminSignIn(View):
 class AdminBanner( HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_name = 'admin/info/basic_banner.html'
+    template_name = 'admin_site/info/basic_banner.html'
     form_class = BannerCreateForm
     
 
@@ -334,7 +334,7 @@ class AdminBanner( HasPermissionsMixin, View):
 class AdminFAQ(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_name = 'admin/info/basic_faq.html'
+    template_name = 'admin_site/info/basic_faq.html'
     form_class = FAQAdminForm
 
     def get(self, request):
@@ -349,7 +349,7 @@ class AdminFAQ(HasPermissionsMixin, View):
 class AdminFAQCreate(HasPermissionsMixin, View):
 
     required_permission = 'view_site_admin'
-    template_name = 'admin/info/faq_form.html'
+    template_name = 'admin_site/info/faq_form.html'
     form_class = FAQAdminForm
     
     
@@ -379,7 +379,7 @@ class AdminFAQCreate(HasPermissionsMixin, View):
 class AdminFAQEdit(HasPermissionsMixin , UpdateView):
     
     required_permission = 'view_site_admin'
-    template_name = 'admin/info/faq_form.html'
+    template_name = 'admin_site/info/faq_form.html'
     form_class = FAQAdminForm
     model = FAQ
     
@@ -423,7 +423,7 @@ def adminFAQDelete(request, pk):
 class AdminSiteInfo(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_name = 'admin/info/basic_info.html'
+    template_name = 'admin_site/info/basic_info.html'
     form_class = SiteInfoAdminForm
     instance = SiteInfo.objects.last()
     
@@ -447,7 +447,7 @@ class AdminSEO(HasPermissionsMixin, UpdateView):
     
     model = SEO
     required_permission = 'view_site_admin'
-    template_name = 'admin/info/basic_seo.html'
+    template_name = 'admin_site/info/basic_seo.html'
     form_class = SEOAdminForm
 
     
@@ -460,7 +460,7 @@ class AdminSEO(HasPermissionsMixin, UpdateView):
 class AdminService(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_name = 'admin/service/basic_service.html'
+    template_name = 'admin_site/service/basic_service.html'
     form_class = ServicesTypeCreateForm
     
     def get_success_url(self):
@@ -478,7 +478,7 @@ class AdminServiceCreate(HasPermissionsMixin, CreateView):
     required_permission = 'view_site_admin'
     form_class = ServicesTypeCreateForm
     model = ServicesType
-    template_name = 'admin/service/service_form.html'
+    template_name = 'admin_site/service/service_form.html'
     
     def get_context_data(self, *args, **kwargs):
         context = super(AdminServiceCreate, self).get_context_data(*args, **kwargs)
@@ -494,7 +494,7 @@ class AdminServiceEdit(HasPermissionsMixin, UpdateView):
     required_permission = 'view_site_admin'
     form_class = ServicesTypeCreateForm
     model = ServicesType
-    template_name = 'admin/service/service_form.html'
+    template_name = 'admin_site/service/service_form.html'
     
     def get_context_data(self, *args, **kwargs):
         context = super(AdminServiceEdit, self).get_context_data(*args, **kwargs)
@@ -515,7 +515,7 @@ def adminServiceDelete(request, pk):
 class AdminCustomer(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_name = 'admin/service/basic_customer.html'
+    template_name = 'admin_site/service/basic_customer.html'
     form_class = CustomersTypeForm
 
 
@@ -531,7 +531,7 @@ class AdminCustomer(HasPermissionsMixin, View):
 class AdminCustomerCreate(HasPermissionsMixin, CreateView):
 
     required_permission = 'view_site_admin'
-    template_name = 'admin/service/customer_form.html'
+    template_name = 'admin_site/service/customer_form.html'
     form_class = CustomersTypeForm
     model = CustomersType
     
@@ -549,7 +549,7 @@ class AdminCustomerEdit(HasPermissionsMixin, UpdateView):
     required_permission = 'view_site_admin'
     form_class = CustomersTypeForm
     model = CustomersType
-    template_name = 'admin/service/customer_form.html'
+    template_name = 'admin_site/service/customer_form.html'
     
     
     def get_context_data(self, *args, **kwargs):
@@ -573,7 +573,7 @@ def adminCustomerDelete(request, pk):
 class AdminCalendar(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_name = 'admin/calendar/basic_calendar.html'
+    template_name = 'admin_site/calendar/basic_calendar.html'
     
     def get(self, request):
         return render(request, self.template_name, context={})
@@ -634,7 +634,7 @@ def check_adminDayRender(request):
 class AdminTimeSlot(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_class = 'admin/calendar/basic_time.html'
+    template_class = 'admin_site/calendar/basic_time.html'
     form_class = TimeSlotAdminForm
     
     def get(self, request, date):
@@ -679,7 +679,7 @@ class AdminTimeSlotEdit(HasPermissionsMixin, View):
     
     
     required_permission = 'view_site_admin'
-    template_class = 'admin/calendar/basic_time.html'
+    template_class = 'admin_site/calendar/basic_time.html'
     form_class = TimeSlotAdminForm
     
     def get(self, request, date, pk):
@@ -753,7 +753,7 @@ def getTicketDetails(request):
 class AdminOrder(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_class = 'admin/order/basic_order.html'
+    template_class = 'admin_site/order/basic_order.html'
     
     def get(self, request):
         confirmed_orders = Orders.objects.filter(status='confirmed').order_by('time_slot__date')
@@ -818,7 +818,7 @@ class AdminOrder(HasPermissionsMixin, View):
 class AdminTicket(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_class = 'admin/order/basic_ticket.html'
+    template_class = 'admin_site/order/basic_ticket.html'
         
         
     def get(self, request):
@@ -897,7 +897,7 @@ def adminSearchTicket(request):
 class AdminComment(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_class = 'admin/comment/basic_comment.html'
+    template_class = 'admin_site/comment/basic_comment.html'
     
     def get(self, request):
         
@@ -941,7 +941,7 @@ def adminCommentDelete(request, pk):
 class AdminStatistic(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_name = 'admin/statistic/basic_statistic.html'
+    template_name = 'admin_site/statistic/basic_statistic.html'
     
     def get(self, request):
         
@@ -1137,7 +1137,7 @@ def adminGetUserTicket(request):
 class AdminDataExport(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_name = 'admin/statistic/basic_download.html'
+    template_name = 'admin_site/statistic/basic_download.html'
         
         
     def get(self, request):
@@ -1148,7 +1148,7 @@ class AdminDataExport(HasPermissionsMixin, View):
 class AdminUserAccount(HasPermissionsMixin, View):
         
     required_permission = 'view_site_admin'
-    template_name = 'admin/user/basic_account.html'
+    template_name = 'admin_site/user/basic_account.html'
     form_class = AdminUserCreateForm
         
     def get(self, request):
@@ -1269,7 +1269,7 @@ def adminUserAccountDelete(request):
 class AdmonUserProfile(HasPermissionsMixin, View):
     
     required_permission = 'view_site_admin'
-    template_name = 'admin/user/alter_personalinfo.html'
+    template_name = 'admin_site/user/alter_personalinfo.html'
     
     def get(self, request):
         
