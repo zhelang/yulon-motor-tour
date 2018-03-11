@@ -129,22 +129,9 @@ class Info(View):
     form_class = CustomerDetailsForm
     
     def get(self, request, customer_pk, service_pk, timeslot_pk):
-        
-        lastCustomerOrder = Orders.objects.filter(user=request.user).last()
-        if lastCustomerOrder == None:
-            if request.user.email == '':
-                form=self.form_class(None)
-            else:
-                form=self.form_class(initial={'email':request.user.email})
-        else:
-            
-        
-            form=self.form_class(initial={'name':lastCustomerOrder.customer_details.name,
-                                          'email':lastCustomerOrder.customer_details.email,
-                                          'phone':lastCustomerOrder.customer_details.phone,
-                                          'address':lastCustomerOrder.customer_details.address
-                                          })
-        
+
+        form=self.form_class(None)
+
         selected_customer = get_object_or_404(CustomersType , pk=customer_pk)
         selected_service = get_object_or_404(ServicesType, pk=service_pk)
         selected_timeslot = get_object_or_404(TimeSlot, pk=timeslot_pk)

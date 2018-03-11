@@ -23,20 +23,19 @@
       </div>
       <div class="form-group row">
         <label for="date" class="col-4 col-form-label">預約日期 / Date:</label>
-        <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.date }}</div>
+        <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.date|date:"Y/m/d" }}</div>
       </div>
       <div class="form-group row">
         <label for="time" class="col-4 col-form-label">預約時間 / Time:</label>
         {% if selected_timeslot.end_time %}
-        <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.start_time }} - {{selected_timeslot.end_time}}</div>
+        <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.start_time|date:"H:i" }} - {{ selected_timeslot.end_time|date:"H:i" }}</div>
         {% else %}
-        <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.start_time }}</div>
+        <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.start_time|date:"H:i" }}</div>
         {% endif %}
       </div>
 
     </div>
     <div class="col-lg-6 col-sm-12">
-      <div class="alert alert-warning col-12 mx-auto" role="alert">請選擇透過手機號碼或電子郵件以確認預約內容</div>
       {% if user_name %}
       <form method="post">
         {% csrf_token %} {% for field in form%} {{field.errors}}
