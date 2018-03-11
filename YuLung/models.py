@@ -25,7 +25,7 @@ class Comment(models.Model):
     content = models.CharField(max_length=1024)
     star = models.DecimalField(max_digits=2, decimal_places=1, validators=[MinValueValidator(0.0) , MaxValueValidator(5.0)])
     create_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User , on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User , on_delete=models.CASCADE, null=True)
     approve = models.BooleanField(default=False)
     active = models.BooleanField(default=False)
     
@@ -77,9 +77,9 @@ class SiteInfo(models.Model):
     
 class Ticket(models.Model):
     
-    assigned_by = models.ForeignKey(User, related_name="%(class)s_assigned_by" , on_delete=models.SET_NULL, null=True)
-    assigned_to = models.ForeignKey(User, related_name="%(class)s_assigned_to", on_delete=models.SET_NULL, null=True)
-    order = models.ForeignKey(Orders, on_delete=models.SET_NULL, null=True)
+    assigned_by = models.ForeignKey(User, related_name="%(class)s_assigned_by" , on_delete=models.CASCADE, null=True)
+    assigned_to = models.ForeignKey(User, related_name="%(class)s_assigned_to", on_delete=models.CASCADE, null=True)
+    order = models.ForeignKey(Orders, on_delete=models.CASCADE, null=True)
     finished = models.BooleanField(default=False)
     reported_customer_number = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0)])
     create_at = models.DateTimeField(auto_now_add=True)

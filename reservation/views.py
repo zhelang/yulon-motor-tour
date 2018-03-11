@@ -6,6 +6,7 @@ from django.views.generic import View
 from django.views.generic.edit import CreateView , UpdateView , DeleteView
 from django.views.generic.list import ListView
 from django.http import HttpResponse , HttpResponseNotFound , JsonResponse
+import json
 from django.core import serializers
 from django.core.mail import send_mail
 from django.db.models import Q
@@ -13,7 +14,7 @@ from forms import *
 from models import *
 import random , string
 import datetime, pytz
-from kotsms import *
+from every8dsms import *
 from django_cal.views import Events
 import dateutil.rrule as rrule
 from YuLung.settings import ALLOWED_HOSTS
@@ -62,7 +63,7 @@ def get_dayrender(request):
     
     date = Q(date=request.GET['date'])
     active = Q(active=True)
-    time_slot_list = TimeSlot.objects.filter(date , active)
+    time_slot_list = TimeSlot.objects.filter(date , active).order_by('start_time')
     
     today = datetime.datetime.now(pytz.timezone('Asia/Taipei')).strftime('%Y-%m-%d')
     
@@ -77,14 +78,28 @@ def get_dayrender(request):
         if len(time_slot_list) == 0:
             return HttpResponse("NO TIME SLOT")
         else:
-            
-            remain_manpower = 0
+            data = {}
+            data['event'] = []
             for ts in time_slot_list:
-                remain_manpower += ts.remain_mainpower
-            if remain_manpower == 0:
-                return HttpResponse("FULL")
-            else:
-                return HttpResponse("OK")
+                event = dict()
+                event['date'] = str(ts.date)
+                event['time'] = str(ts.start_time.isoformat())
+                event['capacity'] = ts.capacity
+                orders_list = Orders.objects.filter(time_slot=ts)
+                if len(orders_list) > 0:
+                    for order in orders_list:
+                        event['title'] = order.service_type.service_title
+                        event['id'] = order.service_type.id
+                        event['cid'] = order.customer_type.id
+                data['event'].append(event)
+            return HttpResponse(json.dumps(data), content_type='application/json')
+            #remain_manpower = 0
+            #for ts in time_slot_list:
+            #    remain_manpower += ts.remain_mainpower
+            #if remain_manpower == 0:
+            #    return HttpResponse("FULL")
+            #else:
+            #    return HttpResponse("OK")
             
     #print "get time slot ", request.GET['date']
     
@@ -115,7 +130,20 @@ class Info(View):
     
     def get(self, request, customer_pk, service_pk, timeslot_pk):
         
-        form=self.form_class(None)
+        lastCustomerOrder = Orders.objects.filter(user=request.user).last()
+        if lastCustomerOrder == None:
+            if request.user.email == '':
+                form=self.form_class(None)
+            else:
+                form=self.form_class(initial={'email':request.user.email})
+        else:
+            
+        
+            form=self.form_class(initial={'name':lastCustomerOrder.customer_details.name,
+                                          'email':lastCustomerOrder.customer_details.email,
+                                          'phone':lastCustomerOrder.customer_details.phone,
+                                          'address':lastCustomerOrder.customer_details.address
+                                          })
         
         selected_customer = get_object_or_404(CustomersType , pk=customer_pk)
         selected_service = get_object_or_404(ServicesType, pk=service_pk)
@@ -261,14 +289,19 @@ def send_validation_email(request , order_pk):
     to_email = order.customer_details.email
     email_template = EmailTemplate.objects.last()
     
+    email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).encode('utf-8').decode('string_escape')
+   
+
+   
     send_mail(
-    email_template.subject.format(order.code),
-    email_template.email_content.format(ALLOWED_HOSTS[1],validation_key).decode('string_escape'),
+    unicode(email_template.subject.format(order.code)).encode('utf-8'),
+    #unicode(email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).decode('string_escape')).encode('utf-8'),
+    email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).encode('utf-8').decode('string_escape').decode('utf-8'),
     email_template.from_email,
     [to_email],
     fail_silently=False,
     )
-    
+ 
     return redirect('reservation:reservation-send-success')
     
     
@@ -279,14 +312,13 @@ def send_validation_sms(reuqest, order_pk):
     validation_key = order.validation_key
     to_phone = order.customer_details.phone
     email_template = EmailTemplate.objects.last()
-    
-    msg = email_template.email_content.format(ALLOWED_HOSTS[1],validation_key).decode('string_escape')
-    #msg = u'Please click the link below to confirm your booking.\n http://' + ALLOWED_HOSTS[1].encode('utf-8') + '/reservation/confirm_reservation/' + validation_key.encode('utf-8') + u'/'
-    
-    sms = kotsms()
-    sms.login('yulonlin','yl03489200')
-    sms.sendMsg(to_phone , msg)
-    
+   
+    msg = email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).encode('utf-8').decode('string_escape').decode('utf-8')
+
+    sms = every8dsms()
+    sms.login('dider', '03489200') #didier
+    sms.send_message('', msg, to_phone, '', '')
+
     return redirect('reservation:reservation-send-success')
     
 def send_validation_success(request):

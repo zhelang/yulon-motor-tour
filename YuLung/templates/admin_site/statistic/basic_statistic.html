@@ -11,13 +11,24 @@
 {% endblock%}
 
 {% block body %}
-<div>
-    <div class="col-12">
-        {% include 'admin_site/statistic/statistic_form.html' %}
-    </div>
+<h3 class="page-heading mb-4">
+  統計分析
+</h3>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">
+            統計圖表
+        </h5>
+        <p class="text-muted mb-4">
+            <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>預設瀏覽為當年度當月份，您可以選擇欲瀏覽的年度或特定年度之月份查看該年度之圖表分析
+        </p>
+        <div class="col-12">
+            {% include 'admin_site/statistic/statistic_form.html' %}
+        </div>
 
-    <div class="col-12">
-        {% include 'admin_site/statistic/statistic_renderer.html' %}  
+        <div class="col-12">
+            {% include 'admin_site/statistic/statistic_renderer.html' %}  
+        </div>
     </div>
 </div>
 
@@ -30,6 +41,7 @@
             var myPieChart = null;
             var slineChart = null;
             var clineChart = null;
+            var ilineChart = null;
         
             var drawBarChart = function(year,month){
                 $.ajax({
@@ -242,6 +254,44 @@
                     }
                 });
             }
+            
+            var drawIncomeLines = function(year){
+                
+                $.ajax({
+                    url:"{% url 'ajax-admin-get-income-lines' %}",
+                    data:{"year":year},
+                    success:function(response){
+                        
+                        if (ilineChart != null){
+                            $("#income-lines").remove();
+                            $("#ilineContainer").append(`<canvas id="income-lines" class="w-45"></canvas>`);
+                        }
+                        
+                        var ctxIL = document.getElementById("income-lines").getContext('2d');
+                        var ctxIL = new Chart(ctxIL, {
+                          type: 'line',
+                          data: {
+                            labels: ["Jan","Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                            datasets: [{ 
+                                data: response.income,
+                                label: "總收入",
+                                borderColor: "#3e95cd",
+                                fill: false
+                              }
+                            ]
+                          },
+                          options: {
+                            title: {
+                              display: true,
+                              text: year + ' 總收入'
+                            }
+                          }
+                        });
+                    }
+                });
+            }
+            
+            
             var today = new Date();
             var year = today.getFullYear();
             var month = today.getMonth() + 1;
@@ -251,6 +301,7 @@
                 drawPieChart(year, month);
                 drawServiceLines(year);
                 drawCustomerLines(year);
+                drawIncomeLines(year);
             }
             var init = function(){
                 drawAll();

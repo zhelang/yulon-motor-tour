@@ -2,7 +2,7 @@
 
 {% extends 'base.html' %}
 
-{% block title %}我的預約{% endblock %}
+{% block title %}常見問題{% endblock %}
 
 {% block meta %}
 {% endblock %}
@@ -31,7 +31,7 @@
 
     <hr class="w-100">
     <div class="card-body">
-      <ul class="answers">
+      <ul class="answers px-5">
         {% for faq in faq_list %}
         <li class="answer my-4 px-2">
             <a name="Q{{forloop.counter}}">

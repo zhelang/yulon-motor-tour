@@ -4,7 +4,7 @@
 
 {% block title %}首頁{% endblock %}
 
-{% block meta%}
+{% block meta %}
     <meta property="og:url" content="{{seo.url_address}}" />
     <meta property="og:title" content="{{seo.title}}" />
     <meta property="og:description" content="{{seo.description}}" />
@@ -13,18 +13,27 @@
     <meta name="twitter.card" content="summary" />
 {% endblock %}
 
-{% block extraheader%}
-{% endblock%}
+{% block extraheader %}
+{% endblock %}
+
+{% block quickmenu %}
+<div id="quick-menu" class="text-center mb-5">
+  <a id="reservation" class="btn btn-success btn-lg" href="{% url 'reservation:reservation-index' %}#main">預約參觀
+    <i class="fa fa-check" aria-hidden="true"></i>
+  </a>
+</div>
+{% endblock %}
 
 {% block body %}
 <div id="main" class="container-fluid mb-3">
-    <div class="row mb-3">         
-        {% include 'index/index_calendar.html' %}
-        {% include 'index/index_welcome.html' %}
-        {% include 'index/index_contact.html' %}
-    </div>
-    <div class="row" id="map">
-        {% include 'index/index_map.html' %}
-    </div>
-</div> <!-- /#main -->
+  <div class="row mb-3">
+    {% include 'index/index_calendar.html' %} 
+    {% include 'index/index_welcome.html' %} 
+    {% include 'index/index_contact.html' %}
+  </div>
+  <div class="row" id="map">
+    {% include 'index/index_map.html' %}
+  </div>
+</div>
+<!-- /#main -->
 {% endblock %}

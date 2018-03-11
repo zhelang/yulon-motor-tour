@@ -12,5 +12,6 @@ import os , sys
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "YuLung.settings")
-sys.path.append("/root/YuLung")
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/..')
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../YuLung')
 application = get_wsgi_application()

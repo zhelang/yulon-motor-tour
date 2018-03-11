@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url , include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import PasswordResetConfirmView
 from django.conf import settings
 from django.conf.urls.static import static
 import views
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -32,17 +35,34 @@ urlpatterns = [
     url(r'^faq/$' , views.FAQpage.as_view() , name='faq'),
     url(r'^privacy/$' , views.privacy , name='privacy'),
     url(r'^tos/$' , views.tos , name='tos'),
-
+    url(r'^my/$' , views.MyPage.as_view() , name='my'),
+    
+    url(r'^user/personalinfo/$' , views.UserInfo.as_view(), name='user-profile'),
+    
+    url(r'^password/reset/$',views.PasswordReset.as_view(), name='front_password_reset'),
+    url(r'^password_reset/done/$', auth_views.password_reset_done, {'template_name':'password_reset_done.html'} ,name='front_password_reset_done'),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.PasswordResetConfirm.as_view(), name='front_password_reset_confirm'),
+    url(r'^reset/done/$', auth_views.password_reset_complete, {'template_name':'password_set_complete.html'} , name='front_password_reset_complete'),
+    
     
     url(r'^site_admin/$' , views.AdminIndex.as_view() , name='admin-index'),
     url(r'^site_admin/login/$' , views.AdminSignIn.as_view() , name='admin-login'),
+    url(r'^site_admin/logout/$', views.adminLogout, name='admin-logout'),
     url(r'^site_admin/info/banner/$' , views.AdminBanner.as_view() , name='admin-banner'),
+    
+    url(r'^site_admin/password/reset/$',views.AdminPasswordReset.as_view(), name='password_reset'),
+    url(r'^site_admin/password_reset/done/$', auth_views.password_reset_done, {'template_name':'admin_site/password_reset_done.html'} ,name='password_reset_done'),
+    url(r'^site_admin/reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.AdminPasswordResetConfirm.as_view(), name='password_reset_confirm'),
+    url(r'^site_admin/reset/done/$', auth_views.password_reset_complete, {'template_name':'admin_site/password_set_complete.html'} , name='password_reset_complete'),
+    
+    
     url(r'^site_admin/info/faq/$' , views.AdminFAQ.as_view() , name='admin-faq'),
     url(r'^site_admin/info/faq/new/$' , views.AdminFAQCreate.as_view() , name='admin-faq-create'),
     url(r'^site_admin/info/faq/(?P<pk>[0-9]+)/$' , views.AdminFAQEdit.as_view(), name = 'admin-faq-edit'),
     url(r'^site_admin/info/faq/(?P<pk>[0-9]+)/delete/$' , views.adminFAQDelete, name = 'admin-faq-delete'),
     url(r'^site_admin/info/settings/$', views.AdminSiteInfo.as_view() , name='admin-siteinfo'),
     url(r'^site_admin/info/seo/$' , views.AdminSEO.as_view() , name='admin-seo'),
+    url(r'^site_admin/info/email', views.AdminEmailTemplate.as_view(), name='admin-email'),
     url(r'^site_admin/service/course/$', views.AdminService.as_view(), name='admin-service'),
     url(r'^site_admin/service/course/new/$', views.AdminServiceCreate.as_view(), name='admin-service-create'),
     url(r'^site_admin/service/course/(?P<pk>[0-9]+)/$' , views.AdminServiceEdit.as_view() , name='admin-service-edit'),
@@ -62,16 +82,11 @@ urlpatterns = [
     url(r'^site_admin/comment/(?P<pk>[0-9]+)/approve/$' , views.adminCommentApprove, name='admin-comment-approve'),
     url(r'^site_admin/comment/(?P<pk>[0-9]+)/disapprove/$' , views.adminCommentDisapprove, name='admin-comment-disapprove'),
     url(r'^site_admin/comment/(?P<pk>[0-9]+)/delete/$' , views.adminCommentDelete, name='admin-comment-delete'),
-
-    
-
     url(r'^site_admin/statistic/$' , views.AdminStatistic.as_view() , name='admin-statistic'),
     url(r'^site_admin/data_export/$', views.AdminDataExport.as_view(), name='admin-data'),
-
     url(r'^site_admin/user_account/$' , views.AdminUserAccount.as_view(), name='admin-user-account'),
     url(r'^site_admin/user_profile/$', views.AdmonUserProfile.as_view(), name='admin-user-profile'),
-    
-
+    url(r'^site_admin/user_permission/$', views.AdminUserPermission.as_view(), name='admin-user-permission'),
 
     url(r'ajax/order/$' , views.getOrderDetails, name='ajax-get-order'),
     url(r'ajax/ticket/$' , views.getTicketDetails, name='ajax-get-ticket'),
@@ -82,13 +97,12 @@ urlpatterns = [
     url(r'ajax/get_piechart/$' , views.adminGetPieChart, name='ajax-admin-get-piechart'),
     url(r'ajax/get_service_lines/$' , views.adminGetLineChartService, name='ajax-admin-get-service-lines'),
     url(r'ajax/get_custerm_lines/$' , views.adminGetLineChartCustomer, name='ajax-admin-get-customer-lines'),
+    url(r'ajax/get_income_lines/$', views.adminGetLineChartIncome, name='ajax-admin-get-income-lines'),
     url(r'ajax/get_user/$' , views.adminGetUserAccount, name='ajax-admin-get-user-account'),
     url(r'ajax/edit_user/$' , views.adminUserAccountEdit, name='ajax-admin-user-account-edit'),
     url(r'ajax/del_user/$' , views.adminUserAccountDelete, name='ajax-admin-user-account-del'),
     url(r'ajax/update_faq_order/$', views.adminUpdateFAQOrder, name='ajax-admin-update-faq-order'),
     url(r'ajax/get_record_count/$', views.adminGetRecordCount, name='ajax-admin-get-record-count'),
-    
-
 
     url(r'^oauth/', include('social_django.urls', namespace='social')),
     
@@ -96,5 +110,3 @@ urlpatterns = [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-

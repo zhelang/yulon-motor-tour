@@ -1,0 +1,33 @@
+,assigned_by.username,assigned_to.username,create_at,finished,id,last_modified,order.code,order.customer_details.address,order.customer_details.email,order.customer_details.name,order.customer_details.phone,order.customer_type.customer_code,order.customer_type.customer_description,order.customer_type.customer_title,order.id,order.number_of_customer,order.service_type.for_family,order.service_type.service_code,order.service_type.service_description,order.service_type.service_fee,order.service_type.service_title,order.service_type.session_time_length,order.time_slot.date,order.time_slot.start_time,reminder,reported_customer_number
+0,root,afa24fd342dc4de0,2017-12-14 16:42,False,2,2018-01-28 00:34,CD9QLPB,臺南市新化區,xinyii_lin@zhelang.com.tw,林欣儀,0926369705,hihih,合作機關建議項目,合作機關建議項目,18,5,False,DEARJ,汽車製程 ABC,0,汽車製程 ABC,2.00,2017-12-22,14:00,,
+1,root,root,2017-12-14 16:43,False,3,2017-12-25 06:09,SYACDFU,"Room AS209, Incubation Center, No.123, Sec. 3, University Road",gloomcheng@mailinator.com,Fuyuan Cheng,918697537,hihih,合作機關建議項目,合作機關建議項目,6,8,False,DEARJ,汽車製程 ABC,0,汽車製程 ABC,2.00,2017-11-03,14:00,,
+2,root,xinyii_lin,2017-12-17 09:32,False,4,2017-12-17 09:32,23AE48Z,臺南市新化區,sss86x7x5@yahoo.com.tw,林欣儀,0926369705,DearJ,學校團體建議項目,學校團體建議項目,15,4,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-21,10:00,,
+3,root,root,2017-12-19 14:18,False,5,2017-12-25 06:08,23X7OG2,雲林縣斗六市,sss86x7x5@yahoo.com.tw,xinyii,0926369705,DearJ,學校團體建議項目,學校團體建議項目,32,3,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-20,10:00,,
+4,root,afa24fd342dc4de0,2017-12-19 14:19,False,6,2017-12-19 14:19,7GM6OQ5,臺南市新化區,xinyiiilin@gmail.com,xinyii,0926369705,DIGIT,商務人士建議項目,商務人士建議項目,37,2,False,DEARJ,汽車製程 ABC,0,汽車製程 ABC,2.00,2017-12-20,14:00,,
+5,root,GloomCheng,2017-12-19 17:10,False,7,2017-12-19 17:10,X0NAON7,臺南市新化區,sss86x7x5@yahoo.com.tw,林欣儀,0926369705,DearJ,學校團體建議項目,學校團體建議項目,41,1,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-20,10:00,,
+6,root,sss86x7x5@yahoo.com.tw,2017-12-19 17:11,False,8,2017-12-19 17:11,SYACDFU,"Room AS209, Incubation Center, No.123, Sec. 3, University Road",gloomcheng@mailinator.com,Fuyuan Cheng,918697537,hihih,合作機關建議項目,合作機關建議項目,6,8,False,DEARJ,汽車製程 ABC,0,汽車製程 ABC,2.00,2017-11-03,14:00,,
+7,root,didierlin,2017-12-19 17:12,False,9,2018-01-17 04:21,SPR050U,臺南市新化區,sss86x7x5@yahoo.com.tw,林欣儀,0926369705,DearJ,學校團體建議項目,學校團體建議項目,38,2,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-20,14:00,,
+8,root,ChungWaiChung,2017-12-20 09:46,False,10,2017-12-25 06:09,1JFD7R4,臺南市新化區,sss86x7x5@yahoo.com.tw,xinyii_lin,0926369705,DIGIT,商務人士建議項目,商務人士建議項目,44,1,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-20,14:00,,
+9,root,GloomCheng,2017-12-20 19:09,False,11,2017-12-20 19:09,WECKDXT,adwadaw,zhelanghello@mailinator.com,assdcadw,053532235,PIKA,一般遊客建議項目,一般遊客建議項目,33,3,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-20,10:00,,
+10,root,GloomCheng,2017-12-21 01:05,False,12,2017-12-21 01:05,PF9IKZD,臺南市新化區,sss86x7x5@yahoo.com.tw,林欣儀,0926369705,DIGIT,商務人士建議項目,商務人士建議項目,36,1,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-22,10:00,,
+11,root,root,2017-12-21 01:06,False,13,2017-12-21 01:06,9RSWN9M,臺南市新化區,sss86x7x5@yahoo.com.tw,林欣儀,0926369705,DIGIT,商務人士建議項目,商務人士建議項目,39,2,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-21,10:00,,
+12,root,afa24fd342dc4de0,2017-12-21 01:54,False,14,2017-12-21 01:54,8VUUX7D,臺南市新化區,sss86x7x5@yahoo.com.tw,xinyii,0926369705,hihih,合作機關建議項目,合作機關建議項目,42,1,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-20,10:00,,
+13,root,didierlin,2017-12-21 01:55,False,15,2018-01-17 04:31,DJFTIIE,臺南市新化區,sss86x7x5@yahoo.com.tw,林欣儀,0926369705,DearJ,學校團體建議項目,學校團體建議項目,48,1,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-20,14:00,,
+14,root,root,2017-12-21 01:59,False,16,2018-01-17 04:32,QOBB00C,臺南市新化區,zhelanghello@mailinator.com,林欣儀,0926369705,DearJ,學校團體建議項目,學校團體建議項目,54,1,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-20,10:00,,
+15,root,root,2018-01-17 04:54,False,17,2018-01-26 01:32,N9260TE,367苗栗縣三義鄉尖豐公路39-1號,xinyii@mailinator.com,林欣儀,0926369705,meoww,"主人永遠是對的
+我想死在貓掌下",貓奴,69,5,False,46161,苦逼伴郎沒人權新郎婚前婚後閃我眼,0,擋酒部隊2,1.50,2018-01-17,10:00,,
+16,root,GloomCheng,2018-01-17 04:55,False,18,2018-01-17 04:55,6AILUPZ,367苗栗縣三義鄉尖豐公路39-1號,xinyii@mailinator.com,林欣儀,0926369705,meoww,"主人永遠是對的
+我想死在貓掌下",貓奴,75,4,True,12345,"苦逼伴郎沒人權
+新郎婚前婚後閃我眼",5,擋酒部隊,1.50,2018-01-19,14:00,,
+17,root,xinyii_lin@zhelang.com.tw,2018-01-17 04:55,False,19,2018-01-17 04:55,2XFJBX6,臺南市新化區,sss86x7x5@yahoo.com.tw,林欣儀,0926369705,DearJ,學校團體建議項目,學校團體建議項目,47,1,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-20,10:00,,
+18,root,root,2018-01-17 04:56,False,20,2018-01-26 02:27,MLVDBRQ,臺南市新化區,sss86x7x5@yahoo.com.tw,林欣儀,0926369705,DIGIT,商務人士建議項目,商務人士建議項目,43,1,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-20,14:00,,
+19,root,oi9797@gmail.com,2018-01-17 04:56,False,21,2018-01-17 04:56,4KU94JR,臺南市新化區,zhelanghello@mailinator.com,xinyii_lin,0926369705,DearJ,學校團體建議項目,學校團體建議項目,55,1,True,DDDDD,工廠管理,0,工廠管理,1.50,2017-12-20,14:00,,
+20,root,afa24fd342dc4de0,2018-01-17 05:34,False,22,2018-01-17 05:34,W9P1ER4,367苗栗縣三義鄉尖豐公路39-1號,xinyii@mailinator.com,林欣儀,0926369705,hihih,合作機關建議項目,合作機關建議項目,76,2,True,cnccc,西恩熙,0,CNC,1.50,2018-02-15,10:00,,
+21,root,root,2018-01-26 05:15,False,24,2018-01-26 05:15,M7LI5MJ,367苗栗縣三義鄉尖豐公路39-1號,xinyii@mailinator.com,林欣儀,0926369705,meoww,"主人永遠是對的
+我想死在貓掌下",貓奴,71,4,True,12345,"苦逼伴郎沒人權
+新郎婚前婚後閃我眼",5,擋酒部隊,1.50,2018-01-17,14:00,,
+22,root,root,2018-01-26 05:16,False,25,2018-01-26 05:16,1H6BWY6,台中市,xinyii@mailinator.com,林欣儀,0926369705,manto,想吃饅頭的學生,老師...我想吃饅頭...,80,3,True,eat,一起吃饅頭,0,揪團吃饅頭,3.00,2018-01-30,10:00,,
+23,root,root,2018-01-26 05:16,False,26,2018-01-26 05:16,GCAXLN6,台南市,xinyii@mailinator.com,林欣儀,0926369705,PIKA,一般遊客建議項目,一般遊客建議項目,83,3,True,DDDDD,工廠管理,0,工廠管理,1.50,2018-01-25,14:00,,
+24,root,pandatest,2018-01-30 15:14,True,27,2018-01-31 16:21,0P0NHGL,367苗栗縣三義鄉尖豐公路39-1號,xinyii@mailinator.com,林欣儀,0926369705,manto,想吃饅頭的學生,老師...我想吃饅頭...,79,3,False,DDDDD,經過一些秋與冬經過一些秋與冬經過一些秋與冬經過一些秋與冬經過一些秋與冬經過一些秋與冬經過一些秋與冬,0,經過一些秋與冬,6.00,2018-01-24,10:00,,3.0
+25,newmanager,newmanager,2018-02-13 09:19,False,31,2018-02-13 09:19,PCKWKIC,台南市,xinyii@mailinator.com,林欣儀,0926369705,hihih,合作機關建議項目,合作機關建議項目,97,2,False,DEARJ,汽車製程 ABC,0,汽車製程 ABC,2.00,2018-02-12,10:00,,
+26,staff,staff,2018-02-14 06:15,False,32,2018-02-14 06:15,NF4QLEH,367苗栗縣三義鄉尖豐公路39-1號,xinyii@mailinator.com,林欣儀,0926369705,hihih,合作機關建議項目,合作機關建議項目,95,1,False,DEARJ,汽車製程 ABC,0,汽車製程 ABC,2.00,2018-02-16,10:00,,

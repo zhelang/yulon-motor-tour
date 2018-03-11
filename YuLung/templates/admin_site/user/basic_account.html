@@ -1,6 +1,6 @@
 {% extends 'admin_site/base.html' %}
 
-{% block title %}創建帳號{% endblock %}
+{% block title %}帳號管理{% endblock %}
 
 {% block meta%}
 {% endblock %}
@@ -9,8 +9,78 @@
 {% endblock%}
 
 {% block body %}
-<div class="row">
-    {% include 'admin_site/user/account_renderer.html' %}
+<h3 class="page-heading mb-4">
+  帳號管理
+</h3>
+<div class="row mb-2">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    帳號列表
+                    <a id="btn-create" class="btn btn-primary float-right" href="" role="button">
+                    <i class="fa fa-plus" aria-hidden="true"></i>新增
+                    </a>
+                    <!--原程式
+                    <a id="btn-create" class="btn btn-outline-secondary btn-sm float-right" href="" role="button"><i class="fa fa-plus" aria-hidden="true"></i>新增
+                    </a>-->
+                </h5>
+                <p class="text-muted mb-4">
+                    <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>請直接編輯/刪除帳號，或按右側的「新增」鈕新增帳號
+                </p>
+                <div class="table-responsive">
+                    <table class="table center-aligned-table table-hover">
+                        <thead>
+                            <tr class="text-primary">
+                                <th class="col-1">#</th>
+                                <th class="col-2">帳號</th>
+                                <th class="col-1">姓</th>
+                                <th class="col-2">名</th>
+                                <th class="col-3">E-mail</th>
+                                <th class="col-1">角色</th>
+                                <th class="col-1"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in roleUser %}
+                            <tr>
+                                <td></td>
+                                <td>{{user.username}}</td>
+                                <td>{{user.last_name}}</td>
+                                <td>{{user.first_name}}</td>
+                                <td>{{user.email}}</td>
+                                {% if user.groups.all.0.name == 'manager' %}
+                                <td>管理者</td>
+                                {% else %}
+                                <td>工作人員</td>
+                                {% endif %}
+                                <td>
+                                    <a value="{{user.username}}" class="btn btn-primary btn-sm btn-edit" role="button">編輯</a>
+                                </td>
+                                <!--要注意user.pk在order/order_form裡面有使用到-->
+                                <!--原程式
+                                <td>
+                                    <a value="{{user.username}}"  class="btn btn-outline-secondary col-1 m-1 btn-edit" role="button">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </a>
+                                </td>-->
+                                <!--<td>
+                                <a id="btn-del" class="btn btn-danger btn-sm" role="button">刪除</a>
+                                </td>-->
+                                <!--要注意user.pk在order/order_form裡面有使用到-->
+                                <!--原程式
+                                <td>
+                                    <a id="btn-del" class="btn btn-outline-danger col-5 mx-auto" role="button">刪除 <i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                </td>-->
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% include 'admin_site/user/account_form.html' %}
 </div>
 
@@ -98,4 +168,5 @@
     });
 
 </script>
+
 {% endblock %}

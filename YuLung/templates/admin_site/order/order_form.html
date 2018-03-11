@@ -1,10 +1,9 @@
-<div class="order-form col-3 d-none">
+<div class="order-form col-2 d-none">
   <form method="post">
     {% csrf_token %}
     <input class="d-none" id="hidden-order-pk" name="order_pk" value="">
-    <input class="d-none" id="hidden-ticket-pk" name="ticket_pk" value="">
     <div class="form-group">
-      <label class="form-control-label">指派人員</label>
+      <label class="col-form-label">指派人員</label>
       <div class="">
         <select required name="assign_to" class="custom-select form-control-plaintext" type="text">
           <option selected value="">指派人員</option>

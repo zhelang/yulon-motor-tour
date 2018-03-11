@@ -13,164 +13,225 @@
 {% block body %}
 <div id="main" class="container mb-3">
 
-    {% include 'order/order_step_bar.html' with page_name='date'  %}
+  {% include 'order/order_step_bar.html' with page_name='date' %}
 
-    <div id="section" class="row">
-        <div class="col-lg-4 col-sm-12 d-flex">
-            <div class="card">
-                <img class="card-img-top" src="{{ selected_service.service_type_image.url }}" alt="{{ selected_service.title }}">
-                <div class="card-body">
-                    <h4 class="card-title">{{ selected_service.service_title }}</h4>
-                    <p class="card-text">{{ selected_service.service_description }}</p>
-                    <p class="card-text"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ selected_service.session_time_length }}</p>
-                </div>
-            </div>
+  <div id="section" class="row">
+    <div class="col-lg-4 col-sm-12 d-flex justify-content-center">
+      <div class="card col-11">
+        <img class="card-img-top" src="{{ selected_service.service_type_image.url }}" alt="{{ selected_service.title }}">
+        <div class="card-body">
+          <h4 class="card-title">{{ selected_service.service_title }}</h4>
+          <p class="card-text">{{ selected_service.service_description }}</p>
+          {% if selected_service.for_family %}
+          <div class="badge badge-info p-1 mr-5 my-1">
+            <i class="fa fa-users" aria-hidden="true"></i> 適合親子同遊
+          </div>
+          {% endif %}
+          <div class="my-1">
+            <i class="fa fa-usd" aria-hidden="true"></i> {{ selected_service.service_fee }}元
+          </div>
+          <div class="my-1">
+            <i class="fa fa-clock-o" aria-hidden="true"></i> {{ selected_service.session_time_length }} 小時
+          </div>
         </div>
-        <div class="col-lg-4 col-sm-12">
-            <div class="">
-                <small class="form-text text-muted mb-3">* 請選擇預約人數</small>
-                <div class="form-group col-8 mx-auto">
-                    <select id="inputPerson" class="form-control">
-                        <option value="" selected>請選擇預約人數...</option>
-                        {% for op in option %}
-                            <option value="{{op}}">{{ op }}</option>
-                        {% endfor %}
-                            <option value="15">15 (含) 以上</option>>
-                    </select>
-               </div>
-            </div>
-            <div class="">
-                <small class="form-text text-muted mb-3">* 請選擇預約日期</small>
-                <div id="calendar"></div>
-            </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-sm-12">
+      <div class="">
+        <small class="form-text text-muted mb-3">* 請選擇預約人數</small>
+        <div class="form-group col-8 mx-auto">
+          <select id="inputPerson" class="form-control">
+            <option value="" selected>請選擇預約人數...</option>
+            {% for op in option %}
+            <option value="{{op}}">{{ op }}</option>
+            {% endfor %}
+            <option value="15">15 (含) 以上</option>>
+          </select>
         </div>
-        <div class="col-lg-4 col-sm-12">
-            <small class="form-text text-muted mb-3">* 請選擇預約時間</small>
-            <div id="timeslot"></div>
-        </div>
-    </div> <!-- /#section -->
-    
-
+      </div>
+      <div class="">
+        <small class="form-text text-muted mb-3">* 請選擇預約日期</small>
+        <div id="calendar"></div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-sm-12">
+      <small class="form-text text-muted mb-3">* 請選擇預約時間</small>
+      <div id="timeslot"></div>
+    </div>
+  </div>
+  <!-- /#section -->
 </div>
 
 <script type="text/javascript">
-    var inputPerson;
-    var timeslot_object_list = [];
-    var last_day;
-    var last_color;
+  var inputPerson;
+  var timeslot_object_list = [];
+  var last_day;
+  var last_color;
+  var selected_date;
 
-    renderButtons = function(){
-    
-        timeslot_html = "<div id=\"timeslot\">";
-        for (var i =0; i< timeslot_object_list.length;i++){
-            if (timeslot_object_list[i].remain_mainpower == 0){
-                    timeslot_html = timeslot_html + "<a class=\"btn btn-outline-secondary btn-block w-75 mx-auto disabled \">"+
-                                                    timeslot_object_list[i].start_time + " <small> 可預約人數:" + " 0 " + "</small> </a>";
-            }
-            else{
-                if (timeslot_object_list[i].capacity - inputPerson >= 0){
-                    timeslot_html = timeslot_html + "<a href=\"" + href_url + time_slot_list[i].pk + "/info/#main" + "\" class=\"btn btn-success btn-block w-75 mx-auto \">"+
-                                    timeslot_object_list[i].start_time + " <small> 可預約人數:" +timeslot_object_list[i].capacity + "</small> </a>";
-                }
-                else{
-                    timeslot_html = timeslot_html + "<a class=\"btn btn-outline-secondary btn-block w-75 mx-auto disabled \">"+
-                                    timeslot_object_list[i].start_time + " <small> 可預約人數:" + timeslot_object_list[i].capacity + "</small> </a>";
-                }
-            }
-        }        
-        timeslot_html = timeslot_html + "</div>";
-        $("#timeslot").replaceWith(timeslot_html);
-    }
-
-
-    $('#calendar').fullCalendar({
-        locale: 'zh-tw',
-        header: {
-            left: 'prev',
-            center: 'title',
-            right: 'next',
-        },
-        titleFormat: 'YYYY/MM',
-        firstDay: 1,
-        fixedWeekCount: false,
-        height: 'auto',
-        dayRender:function(date , cell){
-            console.log(date.format());
-            $.ajax({
-                    url: "{% url 'reservation:ajax-dayrender'%}",
-                    data:{'date':date.format()},
-                    success: function (response) {
-                        if (response == "NO TIME SLOT"){
-                            cell.css({
-                                "background-color": "#ddd",
-                                "color": "#000",
-                                "pointer-events": "none",
-                            });
-                        }
-                        else if(response == "OK"){
-                            //cell.css("background-color" , "green");
-                        }
-                        else if (response == "OUTDATED"){
-                            cell.css("background-color" , "OUTDATED");
-                        }
-                        else{
-                            cell.css("background-color", "#ffc107");
-                        }
-                    }
-                  });
-        },
-        dayClick:function(date, jsEvent, view){
-        
-            if (last_day){
-                last_day.css("background-color" , last_color);
-            }
-            last_day = $(this);
-            last_color = $(this).css("background-color")
-            $(this).css("background-color", "#28a745");
-            
-            $.ajax({
-                url:"{% url 'reservation:ajax-dayclick' %}",
-                data:{'date':date.format()},
-                success:function(response){
-                
-                    timeslot_object_list = [];
-                    if(response != "NO TIME SLOT"){
-                        
-                        href_url = "/reservation/" + {{customer_pk}} + "/" + {{service_pk}} + "/";
-                        time_slot_list = JSON.parse(response);
-                        
-                        for (var i =0 ; i < time_slot_list.length;i++){
-                            timeslot_object_list.push({'remain_mainpower':time_slot_list[i].fields.remain_mainpower,
-                                                        'capacity':time_slot_list[i].fields.capacity,
-                                                        'start_time':time_slot_list[i].fields.start_time.slice(0,-3)
-                                                        }); 
-                                                                         
-                        }
-                        
-                    }
-                    else{
-                        //console.log(response)
-                    }
-                    if(inputPerson){
-                        renderButtons();    
-                    }
-                    
-                }
-            });
+  renderButtons = function () {
+    timeslot_html = "<div id=\"timeslot\">";
+    for (var i = 0; i < timeslot_object_list.length; i++) {
+      if (timeslot_object_list[i].remain_mainpower == 0) {
+        timeslot_html = timeslot_html + "<a class=\"btn btn-outline-secondary btn-block w-75 mx-auto disabled \">" +
+          timeslot_object_list[i].start_time + " <small> 可預約人數:" + " 0 " + "</small> </a>";
+      }
+      else {
+        if (timeslot_object_list[i].capacity - inputPerson >= 0) {
+          timeslot_html = timeslot_html + "<a href=\"" + href_url + time_slot_list[i].pk + "/info/#main" + "\" class=\"btn btn-success btn-block w-75 mx-auto \">" +
+            timeslot_object_list[i].start_time + " <small> 可預約人數:" + timeslot_object_list[i].capacity + "</small> </a>";
         }
-    });
+        else {
+          timeslot_html = timeslot_html + "<a class=\"btn btn-outline-secondary btn-block w-75 mx-auto disabled \">" +
+            timeslot_object_list[i].start_time + " <small> 可預約人數:" + timeslot_object_list[i].capacity + "</small> </a>";
+        }
+      }
+    }
+    timeslot_html = timeslot_html + "</div>";
+    $("#timeslot").replaceWith(timeslot_html);
+  }
 
-    $("#inputPerson").on('change' , function(){
-        inputPerson = this.value;
-        $.ajax({
-            url:"{% url 'reservation:ajax-inputperson' %}",
-            data:{'person_number':inputPerson},
-            success:function(response){
-                console.log(response)
+  $.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results === null) {
+      return null;
+    }
+    else {
+      return results[1] || 0;
+    }
+  }
+
+  cleanURL = function () {
+    var uri = window.location.toString();
+    if (uri.indexOf("?") > 0) {
+      var clean_uri = uri.substring(0, uri.indexOf("?"));
+      window.history.replaceState({}, document.title, clean_uri);
+    }
+  }
+
+  if (!($.urlParam('date') === null)) {
+    selected_date = $.urlParam('date');
+    console.log(selected_date);
+  }
+
+  $('#calendar').fullCalendar({
+    locale: 'zh-tw',
+    header: {
+      left: 'prev',
+      center: 'title',
+      right: 'next',
+    },
+    titleFormat: 'YYYY/MM',
+    firstDay: 1,
+    fixedWeekCount: false,
+    height: 'auto',
+    dayRender: function (date, cell) {
+      $.ajax({
+        url: "{% url 'reservation:ajax-dayrender'%}",
+        data: { 'date': date.format() },
+        success: function (response) {
+          if (response == "NO TIME SLOT") {
+            cell.css({
+              "background-color": "#ddd",
+              "color": "#000",
+              "pointer-events": "none",
+            });
+          }
+          else if (response == "OK") {
+            //cell.css("background-color" , "green");
+          }
+          else if (response == "OUTDATED") {
+            cell.css("background-color", "OUTDATED");
+          }
+          else {
+            cell.css("background-color", "#ffc107");
+          }
+        }
+      });
+    },
+    dayClick: function (date, jsEvent, view) {
+      if (last_day) {
+        last_day.css("background-color", last_color);
+      }
+      last_day = $(this);
+      last_color = $(this).css("background-color")
+      $(this).css("background-color", "#28a745");
+
+      $.ajax({
+        url: "{% url 'reservation:ajax-dayclick' %}",
+        data: { 'date': date.format() },
+        success: function (response) {
+          timeslot_object_list = [];
+          if (response != "NO TIME SLOT") {
+            href_url = "/reservation/" + {{ customer_pk }} + "/" + {{ service_pk }} + "/";
+            time_slot_list = JSON.parse(response);
+
+            for (var i = 0 ; i < time_slot_list.length; i++) {
+              timeslot_object_list.push({
+                'remain_mainpower': time_slot_list[i].fields.remain_mainpower,
+                'capacity': time_slot_list[i].fields.capacity,
+                'start_time': time_slot_list[i].fields.start_time.slice(0, -3)
+              });
             }
-        });
-        renderButtons();
-    });
+          } else {
+            //console.log(response)
+          }
+          
+          if (typeof selected_date != 'undefined') {
+            cleanURL();
+          }
+
+          if (inputPerson) {
+            renderButtons();
+          }
+        }
+      });
+    }
+  }).fullCalendar('select', selected_date);
+
+  $("#inputPerson").on('change', function () {
+    inputPerson = this.value;
+    if (typeof selected_date != 'undefined') {
+      $.ajax({
+        url: "{% url 'reservation:ajax-dayclick'%}",
+        data: { 'date': selected_date },
+        success: function (response) {
+          timeslot_object_list = [];
+          if (response != "NO TIME SLOT") {
+            href_url = "/reservation/" + {{ customer_pk }} + "/" + {{ service_pk }} + "/";
+            time_slot_list = JSON.parse(response);
+
+            for (var i = 0 ; i < time_slot_list.length; i++) {
+              timeslot_object_list.push({
+                'remain_mainpower': time_slot_list[i].fields.remain_mainpower,
+                'capacity': time_slot_list[i].fields.capacity,
+                'start_time': time_slot_list[i].fields.start_time.slice(0, -3)
+              });
+              console.log(timeslot_object_list);
+            }
+          }
+
+          renderButtons();
+        }
+      });
+      $.ajax({
+        url: "{% url 'reservation:ajax-inputperson' %}",
+        data: { 'person_number': inputPerson },
+        success: function (response) {
+          console.log(response)
+        }
+      });
+    } else {
+      $.ajax({
+        url: "{% url 'reservation:ajax-inputperson' %}",
+        data: { 'person_number': inputPerson },
+        success: function (response) {
+          console.log(response)
+        }
+      });
+    }
+  });
+
 </script>
 
 {% endblock %}

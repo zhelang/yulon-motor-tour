@@ -51,9 +51,9 @@
                             {% if order.status == 'unconfirmed' %}
                                 <span class="text-danger mr-2">未確認</span>(<a class="sendemail" value="{{order.pk}}" href="{% url 'reservation:reservation-send-email' order.pk %}">電子郵件確認</a> / <a class="sendsms" value="{{order.pk}}" href="{% url 'reservation:reservation-send-sms' order.pk %}">電話簡訊確認</a>)
                             {% elif order.status == 'confirmed' %}
-                                <span class="text-success">已確認</span>
+                                <span class="text-success">服務人員將與您確認</span>
                             {% elif order.status == 'occupy' %}
-                                <span class="text-primary">已預約</span>
+                                <span class="text-primary">已確認您的行程</span>
                             {% else %}
                                 <span class="text-danger mr-2">STATUS ERROR</span>
                             {% endif %}

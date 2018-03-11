@@ -12,7 +12,7 @@
 <h3 class="page-heading mb-4">
   課程管理
 </h3>
-<div class="row mb-2">
+<!--<div class="row mb-2">
   <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
@@ -20,7 +20,8 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
+{% load permission_tags %}
 <div class="row mb-2">
   <div class="col-lg-12">
     <div class="card">
@@ -43,9 +44,10 @@
                 <th class="col-1">代碼</th>
                 <th class="col-3">說明</th>
                 <th class="col-1">費用</th>
-                <th class="col-1">時間 (hr)</th>
+                <th class="col-1">時間長度(hr)</th>
                 <th class="col-1">備註</th>
                 <th class="col-1"></th>
+                <th class="col-1">啟用?</th>
                 <th class="col-1"></th>
                 <th class="col-1"></th>
               </tr>
@@ -65,11 +67,16 @@
                   <label class="badge badge-success">親子</label>
                   {% endif %}
                 </td>
+                <td>{{service.active}}</td>
                 <td>
+                  {% if request.user|can:'edit_site_admin' %}
                   <a href="{% url 'admin-service-edit' service.pk %}" class="btn btn-primary btn-sm">編輯</a>
+                  {% endif %}
                 </td>
                 <td>
+                  {% if request.user|can:'edit_site_admin' %}
                   <a href="{% url 'admin-service-delete' service.pk %}" class="btn btn-danger btn-sm">刪除</a>
+                  {% endif %}
                 </td>
               </tr>
               {% endfor %}

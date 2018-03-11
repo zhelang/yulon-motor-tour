@@ -23,7 +23,7 @@
         </div>
         <div id="manual-warning" class="d-none">
           <div class="alert alert-warning">
-            <strong>Attention!</strong> You are now at Manual Mode, Click any cell to modify that day
+            <strong>注意!</strong> 您現在處於手動模式，單擊欲修改之日期以編輯當天的開放時段
           </div>
         </div>
         {% csrf_token %}
@@ -58,7 +58,7 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title mb-4">勾選開放日</h5>
-        <button id="btn-auto" class="btn btn-primary mr-2" type="button">批次建立工作日</button>
+        <button id="btn-auto" class="btn btn-primary mb-2" type="button">批次建立工作日</button>
         <h4 class="text-center">
           <p>
             <i id="prev" class="fa fa-chevron-left fa-2 float-left prev"></i>
@@ -74,9 +74,12 @@
     </div>
     <div class="card">
       <div class="card-body">
-        <button type="submit" class="btn btn-success" id="btn-submit">儲存所有變更
-          <i class="fa fa-floppy-o" aria-hidden="true"></i>
-        </button>
+        {% load permission_tags %}
+        {% if request.user|can:'edit_site_admin' %}
+            <button type="submit" class="btn btn-success" id="btn-submit">儲存所有變更
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            </button>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -323,7 +326,9 @@
 
             }
           } else {
-
+                redirect_url = "/site_admin/calendar/time_slot/" + date.format() + '/';
+                //console.log(redirect_url)
+                window.location.replace(redirect_url);
           }
 
         },
@@ -397,8 +402,10 @@
         time_slot.push({ 'start_time': $('#time2').text(), 'capacity': $('#num2').val(), 'available': $('#staff2').val() });
       }
 
-      console.log(time_slot);
-
+      //console.log(time_slot);
+        console.log(allWorkingDay);
+    
+    
       $.ajax({
         url: "{% url 'admin-calendar' %}",
         type: 'POST',
@@ -416,6 +423,8 @@
           }
         }
       });
+      
+    
     })
 
     $("[name='autoSwitch']").on('switchChange.bootstrapSwitch', function(event, state) {

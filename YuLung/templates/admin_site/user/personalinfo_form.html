@@ -1,6 +1,8 @@
-<div class="col-lg-8 col-sm-12 my-2 mx-auto">
+<div class="col-12 my-2 mx-auto">
+    <h3 class="page-heading mb-4">
+        編輯個人資料
+    </h3>
     <div class="card">
-        <div class="card-header">編輯個人資料</div>
             <div class="card-body">
             
                 {% if error_msg %}
@@ -45,17 +47,21 @@
                         <div class="col-12 mb-2">
                             <label for="password">密碼</label>
                             <input type="password" class="form-control" name="password" id="password">
+                            <small class="text-muted"><i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>如毋需更動密碼，可留空</small>
                         </div>
                     </div>
+                    
+                    <!--
                     <div class="form-row">
                         <div class="col-12 mb-2">
                             <label for="password">再次輸入密碼</label>
                             <input type="password" class="form-control" name="password-confirm" id="password-confirm">
+                            <small class="text-muted"><i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>如毋需更動密碼，可留空</small>
                         </div>
                     </div>
-                    
+                    -->
                     <div class="row">
-                        <button id="btn-submit" class="btn btn-primary btn-block mx-auto col-2" href="" type="submit">儲存 <i class="fa fa-floppy-o"></i></button>
+                        <button id="btn-submit" class="btn btn-primary btn-block mx-auto col-2" type="submit">儲存 <i class="fa fa-floppy-o"></i></button>
                     </div>
                 </form>
             </div>

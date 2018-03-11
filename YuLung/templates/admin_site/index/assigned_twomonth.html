@@ -2,7 +2,7 @@
   <div class="col">
     <div class="card">
       <div class="card-body">
-      {% for t in twoMonthTicket %} 
+      {% for t in unfinishedTicket %} 
         {% include 'admin_site/index/ticket_content.html' with collapse_prefix='month' %} 
       {% endfor %}
       </div>

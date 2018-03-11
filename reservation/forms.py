@@ -4,13 +4,38 @@ from django.core.validators import validate_email, RegexValidator
 from models import *
 
 class CustomerDetailsForm(forms.Form):
+
+    county = [
+        ('63', '臺北市'),
+        ('65', '新北市'),
+        ('10017', '基隆市'),
+        ('68', '桃園市'),
+        ('10018', '新竹市'),
+        ('10004', '新竹縣'),
+        ('10005', '苗栗縣'),
+        ('66', '臺中市'),
+        ('10007', '彰化縣'),
+        ('10008', '南投縣'),
+        ('10009', '雲林縣'),
+        ('10020', '嘉義市'),
+        ('10010', '嘉義縣'),
+        ('67', '臺南市'),
+        ('64', '高雄市'),
+        ('10013', '屏東縣'),
+        ('10002', '宜蘭縣'),
+        ('10015', '花蓮縣'),
+        ('10014', '臺東縣'),
+        ('10016', '澎湖縣'),
+        ('09007', '連江縣'),
+        ('09020', '金門縣'),
+             ]
     
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     
     name = forms.CharField(label=u'姓名:' , required=True, widget=forms.TextInput(attrs={'placeholder': u'請輸入姓名','class':'form-control'}))
     email = forms.EmailField(label=u'電子信箱:', required=True, validators=[validate_email],  widget=forms.TextInput(attrs={'placeholder': u'請輸入電子信箱','class':'form-control','type':'email'}))
     phone = forms.CharField(label=u'電話:', required=True, validators=[phone_regex],  widget=forms.TextInput(attrs={'placeholder': u'請輸入電話號碼','class':'form-control'}))
-    address = forms.CharField(label=u'居住址址:',  widget=forms.TextInput(attrs={'placeholder': u'請輸入居住地址','class':'form-control'}))
+    address = forms.ChoiceField(label=u'居住地:',  choices=county, widget=forms.Select(attrs={'placeholder': u'請選擇居住地','class':'form-control'}))
     
     
 class ServicesTypeCreateForm(forms.ModelForm):

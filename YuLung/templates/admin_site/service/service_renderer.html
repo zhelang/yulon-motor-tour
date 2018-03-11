@@ -3,15 +3,16 @@
         <div class="card-header">
             <h4 class="card-title">目前課程
                 <span>
-                
-                    {% if edit or new %}
-                        <button id="btn-add" class="btn btn-primary btn-sm float-right" href="{% url 'admin-service-create' %}" role="button">
-                        <i class="fa fa-plus" aria-hidden="true"></i>新增</button>
-                    {% else %}
-                        <button id="btn-add" class="btn btn-primary btn-sm float-right" href="" role="button">
-                        <i class="fa fa-plus" aria-hidden="true"></i>新增</button>
+                    {% load permission_tags %}
+                    {% if request.user|can:'edit_site_admin' %}
+                        {% if edit or new %}
+                            <button id="btn-add" class="btn btn-primary btn-sm float-right" href="{% url 'admin-service-create' %}" role="button">
+                            <i class="fa fa-plus" aria-hidden="true"></i>新增</button>
+                        {% else %}
+                            <button id="btn-add" class="btn btn-primary btn-sm float-right" href="" role="button">
+                            <i class="fa fa-plus" aria-hidden="true"></i>新增</button>
+                        {% endif %}
                     {% endif %}
-
                 
                 
                 </span>

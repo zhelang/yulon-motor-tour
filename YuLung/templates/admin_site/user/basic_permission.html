@@ -1,0 +1,128 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}權限管理{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div>
+  
+    <div class="col-12">
+        <h3 class="page-heading mb-4">
+            權限管理
+        </h3>
+        <div class="row mb-2">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post">
+                        
+                            {% csrf_token %}
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">角色</th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col">可視</th>
+                                        <th scope="col">可編輯</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <p class="my-0 pt-4">manager</p>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label pt-4" for="manager_setting_view">
+                                                    <input class="form-check-input" type="checkbox" name="manager_view" id="manager_view">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label pt-4" for="manager_setting_edit">
+                                                    <input class="form-check-input" type="checkbox" name="manager_edit" id="manager_edit">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" colspan="4">
+                                            <p class="my-0 pt-4">staff</p>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label pt-4" for="staff_setting_view">
+                                                    <input class="form-check-input" type="checkbox" name="staff_view" id="staff_view">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label pt-4" for="staff_setting_edit">
+                                                    <input class="form-check-input" type="checkbox" name="staff_edit" id="staff_edit">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            {% load permission_tags %}
+                            {% if request.user|can:'edit_site_admin' %}
+                            <button id="btn-save" class="btn btn-outline-success col-2 mx-auto" role="button">儲存 <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+      
+      $('#staff_edit').change(function(){
+          
+        if (!$('#staff_view').is(':checked') && $('#staff_edit').is(':checked')){
+              $('#staff_view').prop('checked' , true);
+        }
+          
+      });
+      
+      $('#staff_view').on("click", function(e){
+          
+          if ($('#staff_edit').is(':checked')){
+              e.preventDefault();
+              return false;
+          }
+      })
+      
+      
+      $('#manager_edit').change(function(){
+      
+        if (!$('#manager_view').is(':checked') && $('#manager_edit').is(':checked')){
+              $('#manager_view').prop('checked' , true);
+        }
+      });
+      
+      $('#manager_view').on("click",function(e){
+          
+          if ($('#manager_edit').is(':checked')){
+              e.preventDefault();
+              return false;
+          }
+      })
+      
+  });
+
+</script>
+
+{% endblock %}

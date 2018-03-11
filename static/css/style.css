@@ -113,7 +113,7 @@ body {
 }
 .rating > label { 
   color: #ddd; 
- float: right; 
+ float: left; 
 }
 /***** CSS Magic to Highlight Stars on Hover *****/
 .rating > input:checked ~ label, /* show gold star when clicked */
@@ -167,6 +167,12 @@ li h6{
 .fc-unthemed th, .fc-unthemed td, .fc-unthemed thead, .fc-unthemed tbody, .fc-unthemed .fc-divider, .fc-unthemed .fc-row, .fc-unthemed .fc-content, .fc-unthemed .fc-popover, .fc-unthemed .fc-list-view, .fc-unthemed .fc-list-heading td, .fc td.fc-today {
   border: none;
 }
+.fc-unthemed td.fc-today {
+  background: unset;
+}
+.fc-day-top.fc-other-month {
+  opacity: unset;
+}
 .fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
   display: flex;
   justify-content: center;
@@ -174,25 +180,17 @@ li h6{
   min-height: 2em;
   float: unset;
 }
-.fc-event-holiday {
-  display: flex;
-  height: 30px;
-  width: 30px;
-  margin: 0 auto;
-  border-radius: 50%;
-  border: none;
-  margin-top: 3px;
-  background-color: #c14040;
-}
 .fc-event-dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  margin-left: 5px;
-  margin-top: 28px;
 }
-.fc-event-dot:first-child {
-  margin-left: 20px;
+.fc-bg .fc-day {
+  vertical-align: bottom;
+  text-align: center;
+}
+.fc-day .fc-event-dot {
+  margin-right: 3px;
 }
 .fc-event-slot-full {
   background-color: red;
@@ -202,4 +200,11 @@ li h6{
 }
 .fc-day-grid-container {
   overflow-y: hidden !important;
+}
+.fancybox-slide--inline .fancybox-content {
+  width: 1140px;
+  height: 600px;
+  max-width: 80%;
+  max-height: 80%;
+  margin: 0;
 }

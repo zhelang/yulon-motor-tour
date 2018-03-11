@@ -37,6 +37,9 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin-seo' %}">搜尋引擎優化</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin-email' %}">Email</a>
+          </li>
         </ul>
       </div>
     </li>
@@ -86,10 +89,10 @@
       <div class="collapse" id="reserveManage">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'admin-ticket' %}">預約單總覽</a>
+            <a class="nav-link" href="{% url 'admin-order' %}">指派導覽人員</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'admin-order' %}">指派導覽人員</a>
+            <a class="nav-link" href="{% url 'admin-ticket' %}">預約單總覽</a>
           </li>
         </ul>
       </div>
@@ -130,7 +133,7 @@
             <a class="nav-link" href="{% url 'admin-user-account' %}">創建帳號</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">權限管理</a>
+            <a class="nav-link" href="{% url 'admin-user-permission' %}">權限管理</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">...</a>

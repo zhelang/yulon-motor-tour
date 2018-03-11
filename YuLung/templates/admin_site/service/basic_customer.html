@@ -15,6 +15,7 @@
     瀏覽客群選擇頁
   </a>
 </h3>
+{% load permission_tags %}
 <div class="row mb-2">
   <div class="col-lg-12">
     <div class="card">
@@ -37,6 +38,7 @@
                 <th class="col-1">代碼</th>
                 <th class="col-4">說明</th>
                 <th class="col-2">相關課程</th>
+                <th class="col-2">啟用?</th>
                 <th class="col-1"></th>
                 <th class="col-1"></th>
               </tr>
@@ -49,7 +51,7 @@
                 <td>{{customer.customer_code}}</td>
                 <td>{{customer.customer_description}}</td>
                 <td>
-                  <ul>
+                  <ul class="pl-3">
                     {% for service in customer.available_service.all %}
                     <li>
                       <a href="{% url 'admin-service-edit' service.pk %}">{{service.service_title}}</a>
@@ -57,11 +59,16 @@
                     {% endfor %}
                   </ul>
                 </td>
+                <td>{{customer.active}}</td>
                 <td>
+                  {% if request.user|can:'edit_site_admin' %}
                   <a href="{% url 'admin-customer-edit' customer.pk %}" class="btn btn-primary btn-sm">編輯</a>
+                  {% endif %}
                 </td>
                 <td>
+                  {% if request.user|can:'edit_site_admin' %}
                   <a href="{% url 'admin-customer-delete' customer.pk %}" class="btn btn-danger btn-sm">刪除</a>
+                  {% endif %}
                 </td>
               </tr>
               {% endfor %}

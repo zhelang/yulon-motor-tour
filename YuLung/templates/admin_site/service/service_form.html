@@ -53,9 +53,26 @@
                 {{form.service_type_image}}
               </div>
             </div>
+            
+            <!--{{form.service_type_image.error}}
+            <div class="form-group row">
+              <label for="classimg" class="col-2 col-form-label">代表圖片: </label>
+              <div class="col">
+                <div class="row">
+                  <div class="col-2">
+                    {{form.service_type_image}}
+                  </div>
+                  <div class="col">
+                    {{form.img}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            -->
+          
             {{form.session_time_length.error}}
             <div class="form-group row">
-              <label for="classinfo" class="col-2 col-form-label">時間: </label>
+              <label for="classinfo" class="col-2 col-form-label">時間長度(hr): </label>
               <div class="col">
                 {{form.session_time_length}}
               </div>
@@ -72,12 +89,12 @@
               <div class="col">
                 <div class="form-check form-check-inline d-inline-block">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="for_family" value="True">適合親子遊客
+                    <input class="form-check-input" type="radio" name="for_family" id="for_family" value="True">適合親子遊客
                   </label>
                 </div>
                 <div class="form-check form-check-inline d-inline-block">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="for_family" value="False">適合成人遊客
+                    <input class="form-check-input" type="radio" name="for_family" id="for_adult" value="False">適合成人遊客
                   </label>
                 </div>
               </div>
