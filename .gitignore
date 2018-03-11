@@ -1,15 +1,15 @@
 # Byte-compiled / optimized / DLL files:
 __pycache__/
-.pyc
+*.pyc
 
 # Django stuff:
 *.log
 local_settings.py
 
 # Editor stuff:
-.settings
-.project
-.pydevproject
+*.settings
+*.project
+*.pydevproject
 
 # Other stuff:
 *.swp
