@@ -38,7 +38,7 @@
     <div class="col-lg-6 col-sm-12">
       {% if user_name %}
       <form method="post">
-        {% csrf_token %} {% for field in form%} {{field.errors}}
+        {% csrf_token %} {% for field in form %} {{field.errors}}
 
         <div class="form-group row">
           <label for="name" class="col-4 col-form-label">{{field.label_tag}}</label>
@@ -58,7 +58,16 @@
               <a href="#" onclick="window.open('{% url 'tos' %}', '_blank', 'location=yes,height=600,width=600,scrollbars=yes,status=yes');">約定條款說明</a>。</label>
           </div>
         </div>
-        {% if error_msg %} {{error_msg}} {% else %}
+        {% if error_msg %}
+        <script>
+          var pathname = window.location.pathname.split('/');
+          var customer = pathname[2];
+          var service = pathname[3];
+          var timeslot = pathname[4];
+          alert("您可能直接從其他連結點按過來，我們將重導您至選擇預約人數和時段的畫面");
+          window.location.href = "/reservation/" + customer + "/" + service + "/date";
+        </script>
+        {% else %}
         <button id="submit" class="btn btn-primary d-flex mx-auto disabled" type="submit">送出預約
           <i class="fa fa-check" aria-hidden="true"></i>
         </button>
