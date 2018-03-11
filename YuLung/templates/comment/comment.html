@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 {% extends 'base.html' %}
 
 {% block title %}評論{% endblock %}
@@ -11,14 +9,58 @@
 {% endblock%}
 
 {% block body %}
-<div id="main" class="main-container container">
-    <div class="row">
-        <div class="col-lg-6 col-12">
-            {% include 'comment/all_comments.html' %}
-        </div>
-        <div class="col-lg-6 col-12">
-            {% include 'comment/leave_comment.html' %}
-        </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-2 star_view text-warning">
+      <p class="5star">
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <label for="5star" class="text-muted small">({{num5Star}})</label>
+      </p>
+
+      <p class="4star">
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <label for="4star" class="text-muted small">({{num4Star}})</label>
+      </p>
+
+      <p class="3star">
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <label for="3star" class="text-muted small">({{num3Star}})</label>
+      </p>
+
+      <p class="2star">
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <label for="2star" class="text-muted small">({{num2Star}})</label>
+      </p>
+
+      <p class="1star">
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <label for="1star" class="text-muted small">({{num1Star}})</label>
+      </p>
     </div>
-</div> <!-- /#main -->
+
+    <div class="col-md-10">
+      <ul class="nav nav-tabs mb-0" id="nav_comment" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="comment_all" data-toggle="tab" href="#all_comments" role="tab" aria-expanded="true">評論</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="go_comment" data-toggle="tab" href="#leave_comment" role="tab" aria-expanded="false">留下評論</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        {% include 'comment/all_comments.html' %} {% include 'comment/leave_comment.html' %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

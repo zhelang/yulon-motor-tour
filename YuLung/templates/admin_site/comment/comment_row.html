@@ -1,0 +1,29 @@
+{% for comment in comment_list %}
+    <tr>
+        <td></td>
+        <td style="word-wrap:break-word; word-break: break-all;">{{comment.title}}</td>
+        <td style="word-wrap:break-word; word-break: break-all;">{{comment.content}}</td>
+        <td>{{comment.star}}</td>
+        <td style="word-wrap:break-word; word-break: break-all;">{{comment.user.username}}</td>
+        {% load permission_tags %}
+        {% if check %}
+        <td>
+            {% if request.user|can:'edit_site_admin' %}
+            <a href="{% url 'admin-comment-approve' comment.pk %}" class="btn btn-primary btn-sm">發布</a>
+            {% endif %}
+        </td>
+        <td>
+            {% if request.user|can:'edit_site_admin' %}
+            <a href="{% url 'admin-comment-disapprove' comment.pk %}" class="btn btn-warning btn-sm">不發布</a>
+            {% endif %}
+        </td>
+        {% else %}
+        <td></td>
+        <td>
+            {% if request.user|can:'edit_site_admin' %}
+            <a href="{% url 'admin-comment-delete' comment.pk %}" class="btn btn-danger btn-sm">刪除</a>
+            {% endif %}
+        </td>
+        {% endif%}
+    </tr>
+{% endfor %}

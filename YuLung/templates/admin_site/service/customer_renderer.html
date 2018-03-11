@@ -1,0 +1,64 @@
+<div class="col">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">目前客群
+        <span>
+        {% load permission_tags %}
+        {% if request.user|can:'edit_site_admin' %}
+            {% if edit %}
+                <button id="btn-add" class="btn btn-primary btn-sm float-right" href="{% url 'admin-customer-create' %}" role="button">
+                新增
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </button>
+            {% else %}
+                <button id="btn-add" class="btn btn-primary btn-sm float-right" href="" role="button">
+                    新增
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </button>
+            {% endif %}
+        {% endif %}
+        </span>
+      </h4>
+    </div>
+
+    <div class="card-body">
+
+      {% for customer in customer_list %}
+      <div class="row">
+        <a class="btn btn-light col m-1 text-left" data-toggle="collapse" href="#cust{{customer.pk}}" aria-expanded="false" aria-controls="collapseExample">
+          {{customer.customer_title}}
+          <a href="{% url 'admin-customer-edit' customer.pk %}" class="btn btn-outline-secondary col-1 m-1" role="button">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </a>
+        </a>
+        <div class="collapse col-12" id="cust{{customer.pk}}">
+          <table class="table-sm table">
+            <tr>
+              <th scope="row" class="col-3">代碼</th>
+              <td>{{customer.customer_code}}</td>
+            </tr>
+            <tr>
+              <th scope="row" class="col-3">說明</th>
+              <td>{{customer.customer_description}}</td>
+            </tr>
+            <tr>
+              <th scope="row" class="col-3">相關課程</th>
+              <td>
+                <table class="table table-striped">
+                  {% for service in customer.available_service.all %}
+                  <tr>
+                    <td>
+                      {{service.service_title}}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

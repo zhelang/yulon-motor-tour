@@ -1,0 +1,52 @@
+{% extends 'admin_site/login_base.html' %}
+
+{% block title %}登入{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block navbar%}
+{% endblock %}
+
+{% block breadcrumb %}
+{% endblock %}
+
+{% block alert %}
+{% if error_msg %}
+<div class="alert alert-danger col-lg-4 mx-auto" role="alert">
+  {{ error_msg }}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block body %}
+<div class="card col-lg-4 mx-auto col-lg-4 mx-auto">
+  <div class="card-body px-5 py-5">
+    <h3 class="card-title text-left mb-3">登入</h3>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <!-- <input type="email" class="form-control p_input" placeholder="Email"> -->
+        {{ form.username }}
+      </div>
+      <div class="form-group">
+        <!-- <input type="password" class="form-control p_input" placeholder="密碼"> -->
+        {{ form.password }}
+      </div>
+      <div class="form-group d-flex align-items-center justify-content-between">
+        <div class="form-check">
+          <label>
+            <input type="checkbox" class="form-check-input">維持已登入狀態</label>
+        </div>
+        <a href="{% url 'password_reset' %}" class="forgot-pass">忘記密碼</a>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-block enter-btn">登入</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -15,11 +15,8 @@
 
 ## Upgrad
 
-$ ./manage.py makemigrations
-$ ./manage.py migrate
+- $ ./manage.py makemigrations
+- $ ./manage.py migrate
 
 ## Troubleshooting
 
-DisallowedHost at /
-
-Invalid HTTP_HOST header: '223.27.34.205'. You may need to add u'223.27.34.205' to ALLOWED_HOSTS.

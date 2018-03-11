@@ -1,0 +1,30 @@
+<div class="col-8 mx-auto mt-2">
+    <h3 class="page-heading mb-4">
+        編輯預約確認信內容
+    </h3>
+    <div class="card mb-3">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card-body">
+                <label>{{from}}寄件人電子郵件</label>
+                {{form.from_email}}
+            </div>
+            <div class="card-body">
+                <label>電子郵件主旨</label>
+                {{form.subject}}
+                <small class="text-muted">*請勿更改、刪除 {0}，否則客戶將無法確認訂單編號</small>
+            </div>
+            <div class="card-body">
+                <label>電子郵件內容</label>
+                {{form.email_content}}
+                <small class="text-muted">*請勿更改、刪除 \n https://{0}/reservation/confirm_reservation/{1}/ ，否則信件將無法使用正確連結</small>
+            </div>
+            {% load permission_tags %}
+            {% if request.user|can:'edit_site_admin' %}
+            <div class="row mb-3">
+                <button class="btn btn-primary btn-block mx-auto col-2" type="submit">儲存 <i class="fa fa-floppy-o"></i></button>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>

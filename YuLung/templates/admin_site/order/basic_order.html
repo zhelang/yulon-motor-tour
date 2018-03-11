@@ -1,0 +1,214 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}指派導覽人員{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<h3 class="page-heading mb-4">
+  指派導覽人員
+</h3>
+{% load permission_tags %}
+<div class="row mb-2">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">
+          待指派導覽人員的訂單
+        </h5>
+        <p class="text-muted mb-4">
+          <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>您可以在「未指派」頁籤針對新的訂單指派導覽人員，或到「重新指派」針對未回報的訂單重新指派導覽人員
+        </p>
+        <ul class="nav nav-tabs mx-auto" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link text-danger" data-toggle="tab" href="#notassign">未指派</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" data-toggle="tab" href="#assign">重新指派</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane" id="notassign">
+            <div class="d-flex">
+              <div class="table-responsive col">
+                <table class="table center-aligned-table table-hover">
+                  <thead>
+                    <tr class="text-primary">
+                      <th class="col-1">#</th>
+                      <th class="col-1">訂單代碼</th>
+                      <th class="col-1">預約日期</th>
+                      <th class="col-1">所屬客群</th>
+                      <th class="col-1">預約課程</th>
+                      <th class="col-1">客戶名稱</th>
+                      <th class="col-1">聯絡電話</th>
+                      <th class="col-2">Email</th>
+                      <th class="col-1">居住地</th>
+                      <th class="col-1">參訪人數</th>
+                      <th class="col-1"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in confirmed_orders %}
+                    <tr>
+                      <td></td>
+                      <td>{{ order.code }}</td>
+                      <td>{{ order.time_slot.date }} {{ order.time_slot.start_time }}</td>
+                      <td>{{ order.customer_type.customer_title }}</td>
+                      <td>{{ order.service_type.service_title }}</td>
+                      <td>{{ order.customer_details.name }}</td>
+                      <td>{{ order.customer_details.phone }}</td>
+                      <td>{{ order.customer_details.email }}</td>
+                      <td>{{ order.customer_details.address }}</td>
+                      <td>{{ order.number_of_customer }}</td>
+                      <td>
+                        
+                        {% if request.user|can:'edit_site_admin' %}
+                        <a value="{{order.pk}}" class="btn btn-primary btn-sm btn-edit-order">指派</a>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% include 'admin_site/order/order_form.html' %}
+            </div>
+          </div>
+          <div class="tab-pane" id="assign">
+            <div class="d-flex">
+              <div class="table-responsive col">
+                <table class="table center-aligned-table table-hover">
+                  <thead>
+                    <tr class="text-primary">
+                      <th class="col-1">#</th>
+                      <th class="col-1">訂單代碼</th>
+                      <th class="col-1">預約日期</th>
+                      <th class="col-1">所屬客群</th>
+                      <th class="col-1">預約課程</th>
+                      <th class="col-1">客戶名稱</th>
+                      <th class="col-1">聯絡電話</th>
+                      <th class="col-1">導覽人員</th>
+                      <th class="col-1">指派日期</th>
+                      <th class="col-1">指派人</th>
+                      <th class="col-1"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for ticket in unfinished_ticket %}
+                    <tr>
+                      <td></td>
+                      <td>{{ ticket.order.code }}</td>
+                      <td>{{ ticket.order.time_slot.date }} {{ ticket.order.time_slot.start_time }}</td>
+                      <td>{{ ticket.order.customer_type.customer_title }}</td>
+                      <td>{{ ticket.order.service_type.service_title }}</td>
+                      <td>{{ ticket.order.customer_details.name }}</td>
+                      <td>{{ ticket.order.customer_details.phone }}</td>
+                      <td>{{ ticket.assigned_to.last_name }}{{ ticket.assigned_to.first_name }}</td>
+                      <td>{{ ticket.create_at }}</td>
+                      <td>{{ ticket.assigned_by.last_name }}{{ ticket.assigned_by.first_name }}</td>
+                      <td>
+                        {% if request.user|can:'edit_site_admin' %}
+                        <a value="{{ticket.pk}}" class="btn btn-primary btn-sm btn-edit-ticket">重新指派</a>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% include 'admin_site/order/ticket_form.html' %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.nav-link[data-toggle="tab"]').click(function(e) {
+      var tab = $(e.target).attr('href').substr(1);
+      Cookies.set('activeTab', tab);
+    });
+    var lastTab = Cookies.get('activeTab');
+    if (lastTab != null) {
+      $('.nav-link[href="#'+lastTab+'"]').addClass('active');
+      $('#'+lastTab).addClass('active');
+    } else {
+      $('.nav-link[href="#notassign"]').addClass('active');
+      $('#notassign').addClass('active');
+    }
+
+    $('.btn-primary.btn-sm').click(function() {
+      console.log('click');
+      $('tr').each(function() {
+        $(this).removeClass('bg-warning');
+      });
+      $(this).closest('tr').addClass('bg-warning');
+    });
+
+    $('.btn-edit-order').click(function () {
+      $('.order-form').removeClass('d-none');
+      var order_pk = $(this).attr('value');
+      //console.log(order_pk);
+      $.ajax({
+        url: "{% url 'ajax-get-order' %}",
+        data: { 'order_pk': order_pk },
+        success: function (response) {
+          console.log(response);
+          /*
+          $("#span-username").text(response.username);
+          $("#span-service-title").text(response.service_title);
+          if (response.status == 'unconfirmed') {
+            $("#span-status").text('未確認').addClass('text-danger');
+          }
+          else {
+            $("#span-status").text('已確認').addClass('primary');
+          }
+          $('#span-name').text(response.name);
+          $('#span-phone').text(response.phone);
+          $('#span-email').text(response.email);
+          $('#span-address').text(response.address);
+          */
+          $('#hidden-order-pk').val(order_pk);
+          $('#hidden-ticket-pk').val("");
+        }
+      });
+    });
+    
+    $('.btn-edit-ticket').click(function () {
+      $('.ticket-form').removeClass('d-none');
+      var ticket_pk = $(this).attr('value');
+      //console.log(ticket_pk);
+      $.ajax({
+        url: "{% url 'ajax-get-ticket' %}",
+        data: { 'ticket_pk': ticket_pk },
+        success: function (response) {
+          console.log(response);
+          /*
+          $("#span-username").text(response.username);
+          $("#span-service-title").text(response.service_title);
+          if (response.status == 'unconfirmed') {
+            $("#span-status").text('未確認').addClass('text-danger');
+          }
+          else {
+            $("#span-status").text('已確認').addClass('primary');
+          }
+          $('#span-name').text(response.name);
+          $('#span-phone').text(response.phone);
+          $('#span-email').text(response.email);
+          $('#span-address').text(response.address);
+          */
+          $('#hidden-ticket-pk').val(ticket_pk);
+          $('#hidden-order-pk').val("");
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}編輯個人資料{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div class="row">
+    {% include 'admin_site/user/personalinfo_form.html' %}
+</div>
+
+<!--
+<script type="text/javascript">
+        $(document).ready(function () {
+            
+            var checkPassword = function(){
+                if( $("#password").val() != $("#password-confirm").val()){
+                    $("#btn-submit").prop('disabled', true);
+                }
+                else{
+                    $("#btn-submit").prop('disabled', false);
+                }
+            }
+            
+            $("#password").change(function(){
+                checkPassword();
+            });
+            
+            $("#password-confirm").change(function(){
+                checkPassword();
+            });
+        });
+</script>
+-->
+{% endblock %}
+

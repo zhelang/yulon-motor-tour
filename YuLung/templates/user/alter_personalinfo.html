@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %}編輯個人資料{% endblock %}
+
+{% block meta%} 
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div id="alter_personalinfo" class="container">
+    <div class="row">
+        <h3 class="col-12 d-flex justify-content-center">編輯個人資料</h3>
+        <div class="col-lg-8 col-sm-12 my-2 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    {% include 'admin_site/user/personalinfo_form.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

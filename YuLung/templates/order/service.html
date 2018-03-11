@@ -13,36 +13,60 @@
 {% block body %}
 <div id="main" class="container mb-3">
 
-    {% include 'order/order_step_bar.html' with page_name='service' %}
+  {% include 'order/order_step_bar.html' with page_name='service' %}
 
-    <div id="section" class="row">
-        {% for obj in object_list %}
-        <div class="col-lg-3 col-6 d-flex">
-            <div class="card" id="{{obj.pk}}">
-            <a class="enlarge" data-fancybox data-src="#popup-{{obj.pk}}" href="javascript:;"><i class="fa fa-expand fa-2x text-white bg-warning p-2" aria-hidden="true"></i></a>
-                <a href="{% url 'reservation:reservation-date' customer_pk obj.pk %}#main">
-                    <img class="card-img-top" src="{{ obj.service_type_image.url }}" alt="{{ obj.service_title }}">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ obj.service_title }}</h4>
-                    </div>
-                </a>
+  <div id="section" class="row">
+    {% for obj in object_list %}
+    <div class="col-lg-3 col-6 d-flex">
+      <div class="card" id="{{obj.pk}}">
+        <a class="enlarge" data-fancybox data-src="#popup-{{obj.pk}}" href="javascript:;">
+          <i class="fa fa-expand fa-2x text-white bg-warning p-2" aria-hidden="true"></i>
+        </a>
+        <a href="{% url 'reservation:reservation-date' customer_pk obj.pk %}#main">
+          <img class="card-img-top" src="{{ obj.service_type_image.url }}" alt="{{ obj.service_title }}">
+          <div class="card-body">
+            <h4 class="card-title">{{ obj.service_title }}</h4>
+          </div>
+        </a>
+      </div>
+      <div id="popup-{{obj.pk}}" class="fancybox-content" style="display: none;">
+        <div class="row">
+          <div class="col-3">
+            <img class="img-fluid w-100 mb-2" src="{{ obj.service_type_image.url }}" alt="{{ obj.service_title }}" />
+            {% if obj.for_family %}
+            <div class="badge badge-info p-1 mr-5 my-1">
+              <i class="fa fa-users" aria-hidden="true"></i> 適合親子同遊
             </div>
-           <div id="popup-{{obj.pk}}" style="display: none;">
-               <div class="row">
-                   <img class="col-4 h-100 w-100" src="{{ obj.service_type_image.url }}" alt="{{ obj.service_title }}">
-                   <div class="col-8">
-                       <h4 class="title">{{ obj.service_title }}</h4>
-                       <p class="text">{{ obj.service_description }}</p>
-                       <p class="text"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ obj.session_time_length }} 小時</p>
-                   </div>
-               </div>
-           </div>
+            {% endif %}
+            <div class="my-1">
+              <i class="fa fa-usd" aria-hidden="true"></i> {{ obj.service_fee }} 元
+            </div>
+            <div class="my-1">
+              <i class="fa fa-clock-o" aria-hidden="true"></i> {{ obj.session_time_length }} 小時
+            </div>
+          </div>
+          <div class="col-9">
+            <h4 class="title">{{ obj.service_title }}</h4>
+            <p class="text">{{ obj.service_description }}</p>
+            <div class="text-center mt-5">
+              <button id="fresh-chat" class="btn btn-primary">
+                <i class="fa fa-comments" aria-hidden="true"></i> 線上發問
+              </button>
+            </div>
+          </div>
         </div>
-        {% endfor %}
-    </div> <!-- /#section -->
-
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <!-- /#section -->
 </div>
-
-
-
+<script>
+$(document).ready(function() {
+  $('#fresh-chat').on('click', function() {
+    $.fancybox.close();
+    window.fcWidget.open();
+  });
+});
+</script>
 {% endblock %}

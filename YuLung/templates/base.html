@@ -1,82 +1,71 @@
 <!DOCTYPE html>
 <html lang="zh-tw">
-    <head>
-        <link rel="profile" href="http://www.w3.org/1999/xhtml/vocab">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>{% block title %}{% endblock %} | 裕隆教育導覽中心</title>
-        {% block meta %}
-        {% endblock %}
-        {% load static %}
-        <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'lib/fullcalendar/fullcalendar.css' %}" />
-        <link rel="stylesheet" type="text/css" href="{% static 'lib/fancybox/jquery.fancybox.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
-        <script src="{% static 'lib/fullcalendar/lib/jquery.min.js' %}"></script>
-        <script src="{% static 'lib/fullcalendar/lib/moment.min.js' %}"></script>
-        <script src="{% static 'lib/fullcalendar/fullcalendar.min.js' %}"></script>
-        <script src="{% static 'lib/fullcalendar/locale-all.js' %}"></script>
-        <script src="{% static 'lib/fancybox/jquery.fancybox.min.js' %}"></script>
-        <script src="{% static 'lib/bootstrap/assets/js/vendor/popper.min.js' %}"></script>
-        <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'lib/retina/retina.min.js' %}"></script>
-        <script>
-          window.fcSettings = {
-            token: "a4fd5e69-7498-448a-9539-4a56942b1cd9",
-            host: "https://wchat.freshchat.com",
-            onInit: function() {
-              window.fcWidget.init({
-              config: {
-                headers: {
-                  chat: 'Test',
-                },
-              }
-              });
-            }
-          };
-        </script>
-        <script src="https://wchat.freshchat.com/js/widget.js" async></script>
-        {% block extraheader %}
-        {% endblock %}
-    </head>
-    <body>
-    
-        {% block navbar %}
-            {% include 'navbar.html' %}
-        {% endblock %}
-        
-        <div class="main-container">
-            {% load custom_tags %}
-            {% get_last_banner as banner_obj %}
-            <header role="banner" id="page-header" class="container-fluid mb-3">
-                <!-- using static for view only , will change to media -->
-                <div class="row">
-                    <img src="{{banner_obj.banner_image.url}}" class="img-fluid w-100 h-100" alt="{{ banner_obj.banner_description }}">
-                </div>
-            </header> <!-- /#page-header -->
 
-            <div id="quick-menu" class="text-center mb-5">
-                <a id="reservation" class="btn btn-success btn-lg" href="{% url 'reservation:reservation-index' %}#main">預約參觀 <i class="fa fa-check" aria-hidden="true"></i></a>
-            </div>
+<head>
+  <link rel="profile" href="http://www.w3.org/1999/xhtml/vocab">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}{% endblock %} | 裕隆教育導覽中心</title>
+  {% block meta %} {% endblock %} {% load static %}
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'lib/fullcalendar/fullcalendar.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'lib/fancybox/jquery.fancybox.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'lib/jquery-powertip/css/jquery.powertip-light.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+  <script src="{% static 'lib/fullcalendar/lib/jquery.min.js' %}"></script>
+  <script src="{% static 'lib/fullcalendar/lib/moment.min.js' %}"></script>
+  <script src="{% static 'lib/fullcalendar/fullcalendar.min.js' %}"></script>
+  <script src="{% static 'lib/fullcalendar/locale-all.js' %}"></script>
+  <script src="{% static 'lib/fancybox/jquery.fancybox.min.js' %}"></script>
+  <script src="{% static 'lib/bootstrap/assets/js/vendor/popper.min.js' %}"></script>
+  <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'lib/jquery-powertip/jquery.powertip.js' %}"></script>
+  <script src="{% static 'lib/retina/retina.min.js' %}"></script>
+  <script>
+    window.fcSettings = {
+      token: "a4fd5e69-7498-448a-9539-4a56942b1cd9",
+      host: "https://wchat.freshchat.com",
+      onInit: function () {
+        window.fcWidget.init({
+          config: {
+            headers: {
+              chat: 'Test',
+            },
+          }
+        });
+      }
+    };
+  </script>
+  <script src="https://wchat.freshchat.com/js/widget.js" async></script> {% block extraheader %} {% endblock %}
+</head>
 
-            <div class="container">
-                <div class="row">
-                    {% block alert %}
-                    {% endblock %}
-                </div>
-            </div>
+<body>
 
-            {% block body %}
-            {% endblock %}
-        
-        </div>
-        
-        {% block footer %} 
-            {% include 'footer.html' %}
-        {% endblock %}
-        
-      <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
-    </body>
-  </html>
+  {% block navbar %} {% include 'navbar.html' %} {% endblock %}
+
+  <div class="main-container">
+    {% block banner %}
+      {% include 'banner.html' %}
+    {% endblock %}
+
+    {% block quickmenu %}
+    {% endblock %}
+
+    <div class="container">
+      <div class="row">
+        {% block alert %} {% endblock %}
+      </div>
+    </div>
+
+    {% block body %} {% endblock %}
+
+  </div>
+
+  {% block footer %} {% include 'footer.html' %} {% endblock %}
+
+  <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+</body>
+
+</html>

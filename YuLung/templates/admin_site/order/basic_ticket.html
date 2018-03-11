@@ -1,0 +1,104 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}查詢訂單{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<h3 class="page-heading mb-4">
+  預約單總覽
+</h3>
+
+<div class="row mb-2">
+  <div class="col-lg-12">
+    {% include 'admin_site/order/ticketlist_select.html' %}
+    {% include 'admin_site/order/ticketlist_table.html' %}
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    var showReg = true;
+
+    String.prototype.format = function (placeholders) {
+      var s = this;
+      for (var propertyName in placeholders) {
+        var re = new RegExp('{' + propertyName + '}', 'gm');
+        s = s.replace(re, placeholders[propertyName]);
+      }
+      return s;
+    };
+
+    $('.btn.search').click(function () {
+      var year = $('#ticket-year input').val();
+      var month = $('#ticket-month input').val();
+      var keywords = $('#keywords').val();
+      var assigned_by = $('#assigned_by').val();
+      var assigned_to = $('#assigned_to').val();
+
+      $.ajax({
+        url: "{% url 'ajax-admin-search-ticket' %}",
+        data: { "year": year, "month": month, "keywords": keywords, "assigned_by": assigned_by, "assigned_to": assigned_to },
+        success: function (response) {
+
+          $("#reg-table").addClass("d-none");
+
+          var tableContent = "";
+          if (response == "NULL") {
+            tableContent = "<tr><td>No Result</td></tr>"
+          }
+          else {
+
+            var rowContent = '<tr><th scope="row">{date}</th><td>{name}</td><td>{phone}</td><td>{email}</td><td>{service_title}</td><td>{number_of_customer}</td><td>{assigned_by}</td><td>{assigned_to}</td><td>{reported_customer_number}</td><td style="width:300px;">{reminder}</td><th>{create_at}</th><th>{last_modified}</th></tr>';
+
+            for (var i = 0; i < response.length; i++) {
+
+              if (response[i].reported_customer_number) {
+                var rcn = response[i].reported_customer_number.toString();
+              }
+              else {
+                var rcn = '-';
+              }
+
+              if (response[i].reminder) {
+                var reminder = response[i].reminder;
+              }
+              else {
+                var reminder = '';
+              }
+
+              tableContent = tableContent + rowContent.format({
+                "date": response[i].order.time_slot.date + " " + response[i].order.time_slot.start_time,
+                "name": response[i].order.customer_details.name,
+                "phone": response[i].order.customer_details.phone,
+                "email": response[i].order.customer_details.email,
+                "service_title": response[i].order.service_type.service_title,
+                "number_of_customer": response[i].order.number_of_customer,
+                "assigned_by": response[i].assigned_by.username,
+                "assigned_to": response[i].assigned_to.username,
+                "reported_customer_number": rcn,
+                "reminder": reminder,
+                "create_at": response[i].create_at,
+                "last_modified": response[i].last_modified
+              })
+            }
+          }
+
+          $("#search-content").html(tableContent);
+          //console.log(response);
+          //console.log(tableContent);
+
+          $('#reg-table-search').removeClass("d-none");
+        }
+
+      });
+    });
+  })
+</script>
+{% endblock %}
+

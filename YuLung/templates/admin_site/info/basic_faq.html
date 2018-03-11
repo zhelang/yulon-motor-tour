@@ -1,0 +1,112 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}常見問題管理{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+{% endblock%}
+
+{% block body %}
+<h3 class="page-heading mb-4">
+  常見問題管理
+  <a class="btn btn-warning float-right" href="{% url 'faq' %}" target="_blank" role="button">
+    瀏覽常見問題頁
+  </a>
+</h3>
+<div class="row mb-2">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">
+          常見問題列表
+          <a id="btn-add" class="btn btn-primary float-right" href="{% url 'admin-faq-create' %}" role="button">
+            <i class="fa fa-plus" aria-hidden="true"></i>新增
+          </a>
+          <button id="btn-update-order" class="btn btn-primary float-right mx-2">更改排序</button>
+        </h5>
+        <p class="text-muted mb-4">
+          <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>請直接編輯/刪除問題，或按右側的「新增」鈕新增問題，拖拉可更改排序，確認排序後點按右側的「更改排序」鈕更改排序
+        </p>
+        <label id="update-success" class="text-success text-center mx-auto alert alert-success col d-none"></label>
+        <div class="table-responsive">
+          <table class="table center-aligned-table table-hover">
+            <thead>
+              <tr class="text-primary">
+                <th class="col-1">#</th>
+                <th class="col-3">問題</th>
+                <th class="col-5">答案</th>
+                <th class="col-1">啟用?</th>
+                <th class="col-1"></th>
+                <th class="col-1"></th>
+              </tr>
+            </thead>
+            <tbody id="sortable">
+              {% load permission_tags %}
+              {% for faq in faq_list %}
+              <tr value="{{faq.pk}}">
+                <td></td>
+                <td>{{faq.question}}</td>
+                <td>{{faq.answer|safe}}</td>
+                <td>{{faq.active}}</td>
+                <td>
+                  {% if request.user|can:'edit_site_admin' %}
+                  <a href="{% url 'admin-faq-edit' faq.pk %}" class="btn btn-primary btn-sm">編輯</a>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if request.user|can:'edit_site_admin' %}
+                  <a href="{% url 'admin-faq-delete' faq.pk %}" class="btn btn-danger btn-sm">刪除</a>
+                  {% enif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        
+        var faqOrder = null;
+        
+        $("#sortable").sortable({
+            update: function(event, ui) {
+                        //console.log($(this).sortable('toArray', {attribute: 'value'}));
+                        faqOrder = $(this).sortable('toArray', {attribute: 'value'});
+                    }
+        });
+        $("#sortable").disableSelection();
+        
+        $("#btn-update-order").click(function(){
+            
+            //console.log(faqOrder);
+            if (faqOrder){
+                $.ajax({
+                    url:"{% url 'ajax-admin-update-faq-order' %}",
+                    data:{"faqOrder":faqOrder},
+                    success:function(response){
+                        
+                        if (response == "success"){
+                            console.log(response);
+                            $("#update-success").text("更新成功");
+                            $('#update-success').removeClass('d-none');
+                        }
+                    }
+                });
+            }
+        });
+        
+    });
+
+</script>
+{% endblock %}
+

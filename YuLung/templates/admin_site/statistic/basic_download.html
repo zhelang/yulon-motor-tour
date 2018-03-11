@@ -1,0 +1,93 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}下載原始數據{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<div class="row">
+    <h3 class="page-heading mb-4 col-12">
+        下載原始數據
+    </h3>
+    <div class="mb-2 col-12">
+    {% include 'admin_site/statistic/download_select.html' %}
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        
+        var yearFrom = $("#ticket-year-from").val();        
+        var yearTo = $("#ticket-year-to").val();
+        var monthFrom = $("#ticket-month-from").val();
+        var monthTo = $("#ticket-month-to").val();
+        
+        
+        var sendAjax = function(){
+            $.ajax({
+                url:"{% url 'ajax-admin-get-record-count' %}",
+                data:{"yearFrom":yearFrom,"yearTo":yearTo,"monthFrom":monthFrom,"monthTo":monthTo},
+                success:function(response){
+                    //console.log(response);
+                    $("#lb-count").text("總共有" + response + "筆資料");
+                }
+            });
+        }
+                
+        var getCount = function(){
+            if(yearFrom != "" && yearTo != "" && monthFrom != "" && monthTo != ""){
+                if(yearFrom <= yearTo){
+                    if (yearFrom == yearTo){
+                        if (monthFrom <= monthTo){
+                            //OK
+                            $("#error-msg").text('');
+                            sendAjax();
+                        }
+                        else{
+                            $("#error-msg").text("Start date must < End date");
+                        }
+                    }
+                    //OK
+                    $("#error-msg").text('');
+                    sendAjax();
+                }
+                else{
+                    $("#error-msg").text("Start date must < End date");
+                }             
+            }
+        }
+
+        $("#ticket-year-from").change(function(){
+            yearFrom = $(this).val();
+            getCount();
+        });
+        
+        $("#ticket-year-to").change(function(){
+            yearTo = $(this).val();
+            getCount();
+        });
+        
+        $("#ticket-month-from").change(function(){
+            monthFrom = $(this).val();
+            getCount();
+        });
+        
+        $("#ticket-month-to").change(function(){
+            monthTo = $(this).val();
+            getCount();
+        });
+        
+        getCount();
+        
+        
+    });
+
+</script>
+
+{% endblock %}
+

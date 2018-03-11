@@ -1,0 +1,7 @@
+    {% load custom_tags %} {% get_last_banner as banner_obj %}
+    <header role="banner" id="page-header" class="container-fluid mb-3">
+      <div class="row">
+        <img src="{{banner_obj.banner_image.url}}" class="img-fluid w-100 h-100" alt="{{ banner_obj.banner_description }}">
+      </div>
+    </header>
+    <!-- /#page-header -->

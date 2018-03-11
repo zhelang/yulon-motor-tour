@@ -72,18 +72,18 @@ class CustomerDetails(models.Model):
 
 class Orders(models.Model):
 
-    customer_type = models.ForeignKey(CustomersType, on_delete=models.SET_NULL, null=True)
-    service_type = models.ForeignKey(ServicesType, on_delete=models.SET_NULL, null=True)
-    time_slot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True)
-    customer_details = models.ForeignKey(CustomerDetails, on_delete=models.SET_NULL, null=True)
+    customer_type = models.ForeignKey(CustomersType, on_delete=models.CASCADE, null=True)
+    service_type = models.ForeignKey(ServicesType, on_delete=models.CASCADE, null=True)
+    time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, null=True)
+    customer_details = models.ForeignKey(CustomerDetails, on_delete=models.CASCADE, null=True)
     number_of_customer = models.IntegerField(null=True , validators=[MinValueValidator(0)])
     code = models.CharField(max_length=10,null=True , unique=True)
     status = models.CharField(max_length=25, default="unconfirmed")
-    user = models.ForeignKey(User , on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User , on_delete=models.CASCADE, null=True)
     validation_key = models.CharField(max_length=30, null=True)
 
     def __unicode__(self):
-        return str(self.code) + ' || ' + self.time_slot.__unicode__()
+        return str(self.code) + ' || '# + self.time_slot.__unicode__()
 
 
 

@@ -1,0 +1,6 @@
+{% load permission_tags %}
+{% if request.user|can:'edit_site_admin' %}
+<button type="submit" class="btn btn-primary save">儲存
+  <i class="fa fa-floppy-o" aria-hidden="true"></i>
+</button>
+{% endif %}

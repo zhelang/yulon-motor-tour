@@ -1,0 +1,110 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}評論管理{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<h3 class="page-heading mb-4">
+    評論管理
+</h3>
+<div class="row mb-2">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    評論列表
+                </h5>
+                <p class="text-muted mb-4">
+                    <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>您可以在「新評論」頁籤針對新的評論決定發布與否，也可到「已發布」、「不發布」刪除評論
+                </p>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active text-danger" data-toggle="tab" href="#new">新評論</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" data-toggle="tab" href="#published">已發布</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" data-toggle="tab" href="#unpublished">不發布</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="new">
+                        <div class="d-flex">
+                            <div class="table-responsive col">
+                                <table class="table center-aligned-table table-hover">
+                                    <thead>
+                                        <tr class="text-primary">
+                                            <th class="col-1">#</th>
+                                            <th class="col-3">留言標題</th>
+                                            <th class="col-5">留言內容</th>
+                                            <th class="col-1">評論星等</th>
+                                            <th class="col-1">留言作者</th>
+                                            <th class="col-1"></th>
+                                            <th class="col-1"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% include 'admin_site/comment/comment_row.html' with comment_list=new_comments check=True %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="published">
+                        <div class="d-flex">
+                            <div class="table-responsive col">
+                                <table class="table center-aligned-table table-hover">
+                                    <thead>
+                                        <tr class="text-primary">
+                                            <th class="col-1">#</th>
+                                            <th class="col-3">留言標題</th>
+                                            <th class="col-5">留言內容</th>
+                                            <th class="col-1">評論星等</th>
+                                            <th class="col-1">留言作者</th>
+                                            <th class="col-1"></th>
+                                            <th class="col-1"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% include 'admin_site/comment/comment_row.html' with comment_list=published_comments %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="unpublished">
+                        <div class="d-flex">
+                            <div class="table-responsive col">
+                                <table class="table center-aligned-table table-hover">
+                                    <thead>
+                                        <tr class="text-primary">
+                                            <th class="col-1">#</th>
+                                            <th class="col-3">留言標題</th>
+                                            <th class="col-5">留言內容</th>
+                                            <th class="col-1">評論星等</th>
+                                            <th class="col-1">留言作者</th>
+                                            <th class="col-1"></th>
+                                            <th class="col-1"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% include 'admin_site/comment/comment_row.html' with comment_list=unpublished_comments %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

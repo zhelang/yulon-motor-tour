@@ -1,0 +1,70 @@
+<div class="col-12 my-2 mx-auto">
+    <h3 class="page-heading mb-4">
+        編輯個人資料
+    </h3>
+    <div class="card">
+            <div class="card-body">
+            
+                {% if error_msg %}
+                    {{error_msg}}
+                {% endif %}
+                <form method="post">
+                
+                    {% csrf_token %}
+                
+                    <div class="form-row">
+                        <label for="account" class="col-1 col-form-label">帳號</label>
+                        <div class="col">
+                            <input type="text" readonly class="form-control-plaintext" id="account" value="{{request.user.username}}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-6 mb-2">
+                            <label for="first-name">名</label>
+                            <input type="text" class="form-control" name="first_name" placeholder="{{request.user.first_name}}" value="{{request.user.first_name}}" required>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <label for="last-name">姓</label>
+                            <input type="text" class="form-control" name="last_name" placeholder="{{request.user.last_name}}" value="{{request.user.last_name}}" required>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="form-row">
+                        <div class="col-12 mb-2">
+                            <label for="phonenumber">連絡電話</label>
+                            <input type="tel" class="form-control" id="phonenumber" placeholder="phonenumber" value="0936458716" required>
+                        </div>
+                    </div>
+                    -->
+                    <div class="form-row">
+                        <div class="col-12 mb-2">
+                            <label for="email">E-mail</label>
+                            <input type="email" class="form-control" name="email" placeholder="{{request.user.email}}" value="{{request.user.email}}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="col-12 mb-2">
+                            <label for="password">密碼</label>
+                            <input type="password" class="form-control" name="password" id="password">
+                            <small class="text-muted"><i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>如毋需更動密碼，可留空</small>
+                        </div>
+                    </div>
+                    
+                    <!--
+                    <div class="form-row">
+                        <div class="col-12 mb-2">
+                            <label for="password">再次輸入密碼</label>
+                            <input type="password" class="form-control" name="password-confirm" id="password-confirm">
+                            <small class="text-muted"><i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>如毋需更動密碼，可留空</small>
+                        </div>
+                    </div>
+                    -->
+                    <div class="row">
+                        <button id="btn-submit" class="btn btn-primary btn-block mx-auto col-2" type="submit">儲存 <i class="fa fa-floppy-o"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

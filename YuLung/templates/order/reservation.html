@@ -13,33 +13,36 @@
 {% block body %}
 <div id="main" class="container mb-3">
 
-     {% include 'order/order_step_bar.html' with  page_name='reservation'  %}
+  {% include 'order/order_step_bar.html' with page_name='reservation' %}
 
-    <div id="section" class="row">
-        {% for obj in object_list %}
-        <div class="col-lg-3 col-sm-6 d-flex">
-            <div class="card" id="{{obj.pk}}">
-            <a class="enlarge" data-fancybox data-src="#popup-{{obj.pk}}" href="javascript:;"><i class="fa fa-expand fa-2x text-white bg-warning p-2" aria-hidden="true"></i></a>
-                <a href="{% url 'reservation:reservation-service' obj.pk %}#main">
-                    <img class="card-img-top" src="{{ obj.customers_type_image.url }}" alt="{{ obj.customer_title }}">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ obj.customer_title }}</h4>
-                    </div>
-                </a>
-            </div>
-           <div id="popup-{{obj.pk}}" style="display: none;">
-               <div class="row">
-                   <img class="col-4 h-100 w-100" src="{{ obj.customers_type_image.url }}" alt="{{ obj.customer_title }}">
-                   <div class="col-8">
-                       <h4 class="title">{{ obj.customer_title }}</h4>
-                       <p class="text">{{ obj.customer_description }}</p>
-                   </div>
-               </div>
-           </div>
+  <div id="section" class="row">
+    {% for obj in object_list %}
+    <div class="col-lg-3 col-sm-6 d-flex mb-3">
+      <div class="card w-100" id="{{obj.pk}}">
+        <a class="enlarge" data-fancybox data-src="#popup-{{obj.pk}}" href="javascript:;">
+          <i class="fa fa-expand fa-2x text-white bg-warning p-2" aria-hidden="true"></i>
+        </a>
+        <a href="{% url 'reservation:reservation-service' obj.pk %}#main">
+          <img class="card-img-top img-fluid" src="{{ obj.customers_type_image.url }}" alt="{{ obj.customer_title }}">
+          <div class="card-body">
+            <h4 class="card-title">{{ obj.customer_title }}</h4>
+          </div>
+        </a>
+      </div>
+      <div id="popup-{{obj.pk}}" class="fancybox-content" style="display: none;">
+        <div class="row">
+          <div class="col-4">
+            <img class="img-fluid w-100" src="{{ obj.customers_type_image.url }}" alt="{{ obj.customer_title }}">
+          </div>
+          <div class="col-8">
+            <h4 class="title">{{ obj.customer_title }}</h4>
+            <p class="text">{{ obj.customer_description }}</p>
+          </div>
         </div>
-        {% endfor %}
-    </div> <!-- /#section -->
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <!-- /#section -->
 </div>
-
-
 {% endblock %}

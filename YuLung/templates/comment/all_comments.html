@@ -1,22 +1,28 @@
-<div class="comments">
-    <h4>評論</h4>
+<div id="all_comments" class="tab-pane active" role="tabpanel" aria-expanded="true" aria-labelledby="comment_all">
+  <div>
     {% for obj in comment_list %}
-    <div class="row comment mb-3 border border-top-0 border-left-0 border-right-0">
-        <div class="col-2">
-            <div class="thumbnail">
-                {% load static %}
-                <img class="img-fluid" src="{% static 'images/avatar.png' %}" />
+      <div class="row comment my-4">
+        <div class="col">
+          <div class="card">
+            <div class="card-body bg-light">
+              <div class="comment-title font-weight-bold">{{ obj.title }}
+                <span class="float-right">
+                {% for i in "x"|ljust:obj.star %}
+                  <span class="text-warning"><i class="fa fa-star" aria-hidden="true"></i></span>
+                {% endfor %}
+                </span>
+              </div>
+              <hr class="my-1">
+              <div class="comment-body">{{ obj.content }}</div>
             </div>
+          </div>
+          <div class="small"><strong>{{ obj.user.username }}</strong> | <span class="text-muted">{{ obj.create_at | date:"Y-m-d" }}</span></div>
         </div>
-        <div class="col-10">
-            <div class="card">
-                <div class="card-body">
-                   <div class="comment-title font-weight-bold">{{ obj.title }}</div>
-                   <div class="comment-body">{{ obj.content }}</div>
-                </div>
-            </div>
-            <strong>{{ obj.user.username }}</strong> <span class="text-muted">commented {{ obj.create_at |timesince:current_time }} ago</span>
-         </div>
-    </div>
+      </div>
+    {% empty %}
+      <div class="alert alert-warning" role="alert">
+        目前尚無評論。
+      </div>
     {% endfor %}
+  </div>
 </div>

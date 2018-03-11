@@ -1,0 +1,57 @@
+<div class="col pt-2">
+    <div class="card">
+        <div class="card-header">
+            <h4>目前的帳號
+                <span>
+                    <a id="btn-create" class="btn btn-outline-secondary btn-sm float-right" href="" role="button"><i class="fa fa-plus" aria-hidden="true"></i>新增</a>
+                </span>
+            </h4>
+        </div>
+        <div class="card-body">
+            {% for user in roleUser %}
+                <div class="row mx-auto">
+                    <a class="btn btn-light col m-1 text-left" data-toggle="collapse" href="#roleuser{{user.pk}}" aria-expanded="false" aria-controls="staff1">
+                        {{user.username}}
+                        <a value="{{user.username}}"  class="btn btn-outline-secondary col-1 m-1 btn-edit" role="button">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                    </a>
+                    <div class="collapse col-12 px-1" id="roleuser{{user.pk}}">
+                        <div class="card card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                    <th scope="row">姓</th>
+                                    <td>{{user.last_name}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">名</th>
+                                    <td>{{user.first_name}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">帳號</th>
+                                    <td>{{user.username}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">E-mail</th>
+                                    <td>{{user.email}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">角色</th>
+                                    {% if user.groups.all.0.name == 'manager' %}
+                                        <td>管理者</td>
+                                    {% else %}
+                                        <td>Staff</td>
+                                    {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Example Bar Chart Card-->
+        <div class="card mb-3">
+            <div class="card-body">
+            <h5 class="card-title">
+                <i class="fa fa-bar-chart"></i> 月課程訂單
+            </h5>
+                <div class="row border">
+                    <div id="barChartContainer" class="col-sm-8 my-auto">
+                        <canvas id="barChart" width="100" height="68"></canvas>
+                    </div>
+                    <div class="col-sm-4 text-center my-auto">
+                        <div id="total-customer" class="h4 mb-0 text-primary"></div>
+                        <div class="small text-muted">總訂單數</div>
+                        <hr>
+                        <div id="total-income" class="h4 mb-0 text-warning"></div>
+                        <div class="small text-muted">總收入</div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <!-- Example Pie Chart Card-->
+        <div class="card mb-3">
+            <div id="pieChartContainer" class="card-body">
+            <h5 class="card-title">
+                <i class="fa fa-pie-chart"></i> 月客群訂單
+            </h5>
+                <canvas id="pieChart" width="100%" height="100" class="border"></canvas>
+            </div>
+            <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
+        </div>
+    </div>
+    <div class="col">
+        <div class="card mb-3">
+            <div id="slineContainer" class="card-body p-auto">
+            <h5 class="card-title">
+                <i class="fa fa-line-chart"> 年課程對照表</i>
+            </h5>
+                <canvas id="service-lines" class="w-45 border"></canvas>
+            </div>
+        </div>
+        <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
+    </div>
+    <div class="col">
+        <div class="card mb-3">
+            <div id="clineContainer" class="card-body p-auto">
+            <h5 class="card-title">
+                <i class="fa fa-line-chart"> 年客群對照表</i>
+            </h5>
+                <canvas id="customer-lines" class="w-45 border"></canvas>
+            </div>
+        </div>
+        <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
+    </div>
+    <div class="col-lg-12">
+        <div class="card mb-3">
+            <div id="ilineContainer" class="card-body p-auto">
+            <h5 class="card-title">
+                <i class="fa fa-line-chart"> 年收入對照表</i>
+            </h5>
+                <canvas id="income-lines" class="border"></canvas>
+            </div>
+        </div>
+        <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
+    </div>
+</div>

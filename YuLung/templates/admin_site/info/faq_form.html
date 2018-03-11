@@ -1,0 +1,86 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}新增常見問題{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<h3 class="page-heading mb-4">新增常見問題</h3>
+<div class="row mb-2">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-group row">
+            <label for="question" class="col-2 col-form-label">問題: </label>
+            <div class="col">
+              {{form.question}}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="ans" class="col-2 col-form-label">答案: </label>
+            <div class="col">
+              {{form.answer}}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="priority" class="col-2 col-form-label">{{form.priority.label_tag}}</label>
+            <div class="col">
+              {{form.priority}}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="active" class="col-2 col-form-label ml-0">啟用? </label>
+            <div class="col">
+              {{form.active}}
+            </div>
+          </div>
+          <div class="form-group">
+              {% include 'admin_site/button/submit.html' %} 
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+<form method="post">
+    {% csrf_token %}
+        
+    <div class="form-group">
+        <label for="question">問題</label>
+        {{form.question}}
+    </div>
+            
+    <div class="form-group">
+        <label for="ans">回答</label>
+        {{form.answer}}
+    </div>
+            
+    <div class="form-group">
+        <label for="priority">{{form.priority.label_tag}}</label>
+        {{form.priority}}
+    </div>
+            
+    <div class="form-group">
+        <label for="active">{{form.active.label_tag}}</label>
+        {{form.active}}
+    </div>            
+            
+    <div class="row">
+        <button type="submit" class="btn btn-outline-info float-right col-6">送出</button>
+        
+        {% if edit %}
+            <a href="{% url 'admin-faq-delete' object.pk %}" class="btn btn-outline-info float-right col-6">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>刪除</a>
+        {% endif %}
+    </div>
+</form>

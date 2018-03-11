@@ -1,0 +1,20 @@
+<div class="order-form col-2 d-none">
+  <form method="post">
+    {% csrf_token %}
+    <input class="d-none" id="hidden-order-pk" name="order_pk" value="">
+    <div class="form-group">
+      <label class="col-form-label">指派人員</label>
+      <div class="">
+        <select required name="assign_to" class="custom-select form-control-plaintext" type="text">
+          <option selected value="">指派人員</option>
+          {% for user in all_user%}
+          <option value="{{user.pk}}">{{ user.last_name }}{{ user.first_name }} ({{ user.username|truncatechars:9 }})</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      {% include 'admin_site/button/submit.html' %}
+    </div>
+  </form>
+</div>

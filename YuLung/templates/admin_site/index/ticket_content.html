@@ -1,0 +1,84 @@
+<div class="row">
+  <a class="btn btn-light col m-1 text-left collapsed" data-toggle="collapse" href="#{{collapse_prefix}}ticket{{t.pk}}" aria-expanded="false"
+    aria-controls="order">
+    <span class="mr-3 text-danger">
+        <i class="fa fa-ticket fa-lg" aria-hidden="true"></i>
+    </span>
+    <span>
+      <strong>{{t.order.time_slot.date}} {{t.order.time_slot.start_time | date:'H:i'}}</strong> ｜ {{t.order.service_type.service_title}}
+    </span>
+  </a>
+
+  <div class="col-12 px-1 collapse" id="{{collapse_prefix}}ticket{{t.pk}}">
+    <div class="card card-body">
+        <form method="post">
+            {% csrf_token %}
+            
+      <table class="table-sm">
+        <thead>
+        </thead>
+            <tbody>
+              <tr>
+                <th scope="row">客戶名稱</th>
+                <td>{{t.order.customer_details.name}}</td>
+              </tr>
+              <tr>
+                <th scope="row">客戶電話</th>
+                <td>{{t.order.customer_details.phone}}</td>
+              </tr>
+              <tr>
+                <th scope="row">課程代碼</th>
+                <td>{{t.order.service_type.service_code}}</td>
+              </tr>
+              <tr>
+                <th scope="row">客群名稱</th>
+                <td>{{t.order.customer_type.customer_title}}</td>
+              </tr>
+              <tr>
+                <th scope="row">人數</th>
+                <td>{{t.order.number_of_customer}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Created At</th>
+                <td>{{t.create_at | date:'Y-m-d H:i' }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Last Modify</th>
+                <td>{{t.last_modified | date:'Y-m-d H:i' }}</td>
+              </tr>
+                <tr>
+                <th scope="row">已回報</th>
+                <td>{{t.finished}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Reminder</th>
+                <td>{{t.reminder}}</td>
+              </tr>
+
+             {% if not is_manager %}
+
+              <tr>
+                  <th scope="row">實際人數</th>
+                  <td><input type="number" class="form-control" name="actual-number" placeholder="實際人數" value="{{t.order.number_of_customer}}"></td>
+              </tr>
+              <tr>
+                  <th scope="row">備註</th>
+                  <td>
+                      <label for="return"></label>
+                      <textarea type="text" class="col" placeholder="備註" name="reminder"></textarea>
+                  </td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+          {% if not is_manager %}
+          
+              <input type="number" class="d-none" name="ticket-pk" value="{{t.pk}}" readonly/>
+              <button type="submit" class="btn btn-primary float-right">回報
+                  <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              </button>
+          {% endif %}
+      </form>
+    </div>
+  </div>
+</div>

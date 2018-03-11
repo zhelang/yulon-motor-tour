@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}{% endblock %} | 裕隆教育導覽中心管理系統</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'lib/perfect-scrollbar/css/perfect-scrollbar.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'lib/fullcalendar/fullcalendar.css' %}" />
+  <link href="{% static 'lib/bootstrap-switch/css/bootstrap-switch.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+  <script src="{% static 'lib/fullcalendar/lib/jquery.min.js' %}"></script>
+  <script src="{% static 'lib/fullcalendar/lib/moment.min.js' %}"></script>
+  <script src="{% static 'lib/fullcalendar/fullcalendar.min.js' %}"></script>
+  <script src="{% static 'lib/fullcalendar/locale-all.js' %}"></script>
+  {% block extraheader %}
+  {% endblock %}
+</head>
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="content-wrapper full-page-wrapper auth-pages">
+          {% block alert %}
+          {% endblock %}
+          {% block body %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'lib/popper.js/popper.min.js' %}"></script>
+  <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'lib/bootstrap-switch/js/bootstrap-switch.js' %}"></script>
+  <script src="{% static 'lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+  <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+  <script src="{% static 'js/off-canvas.js' %}"></script>
+  <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+  <script src="{% static 'js/misc.js' %}"></script>
+</body>
+
+</html>

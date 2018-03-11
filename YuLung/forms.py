@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from models import FAQ, SiteInfo, SEO
+from models import FAQ, SiteInfo, SEO, EmailTemplate
 from ckeditor.widgets import CKEditorWidget
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.forms import SetPasswordForm
 
 class LoginForm(forms.Form):
     
@@ -79,4 +81,32 @@ class SiteInfoAdminForm(forms.ModelForm):
             }
         
     
+class AdminUserCreateForm(forms.Form):
         
+    first_name = forms.CharField(label="first name" , required=True , widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'first name', 'type':'text'}))
+    last_name = forms.CharField(label="last name" , required=True , widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'last name', 'type':'text'}))
+    username = forms.CharField(label="Username" ,required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'type':'text', 'aria-describedby':"useraccount"}))
+    password = forms.CharField(label="Password" , required=True, widget=forms.PasswordInput(attrs={'class': 'form-control', 'type':'password', 'aria-describedby':"password"}))
+    email = forms.CharField(label="Email" , required=True, widget=forms.EmailInput(attrs={'class':'form-control','aria-describedby':"email"}))
+        
+
+class EmailTemplateForm(forms.ModelForm):
+        
+    class Meta:
+        model = EmailTemplate
+        fields = '__all__'
+        widgets = {
+            'from_email':forms.EmailInput(attrs={'class':'form-control'}),
+            'subject':forms.TextInput(attrs={'class':'form-control','type':'text'}),
+            'email_content':forms.Textarea(attrs={'class':'form-control','type':'text'})
+        }
+        
+class AdminPasswordResetForm(PasswordResetForm):
+    
+    email = email = forms.EmailField(label="Email", max_length=254, widget=forms.EmailInput(attrs={'class':'form-control','aria-describedby':"emailHelp"}))
+
+class AdminSetPasswordForm(SetPasswordForm):
+
+    new_password1 = forms.CharField(label=u"請輸入密碼", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    new_password2 = forms.CharField(label=u"請再次輸入密碼", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+

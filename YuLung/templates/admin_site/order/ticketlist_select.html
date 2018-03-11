@@ -1,0 +1,60 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">
+      搜尋預約單
+    </h5>
+    <div class="form-row">
+      <div class="form-group col-3">
+        <label for="ticketdate">年</label>
+        <div class="input-group date" id="ticket-year">
+          <input type="text" class="form-control">
+          <span class="input-group-addon">
+            <span class="fa fa-calendar"></span>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-3">
+        <label for="ticketdate">年</label>
+        <div class="input-group date" id="ticket-month">
+          <input type="text" class="form-control">
+          <span class="input-group-addon">
+            <span class="fa fa-calendar"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col">
+        <label for="pastclass">被指派人員</label>
+        <input type="text" class="form-control" id="assigned_to" placeholder="被指派人員">
+      </div>
+      <div class="form-group col">
+        <label for="">指派人員</label>
+        <input type="text" class="form-control" id="assigned_by" placeholder="指派人員">
+      </div>
+      <div class="form-group col">
+        <label for="pastclass">其他關鍵字</label>
+        <input type="text" class="form-control" id="keywords" placeholder="其他關鍵字">
+      </div>
+    </div>
+    {% include '../button/search.html' %}
+  </div>
+</div>
+<script>
+  $(document).ready(function() {
+    $('#ticket-year').datetimepicker({
+      locale: 'zh-tw',
+      format: 'YYYY',
+      defaultDate: new Date(),
+    }).on('dp.change', function (e) {
+      $('#ticket-month').data('DateTimePicker').minDate(e.date);
+    });
+    $('#ticket-month').datetimepicker({
+      locale: 'zh-tw',
+      format: 'MM',
+      defaultDate: new Date(),
+      useCurrent: false
+    }).on("dp.change", function() {
+    });
+  });
+</script>

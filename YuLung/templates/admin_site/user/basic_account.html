@@ -1,0 +1,172 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}帳號管理{% endblock %}
+
+{% block meta%}
+{% endblock %}
+
+{% block extraheader%}
+{% endblock%}
+
+{% block body %}
+<h3 class="page-heading mb-4">
+  帳號管理
+</h3>
+<div class="row mb-2">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    帳號列表
+                    <a id="btn-create" class="btn btn-primary float-right" href="" role="button">
+                    <i class="fa fa-plus" aria-hidden="true"></i>新增
+                    </a>
+                    <!--原程式
+                    <a id="btn-create" class="btn btn-outline-secondary btn-sm float-right" href="" role="button"><i class="fa fa-plus" aria-hidden="true"></i>新增
+                    </a>-->
+                </h5>
+                <p class="text-muted mb-4">
+                    <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>請直接編輯/刪除帳號，或按右側的「新增」鈕新增帳號
+                </p>
+                <div class="table-responsive">
+                    <table class="table center-aligned-table table-hover">
+                        <thead>
+                            <tr class="text-primary">
+                                <th class="col-1">#</th>
+                                <th class="col-2">帳號</th>
+                                <th class="col-1">姓</th>
+                                <th class="col-2">名</th>
+                                <th class="col-3">E-mail</th>
+                                <th class="col-1">角色</th>
+                                <th class="col-1"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in roleUser %}
+                            <tr>
+                                <td></td>
+                                <td>{{user.username}}</td>
+                                <td>{{user.last_name}}</td>
+                                <td>{{user.first_name}}</td>
+                                <td>{{user.email}}</td>
+                                {% if user.groups.all.0.name == 'manager' %}
+                                <td>管理者</td>
+                                {% else %}
+                                <td>工作人員</td>
+                                {% endif %}
+                                <td>
+                                    <a value="{{user.username}}" class="btn btn-primary btn-sm btn-edit" role="button">編輯</a>
+                                </td>
+                                <!--要注意user.pk在order/order_form裡面有使用到-->
+                                <!--原程式
+                                <td>
+                                    <a value="{{user.username}}"  class="btn btn-outline-secondary col-1 m-1 btn-edit" role="button">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </a>
+                                </td>-->
+                                <!--<td>
+                                <a id="btn-del" class="btn btn-danger btn-sm" role="button">刪除</a>
+                                </td>-->
+                                <!--要注意user.pk在order/order_form裡面有使用到-->
+                                <!--原程式
+                                <td>
+                                    <a id="btn-del" class="btn btn-outline-danger col-5 mx-auto" role="button">刪除 <i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                </td>-->
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'admin_site/user/account_form.html' %}
+</div>
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+      
+
+        
+        $('.btn-edit').click(function(){
+            
+            var username = $(this).attr('value')
+            $.ajax({
+                url:"{% url 'ajax-admin-get-user-account' %}",
+                data:{"username":username},
+                success:function(response){
+                
+                    if (response != "non-admin"){
+                        //console.log(response);
+                        $("#form-create").addClass('d-none');
+                        $("#form-edit").removeClass('d-none');
+                        
+                        $("#hidden-username").val(username);
+                        $("#in-fist-name").val(response.first_name);
+                        $("#in-last-name").val(response.last_name);
+                        $("#in-email").val(response.email);
+                        $('#in-role').val(response.role).change();
+                    }
+                }
+            });
+            
+        });
+        
+        $('#btn-create').click(function(){
+            $("#form-create").removeClass('d-none');
+            $("#form-edit").addClass('d-none');
+            $("#hidden-username").val("");
+        });
+        
+        
+        $('#btn-save').click(function(){
+           
+            var username = $("#hidden-username").val();
+            if (username != ""){
+                $.ajax({
+                    url:"{% url 'ajax-admin-user-account-edit' %}",
+                    type:'POST',
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}',
+                            username:username,
+                            first_name:$("#in-fist-name").val(),
+                            last_name:$("#in-last-name").val(),
+                            email:$("#in-email").val(),
+                            role:$('#in-role').val()
+                    },
+                    success:function(response){
+                        if (response == "success"){
+                            window.location.replace("{% url 'admin-user-account' %}");
+                        }
+                    }
+                });
+            }
+        });
+        
+        $('#btn-del').click(function(){
+            
+            var username = $("#hidden-username").val();
+            if (username != ""){
+                $.ajax({
+                    url:"{% url 'ajax-admin-user-account-del' %}",
+                    type:'POST',
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}',
+                            username:username,
+                    },
+                    success:function(response){
+                        if (response == "success"){
+                            window.location.replace("{% url 'admin-user-account' %}");
+                        }
+                    }
+                });
+            }
+        });
+        
+        
+        
+    });
+
+</script>
+
+{% endblock %}

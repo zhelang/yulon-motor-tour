@@ -16,7 +16,6 @@ from django.conf.global_settings import EMAIL_BACKEND, EMAIL_USE_TLS
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -26,7 +25,7 @@ SECRET_KEY = 'ovd0qamby5gf(e)_u$+-)=6(8#a$ui#j8s1v8)4isy#&15d2=l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','yulon.dev.zhelang.com.tw']
+ALLOWED_HOSTS = ['*']
 
 #CSRF_USE_SESSIONS = True
 # Application definition
@@ -185,7 +184,7 @@ EMAIL_USE_TLS = False
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Taipei'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -201,3 +200,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'all_static')
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
 MEDIA_URL = '/media/'
+
+try:
+  from local_settings import *
+except ImportError:
+  pass

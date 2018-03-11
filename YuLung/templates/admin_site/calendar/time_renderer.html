@@ -1,0 +1,49 @@
+<div class="col">
+    <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title">{{date}} 時段列表
+                <span>
+                    {% if edit %}
+                        <a id="btn-add" class="btn btn-primary btn-sm float-right mb-4" href="{% url 'admin-timeslot-date' date %}" role="button">
+                        <i class="fa fa-plus" aria-hidden="true"></i>新增</a>
+                    {% else %}
+                        <button id="btn-add" class="btn btn-primary btn-sm float-right mb-4" href="" role="button">
+                        <i class="fa fa-plus" aria-hidden="true"></i>新增</button>
+                    {% endif %}
+                </span>
+            </h5>
+
+            <div class="table-responsive col">
+                <table class="table center-aligned-table table-hover">
+                    <thead>
+                        <tr class="text-primary">
+                            <th class="col-1">#</th>
+                            <th class="col-2">日期</th>
+                            <th class="col-1">起始時間</th>
+                            <th class="col-1">可用人力</th>
+                            <th class="col-1">可預約人數</th>
+                            <th class="col-1">啟用</th>
+                            <th class="col-1"></th>
+                            <!--<th class="col-1"></th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for time_slot in timeslot_list %}
+                        <tr class="">
+                            <td></td>
+                            <td>{{time_slot}}</td>
+                            <td>{{time_slot.start_time}}</td>
+                            <td>{{time_slot.available_manpower}}</td>
+                            <td>{{time_slot.capacity}}</td>
+                            <td>{{time_slot.active}}</td>
+                            <td>
+                                <a href="{% url 'admin-timeslot-date-edit' date time_slot.pk %}" class="btn btn-primary btn-sm">編輯</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
