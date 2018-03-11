@@ -68,6 +68,7 @@
   var last_day;
   var last_color;
   var selected_date;
+  var eventInfo = [];
 
   renderButtons = function () {
     timeslot_html = "<div id=\"timeslot\">";
@@ -127,65 +128,89 @@
     height: 'auto',
     dayRender: function (date, cell) {
       $.ajax({
+        method: 'GET',
         url: "{% url 'reservation:ajax-dayrender'%}",
         data: { 'date': date.format() },
         success: function (response) {
           if (response == "NO TIME SLOT") {
-            cell.css({
-              "background-color": "#ddd",
-              "color": "#000",
-              "pointer-events": "none",
-            });
-          }
-          else if (response == "OK") {
-            //cell.css("background-color" , "green");
+            //cell.append("<span class='fc-event-holiday'></span>");
+            $(".fc .fc-row .fc-content-skeleton td[data-date='" + date.format() + "']").css("opacity", "0.3");
+            cell.addClass("disable");
           }
           else if (response == "OUTDATED") {
-            cell.css("background-color", "OUTDATED");
+            //cell.css("background-color" , "blue");
           }
           else {
-            cell.css("background-color", "#ffc107");
+            //cell.css("background-color", "#ffc107");
+            var dayInfo = [];
+            $.each(response.event, function(index, value) {
+              var content = '';
+              var capacity = '';
+              if (this.capacity > 0) {
+                if (typeof this.title === 'undefined') {
+                  capacity = 'empty';
+                  content = this.time + ' <a href="/reservation#main">可預約</a>';
+                } else {
+                  capacity = 'occupy';
+                  content = this.time + ' 可預約 (推薦<a href="/reservation/' + this.cid + '/' + this.id + '/date/#main?date=' + this.date + '">' + this.title + '</a>)';
+                }
+              } else {
+                capacity = 'full';
+                content = '預約已滿';
+              }
+              cell.append('<div class="slot-' + index + ' fc-event-dot fc-event-slot-' + capacity + '"></div>');
+              dayInfo.push({ 'content': content }); 
+            });
+            eventInfo[date.format()] = dayInfo;
           }
         }
       });
     },
     dayClick: function (date, jsEvent, view) {
-      if (last_day) {
-        last_day.css("background-color", last_color);
-      }
-      last_day = $(this);
-      last_color = $(this).css("background-color")
-      $(this).css("background-color", "#28a745");
+      if (moment().format('YYYY-MM-DD') === date.format('YYYY-MM-DD') || date.isAfter(moment())) {
+        // This allows today and future date
+        if (!$(".fc .fc-row .fc-bg td[data-date='" + date.format() + "']").hasClass("disable")) {
+          if (last_day) {
+            last_day.css("background-color", last_color);
+          }
+          last_day = $(this);
+          last_color = $(this).css("background-color");
+          $(this).css("background-color", "#28a745");
+          $.ajax({
+            url: "{% url 'reservation:ajax-dayclick' %}",
+            data: { 'date': date.format() },
+            success: function (response) {
+              timeslot_object_list = [];
+              if (response != "NO TIME SLOT") {
+                href_url = "/reservation/" + {{ customer_pk }} + "/" + {{ service_pk }} + "/";
+                time_slot_list = JSON.parse(response);
+    
+                for (var i = 0 ; i < time_slot_list.length; i++) {
+                  timeslot_object_list.push({
+                    'remain_mainpower': time_slot_list[i].fields.remain_mainpower,
+                    'capacity': time_slot_list[i].fields.capacity,
+                    'start_time': time_slot_list[i].fields.start_time.slice(0, -3)
+                  });
+                }
+              }
+              
+              if (typeof selected_date != 'undefined') {
+                cleanURL();
+              }
 
-      $.ajax({
-        url: "{% url 'reservation:ajax-dayclick' %}",
-        data: { 'date': date.format() },
-        success: function (response) {
-          timeslot_object_list = [];
-          if (response != "NO TIME SLOT") {
-            href_url = "/reservation/" + {{ customer_pk }} + "/" + {{ service_pk }} + "/";
-            time_slot_list = JSON.parse(response);
-
-            for (var i = 0 ; i < time_slot_list.length; i++) {
-              timeslot_object_list.push({
-                'remain_mainpower': time_slot_list[i].fields.remain_mainpower,
-                'capacity': time_slot_list[i].fields.capacity,
-                'start_time': time_slot_list[i].fields.start_time.slice(0, -3)
-              });
+              if ($("#inputPerson").val()) {
+                inputPerson = $('#inputPerson').val();
+              }
+              //console.log(date.format());
+              if (inputPerson) {
+                renderButtons();
+              }
             }
-          } else {
-            //console.log(response)
-          }
-          
-          if (typeof selected_date != 'undefined') {
-            cleanURL();
-          }
-
-          if (inputPerson) {
-            renderButtons();
-          }
+          });
         }
-      });
+      } else {
+        // Else part is for past dates
+      }
     }
   }).fullCalendar('select', selected_date);
 
@@ -207,7 +232,7 @@
                 'capacity': time_slot_list[i].fields.capacity,
                 'start_time': time_slot_list[i].fields.start_time.slice(0, -3)
               });
-              console.log(timeslot_object_list);
+              //console.log(timeslot_object_list);
             }
           }
 
@@ -218,7 +243,7 @@
         url: "{% url 'reservation:ajax-inputperson' %}",
         data: { 'person_number': inputPerson },
         success: function (response) {
-          console.log(response)
+          //console.log(response)
         }
       });
     } else {
@@ -226,7 +251,7 @@
         url: "{% url 'reservation:ajax-inputperson' %}",
         data: { 'person_number': inputPerson },
         success: function (response) {
-          console.log(response)
+          //console.log(response)
         }
       });
     }
