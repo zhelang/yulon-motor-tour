@@ -243,7 +243,10 @@
         url: "{% url 'reservation:ajax-inputperson' %}",
         data: { 'person_number': inputPerson },
         success: function (response) {
-          //console.log(response)
+          //console.log(response);
+          if (last_day) {
+            renderButtons();
+          }
         }
       });
     } else {
@@ -251,7 +254,10 @@
         url: "{% url 'reservation:ajax-inputperson' %}",
         data: { 'person_number': inputPerson },
         success: function (response) {
-          //console.log(response)
+          //console.log(response);
+          if (last_day) {
+            renderButtons();
+          }
         }
       });
     }
