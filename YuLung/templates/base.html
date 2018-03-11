@@ -46,14 +46,9 @@
   {% block navbar %} {% include 'navbar.html' %} {% endblock %}
 
   <div class="main-container">
-    {% load custom_tags %} {% get_last_banner as banner_obj %}
-    <header role="banner" id="page-header" class="container-fluid mb-3">
-      <!-- using static for view only , will change to media -->
-      <div class="row">
-        <img src="{{banner_obj.banner_image.url}}" class="img-fluid w-100 h-100" alt="{{ banner_obj.banner_description }}">
-      </div>
-    </header>
-    <!-- /#page-header -->
+    {% block banner %}
+      {% include 'banner.html' %}
+    {% endblock %}
 
     {% block quickmenu %}
     {% endblock %}
