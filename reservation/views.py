@@ -138,6 +138,7 @@ class Info(View):
         
         if (request.user.is_authenticated()):
             user_name = request.user.username
+            form=self.form_class(initial={'email':request.user.email})
         else:
             user_name = None      
         
