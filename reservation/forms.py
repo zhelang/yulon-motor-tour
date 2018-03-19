@@ -28,15 +28,14 @@ class CustomerDetailsForm(forms.Form):
         ('10016', '澎湖縣'),
         ('09007', '連江縣'),
         ('09020', '金門縣'),
-             ]
+    ]
     
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message=u'行動電話號碼格式必須是「0910123456」或「+886910123456」，請再次確認電話號碼。')
     
     name = forms.CharField(label=u'姓名:' , required=True, widget=forms.TextInput(attrs={'placeholder': u'請輸入姓名','class':'form-control'}))
     email = forms.EmailField(label=u'電子信箱:', required=True, validators=[validate_email],  widget=forms.TextInput(attrs={'placeholder': u'請輸入電子信箱','class':'form-control','type':'email'}))
-    phone = forms.CharField(label=u'電話:', required=True, validators=[phone_regex],  widget=forms.TextInput(attrs={'placeholder': u'請輸入電話號碼','class':'form-control'}))
+    phone = forms.CharField(label=u'行動電話:', required=True, validators=[phone_regex],  widget=forms.TextInput(attrs={'placeholder': u'請輸入行動電話號碼','class':'form-control'}))
     address = forms.ChoiceField(label=u'居住地:',  choices=county, widget=forms.Select(attrs={'placeholder': u'請選擇居住地','class':'form-control'}))
-    
     
 class ServicesTypeCreateForm(forms.ModelForm):
     

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 from django.conf.global_settings import EMAIL_BACKEND, EMAIL_USE_TLS
+from session_cleanup.settings import weekly_schedule
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rolepermissions',
     'social_django',
+    'session_cleanup',
     'ckeditor',
     'YuLung',
     'reservation',
@@ -200,6 +202,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'all_static')
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
 MEDIA_URL = '/media/'
+
+CELERYBEAT_SCHEDULE = {
+    'session_cleanup': weekly_schedule
+}
 
 try:
   from local_settings import *
