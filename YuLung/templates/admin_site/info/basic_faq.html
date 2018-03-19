@@ -60,7 +60,7 @@
                 <td>
                   {% if request.user|can:'edit_site_admin' %}
                   <a href="{% url 'admin-faq-delete' faq.pk %}" class="btn btn-danger btn-sm">刪除</a>
-                  {% enif %}
+                  {% endif %}
                 </td>
               </tr>
               {% endfor %}
