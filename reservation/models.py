@@ -58,7 +58,7 @@ class TimeSlot(models.Model):
 
 class CustomerDetails(models.Model):
     
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message=u'行動電話號碼格式必須是「0910123456」或「+886910123456」，請再次確認電話號碼。')
     
     name = models.CharField(max_length=255)
     email = models.EmailField(validators=[validate_email])

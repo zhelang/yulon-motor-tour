@@ -36,25 +36,29 @@
 
     </div>
     <div class="col-lg-6 col-sm-12">
-      {% if user_name %}
+      {% if user.is_authenticated %}
       <form method="post">
-        {% csrf_token %} {% for field in form %} {{field.errors}}
-
+        {% csrf_token %}
+        {% for field in form %}
         <div class="form-group row">
           <label for="name" class="col-4 col-form-label">{{field.label_tag}}</label>
           <div class="col-8">
-            {{field}}
-            <div class="invalid-feedback">
-              {{field.errors}}
-            </div>
+            {{ field }}
           </div>
+          {% if field.errors %}
+          <div class="alert alert-danger small">
+            {% for error in field.errors %}
+              <strong>{{ error | escape }}</strong>
+            {% endfor %}  
+          </div>
+          {% endif %}
         </div>
         {% endfor %}
         <div class="form-group row">
           <label for="note" class="col-4 col-form-label">參訪須知:</label>
           <div class="col-8 font-weight-bold d-flex align-items-center form-check">
             <label class="form-check-label">
-              <input type="checkbox" id="checkbox" class="form-check-input">我已閱讀並同意
+              <input type="checkbox" id="checkbox" class="form-check-input" required>我已閱讀並同意
               <a href="#" onclick="window.open('{% url 'tos' %}', '_blank', 'location=yes,height=600,width=600,scrollbars=yes,status=yes');">約定條款說明</a>。</label>
           </div>
         </div>
