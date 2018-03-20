@@ -12,6 +12,7 @@ from django.utils.safestring import mark_safe
 from django.http import HttpResponse , JsonResponse, Http404
 from django.core.exceptions import ObjectDoesNotExist
 from django.core import serializers
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
 from rolepermissions.mixins import HasPermissionsMixin
 from rolepermissions.decorators import has_permission_decorator
@@ -989,12 +990,8 @@ class AdminOrder(HasPermissionsMixin, View):
         order_pk = request.POST.get('order_pk')
         ticket_pk = request.POST.get('ticket_pk')
         assign_to = request.POST.get('assign_to')
-        
-        #print 'Ticket_pk = ',ticket_pk
-        #print 'Order_pk = ', order_pk
-        
+       
         if ticket_pk != None and ticket_pk != "":
-            
             ticket = Ticket.objects.get(pk=ticket_pk)
             assign_to_user = User.objects.get(pk = assign_to)
             user = request.user
@@ -1002,6 +999,19 @@ class AdminOrder(HasPermissionsMixin, View):
             ticket.assigned_by = user
             ticket.assigned_to = assign_to_user
             ticket.save()
+
+            subject = u'您有新的工作指派單'
+            message = u'訊息內文要放什麼？'
+            to_email = [user.email, assign_to_user.email]
+
+            send_mail(
+                subject,
+                message,
+                'noreply@tour.yulon-motor.com.tw', 
+                to_email, 
+                fail_silently=False,
+            )
+
             return redirect('admin-order')
         
         
@@ -1014,6 +1024,19 @@ class AdminOrder(HasPermissionsMixin, View):
             
                 ticket = Ticket.objects.create(assigned_by=user, assigned_to=assign_to_user,order=order)
                 ticket.save()
+
+                subject = u'您有新的工作指派單'
+                message = u'訊息內文要放什麼？'
+                to_email = [user.email, assign_to_user.email]
+
+                send_mail(
+                    subject,
+                    message,
+                    'noreply@tour.yulon-motor.com.tw',
+                    to_email,
+                    fail_silently=False,
+                )
+
                 order.status = 'completed'
                 order.save()
                 
@@ -1032,7 +1055,7 @@ class AdminOrder(HasPermissionsMixin, View):
                 roleUser.append(user)
         
         all_user = roleUser
-        
+
         return render(request, self.template_class, context={'confirmed_orders':confirmed_orders,
                                                               'unfinished_ticket':unfinished_ticket,
                                                               'all_user':all_user,
@@ -1566,6 +1589,7 @@ def adminUserAccountDelete(request):
         username = request.POST.get('username')
         user = User.objects.get(username=username)
         user.delete()
+        messages.sucess(request, u'選取的帳號已刪除')
         
         return HttpResponse("success")
     else:
