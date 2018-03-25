@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect , reverse, get_object_or_404
 from django.views.generic import View
 from django.views.generic.edit import CreateView , UpdateView , DeleteView
+from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate ,login ,logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -121,7 +122,8 @@ def loginSuccessRedirect(request):
 class FAQpage(View):
 
     template_name = 'faq.html'
-    
+   
+    @never_cache 
     def get(self, request):
         faq_list = FAQ.objects.filter(active=True).order_by('priority')
         return render(request, self.template_name , context={'faq_list':faq_list,'current_page':'faq'})
@@ -131,6 +133,7 @@ class Comments(View):
     
     template_name = 'comment/comment.html'
     
+    @never_cache
     def get(self , request):
         
         comment_list = Comment.objects.filter(active=True)
@@ -206,7 +209,7 @@ class MyReservation(View):
     
     template_name = 'my_reservation.html'
     
-    
+    @never_cache
     def get(self, request):
         
         if request.user.is_authenticated():
@@ -223,7 +226,7 @@ class MyPage(View):
 
     template_name = 'my_reservation.html'
 
-
+    @never_cache
     def get(self, request):
 
         if request.user.is_authenticated():
@@ -240,6 +243,7 @@ class SignIn(View):
     template_name = 'signin.html'
     form_class = LoginForm
     
+    @never_cache
     def get(self, request):
         
         form = self.form_class(None)
@@ -267,6 +271,7 @@ class SignUp(View):
     template_name = 'signup.html'
     form_class = RegisterForm
 
+    @never_cache
     def get(self, request):
 
         form = self.form_class(None)
@@ -312,7 +317,7 @@ class UserInfo(LoginRequiredMixin , View):
     redirect_field_name = 'user-info'
     template_name = 'user/alter_personalinfo.html'
 
-
+    @never_cache
     def get(self, request):
         
         return render(request, self.template_name, context={})
@@ -364,6 +369,7 @@ class AdminIndex(HasPermissionsMixin, View):
     required_permission = 'view_site_admin'
     template_name = 'admin_site/index/index.html'
 
+    @never_cache
     def get(self, request):
         
         is_manager = has_role(request.user, 'manager')
@@ -443,7 +449,8 @@ class AdminSignIn(View):
     
     template_name = 'admin_site/login.html'
     form_class = AdminLoginForm
-        
+    
+    @never_cache    
     def get(self, request):
         
         form = self.form_class(None)
@@ -496,7 +503,7 @@ class AdminBanner( HasPermissionsMixin, View):
     template_name = 'admin_site/info/basic_banner.html'
     form_class = BannerCreateForm
     
-
+    @never_cache
     def get(self, request):
 
         last_banner = Banner.objects.all().last()
@@ -532,6 +539,7 @@ class AdminFAQ(HasPermissionsMixin, View):
     template_name = 'admin_site/info/basic_faq.html'
     form_class = FAQAdminForm
 
+    @never_cache
     def get(self, request):
         
         faq_list = FAQ.objects.order_by('priority')    
@@ -547,7 +555,7 @@ class AdminFAQCreate(HasPermissionsMixin, View):
     template_name = 'admin_site/info/faq_form.html'
     form_class = FAQAdminForm
     
-    
+    @never_cache
     def get(self, request):
         
         faq_list = FAQ.objects.order_by('priority')    
@@ -577,7 +585,6 @@ class AdminFAQEdit(HasPermissionsMixin , UpdateView):
     template_name = 'admin_site/info/faq_form.html'
     form_class = FAQAdminForm
     model = FAQ
-    
     
     def get_context_data(self, *args, **kwargs):
         context = super(AdminFAQEdit, self).get_context_data(*args, **kwargs)
@@ -622,6 +629,7 @@ class AdminSiteInfo(HasPermissionsMixin, View):
     form_class = SiteInfoAdminForm
     instance = SiteInfo.objects.last()
     
+    @never_cache
     def get(self, request):
         
         last_site_info = SiteInfo.objects.last()
@@ -645,7 +653,6 @@ class AdminSEO(HasPermissionsMixin, UpdateView):
     template_name = 'admin_site/info/basic_seo.html'
     form_class = SEOAdminForm
 
-    
     def get_object(self, queryset=None):
         return SEO.objects.last()
     
@@ -675,8 +682,8 @@ class AdminService(HasPermissionsMixin, View):
     def get_success_url(self):
         return reverse('admin-service')
     
+    @never_cache 
     def get(self, request):
-        
         service_list = ServicesType.objects.all()
         form = self.form_class(None)
         return render(request, self.template_name, context={'service_list':service_list,
@@ -727,7 +734,7 @@ class AdminCustomer(HasPermissionsMixin, View):
     template_name = 'admin_site/service/basic_customer.html'
     form_class = CustomersTypeForm
 
-
+    @never_cache
     def get(self, request):
         
         customer_list = CustomersType.objects.all()
@@ -784,6 +791,7 @@ class AdminCalendar(HasPermissionsMixin, View):
     required_permission = 'view_site_admin'
     template_name = 'admin_site/calendar/basic_calendar.html'
     
+    @never_cache
     def get(self, request):
         return render(request, self.template_name, context={})
     
@@ -846,6 +854,7 @@ class AdminTimeSlot(HasPermissionsMixin, View):
     template_class = 'admin_site/calendar/basic_time.html'
     form_class = TimeSlotAdminForm
     
+    @never_cache
     def get(self, request, date):
         timeslot_list = TimeSlot.objects.filter(date=date)
         form = self.form_class(None)
@@ -886,11 +895,11 @@ class AdminTimeSlot(HasPermissionsMixin, View):
 
 class AdminTimeSlotEdit(HasPermissionsMixin, View):
     
-    
     required_permission = 'view_site_admin'
     template_class = 'admin_site/calendar/basic_time.html'
     form_class = TimeSlotAdminForm
     
+    @never_cache
     def get(self, request, date, pk):
         
         timeslot_list = TimeSlot.objects.filter(date=date)
@@ -964,6 +973,7 @@ class AdminOrder(HasPermissionsMixin, View):
     required_permission = 'view_site_admin'
     template_class = 'admin_site/order/basic_order.html'
     
+    @never_cache
     def get(self, request):
         confirmed_orders = Orders.objects.filter(status='confirmed').order_by('time_slot__date')
         unfinished_ticket = Ticket.objects.filter(finished=False).order_by('create_at')
@@ -1069,7 +1079,7 @@ class AdminTicket(HasPermissionsMixin, View):
     required_permission = 'view_site_admin'
     template_class = 'admin_site/order/basic_ticket.html'
         
-        
+    @never_cache    
     def get(self, request):
         
         allTicket = Ticket.objects.all().order_by('-order__time_slot__date')
@@ -1166,8 +1176,8 @@ class AdminComment(HasPermissionsMixin, View):
     required_permission = 'view_site_admin'
     template_class = 'admin_site/comment/basic_comment.html'
     
+    @never_cache
     def get(self, request):
-        
         new_comments = Comment.objects.filter(approve=False)
         published_comments = Comment.objects.filter(active=True)
         Q1 = Q(approve=True)
@@ -1210,6 +1220,7 @@ class AdminStatistic(HasPermissionsMixin, View):
     required_permission = 'view_site_admin'
     template_name = 'admin_site/statistic/basic_statistic.html'
     
+    @never_cache
     def get(self, request):
         
         earliestYear = Ticket.objects.first().order.time_slot.date.year
@@ -1425,15 +1436,11 @@ class AdminDataExport(HasPermissionsMixin, View):
     required_permission = 'view_site_admin'
     template_name = 'admin_site/statistic/basic_download.html'
         
-        
+    @never_cache    
     def get(self, request):
-        
         return render(request, self.template_name, context={})
         
-        
-        
     def post(self, request):
-        
         yearFrom = request.POST.get('ticket-year-from')
         yearTo = request.POST.get('ticket-year-to')
         monthFrom = request.POST.get('ticket-month-from')
@@ -1474,8 +1481,10 @@ class AdminUserAccount(HasPermissionsMixin, View):
     required_permission = 'view_site_admin'
     template_name = 'admin_site/user/basic_account.html'
     form_class = AdminUserCreateForm
-        
+
+    @never_cache        
     def get(self, request):
+
         
         allUser = User.objects.all()
         
@@ -1601,13 +1610,11 @@ class AdmonUserProfile(HasPermissionsMixin, View):
     required_permission = 'view_site_admin'
     template_name = 'admin_site/user/alter_personalinfo.html'
     
-    def get(self, request):
-        
+    @never_cache
+    def get(self, request):    
         return render(request, self.template_name, context={})
         
-        
     def post(self, request):
-        
         user = User.objects.get(username=request.user.username)
         
         user.first_name = request.POST.get('first_name')
@@ -1647,6 +1654,7 @@ class AdminUserPermission(HasPermissionsMixin, View):
     required_permission = 'view_site_admin'
     template_name = 'admin_site/user/basic_permission.html'
     
+    @never_cache
     def get(self, request):
         
         return render(request, self.template_name, context={})

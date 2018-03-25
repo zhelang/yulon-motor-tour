@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.views.generic import View
 from django.views.generic.edit import CreateView , UpdateView , DeleteView
 from django.views.generic.list import ListView
+from django.views.decorators.cache import never_cache
 from django.http import HttpResponse , HttpResponseNotFound , JsonResponse
 import json
 from django.core import serializers
@@ -24,6 +25,7 @@ class Reservation(ListView):
     
     template_name = 'order/reservation.html'
 
+    @never_cache
     def get(self, request):
         object_list = CustomersType.objects.filter(active=True)
         return render(request , self.template_name, context={'object_list':object_list})
@@ -33,6 +35,7 @@ class Service(View):
     
     template_name = 'order/service.html'
 
+    @never_cache
     def get(self, request, customer_pk):
         selected_customer = get_object_or_404(CustomersType , pk=customer_pk)
         #object_list = ServicesType.objects.filter(active=True)
@@ -47,6 +50,7 @@ class Date(View):
     
     template_name = 'order/date.html'
     
+    @never_cache
     def get(self, request, customer_pk , service_pk):
         selected_customer = get_object_or_404(CustomersType , pk=customer_pk)
         selected_service = get_object_or_404(ServicesType, pk=service_pk)
@@ -128,6 +132,7 @@ class Info(View):
     template_name = 'order/info.html'
     form_class = CustomerDetailsForm
     
+    @never_cache
     def get(self, request, customer_pk, service_pk, timeslot_pk):
 
         form=self.form_class(None)
@@ -240,8 +245,8 @@ class Confirm(View):
     
     template_name = 'order/confirm.html'
     
+    @never_cache
     def get(self, request, order_pk):
-
         #order = Orders.objects.get(pk=order_pk)
         order = get_object_or_404(Orders, pk=order_pk)
         return render(request , self.template_name, context={'order':order})
@@ -250,8 +255,8 @@ class OrderDetails(View):
 
     template_name = 'order/details.html'
 
+    @never_cache
     def get(self, request, order_pk):
-
         #order = Orders.objects.get(pk=order_pk)
         order = get_object_or_404(Orders, pk=order_pk)
         return render(request , self.template_name, context={'order':order})
