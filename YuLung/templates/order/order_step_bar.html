@@ -1,93 +1,216 @@
-<!DOCTYPE html>
-
-<div id="steps" class="row">
-    <div class="col-12 text-center">
-        <ul>
-            {% if page_name == 'reservation' %}
-                <li>
-                    <a class="btn active disabled" href="#">參訪目的</a>
-                </li>
-                <li>
-                    <a class="btn disabled" href="#">參訪主題</a>
-                </li>
-                <li>
-                    <a class="btn disabled" href="#">預約時間</a>
-                </li>
-                <li>
-                    <a class="btn disabled" href="#">聯絡資訊</a>
-                </li>
-                <li>
-                    <a class="btn disabled" href="#">確認預約資料</a>
-                </li>
-            {% elif page_name == 'service' %}
-                <li>
-                    <a class="btn visited" href="{% url 'reservation:reservation-index' %}#main">參訪目的<small>({{selected_customer_title}})</small></a>    
-                </li>    
-                <li>
-                    <a class="btn active disabled" href="#">參訪主題</a>
-                </li>
-                <li>
-                    <a class="btn disabled" href="#">預約時間</a>    
-                </li>
-                <li>
-                    <a class="btn disabled" href="#">聯絡資訊</a>
-                </li>
-                <li>
-                    <a class="btn disabled" href="#">確認預約資料</a>
-                </li>
-            {% elif page_name == 'date' %}
-                <li>
-                    <a class="btn disabled visited" href="{% url 'reservation:reservation-index' %}#main">參訪目的<small>({{selected_customer_title}})</small></a>
-                </li>
-                <li>
-                    <a class="btn visited" href="{% url 'reservation:reservation-service' customer_pk %}#main">參訪主題<small>({{selected_service.service_title}})</small></a>
-                </li>
-                <li>
-                    <a class="btn active disabled" href="#">預約時間</a>
-                </li>
-                <li>
-                    <a class="btn disabled" href="#">聯絡資訊</a>
-                </li>
-                <li>
-                    <a class="btn disabled" href="#">確認預約資料</a>
-                </li>
-            {% elif page_name == 'info' %}
-                <li>
-                    <a class="btn disabled visited" href="{% url 'reservation:reservation-index' %}#main">參訪目的<small>({{selected_customer_title}})</small></a>
-                </li>
-                <li>
-                    <a class="btn disabled visited" href="{% url 'reservation:reservation-service' customer_pk %}#main">參訪主題({{selected_service_title}})</a>
-                </li>
-                <li>
-                    {% if selected_timeslot.end_time %}
-                        <a class="btn visited" href="{% url 'reservation:reservation-date' customer_pk service_pk %}#main">預約時間({{selected_timeslot.start_time|date:"H:i"}} - {{selected_timeslot.end_time|date:"H:i"}})</a>
-                    {% else %}
-                        <a class="btn visited" href="{% url 'reservation:reservation-date' customer_pk service_pk %}#main">預約時間({{selected_timeslot.start_time|date:"H:i"}})</a>
-                    {% endif %}
-                </li>
-                <li>
-                    <a class="btn active disabled" href="#">聯絡資訊</a>
-                </li>
-                <li>
-                    <a class="btn disabled" href="#">確認預約資料</a>
-                </li>
-            {% elif page_name == 'confirm' %}
-                <li>
-                    <a class="btn disabled visited" href="#main">參訪目的<small></small></a>
-                </li>
-                <li>
-                    <a class="btn disabled visited" href="#main">參訪主題</a>
-                </li>
-                <li>
-                    <a class="btn disabled visited" href="#main">預約時間</a>
-                </li>
-                <li>
-                    <a class="btn disabled visited" href="#main">聯絡資訊</a>
-                </li>
-                <li>
-                    <a class="btn active disabled" href="#main">確認預約資料</a>
-                </li>
-            {% endif %}
-        </ul>
-    </div>
-</div> <!-- /#steps -->
+<div class="row">
+  <div class="col-12 text-center">
+    <ul class="steps">
+      {% if page_name == 'reservation' %}
+      <li class="present">
+        <span>
+          <a class="btn active disabled" href="#">
+            <strong>參訪目的</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="future">
+        <span>
+          <a class="btn disabled" href="#">
+            <strong>參訪主題</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="future">
+        <span>
+          <a class="btn disabled" href="#">
+            <strong>預約時間</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="future">
+        <span>
+          <a class="btn disabled" href="#">
+            <strong>聯絡資訊</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="future">
+        <span>
+          <a class="btn disabled" href="#">
+            <strong>確認預約資料</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      {% elif page_name == 'service' %}
+      <li class="past">
+        <span>
+          <a class="btn visited" href="{% url 'reservation:reservation-index' %}#main">
+            <strong>參訪目的</strong>
+            <small>{{selected_customer_title}}</small>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="present">
+        <span>
+          <a class="btn active disabled" href="#">
+            <strong>參訪主題</strong>
+          </a>
+        </span>
+      </li>
+      <i>
+      </i>
+      <li class="future">
+        <span>
+          <a class="btn disabled" href="#">
+            <strong>預約時間</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="future">
+        <span>
+          <a class="btn disabled" href="#">
+            <strong>聯絡資訊</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="future">
+        <span>
+          <a class="btn disabled" href="#">
+            <strong>確認預約資料</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      {% elif page_name == 'date' %}
+      <li class="past">
+        <span>
+          <a class="btn disabled visited" href="{% url 'reservation:reservation-index' %}#main">
+            <strong>參訪目的</strong>
+            <small>{{selected_customer_title}}</small>
+        </span>
+        <i></i>
+      </li>
+      <li class="past">
+        <span>
+          <a class="btn visited" href="{% url 'reservation:reservation-service' customer_pk %}#main">
+            <strong>參訪主題</strong>
+            <small>{{selected_service.service_title}}</small>
+        </span>
+        <i></i>
+      </li>
+      <li class="present">
+        <span>
+          <a class="btn active disabled" href="#">
+            <strong>預約時間</strong>
+        </span>
+      </li>
+      <li class="future">
+        <span>
+          <a class="btn disabled" href="#">
+            <strong>聯絡資訊</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="future">
+        <span>
+          <a class="btn disabled" href="#">
+            <strong>確認預約資料</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      {% elif page_name == 'info' %}
+      <li class="past">
+        <span>
+          <a class="btn disabled visited" href="{% url 'reservation:reservation-index' %}#main">
+            <strong>參訪目的</strong>
+            <small>{{selected_customer_title}}</small>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="past">
+        <span>
+          <a class="btn disabled visited" href="{% url 'reservation:reservation-service' customer_pk %}#main">
+            <strong>參訪主題</strong>
+            <small>{{selected_service_title}}</small>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="past">
+        <span>
+          <a class="btn visited" href="{% url 'reservation:reservation-date' customer_pk service_pk %}#main">
+            <strong>預約時間</strong>
+            <small>{{selected_timeslot.start_time|date:"H:i"}}</small>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="present">
+        <span>
+          <a class="btn active disabled" href="#">
+            <strong>聯絡資訊</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="future">
+        <span>
+          <a class="btn disabled" href="#">
+            <strong>確認預約資料</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      {% elif page_name == 'confirm' %}
+      <li class="past">
+        <span>
+          <a class="btn disabled visited" href="#main">
+            <strong>參訪目的</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="past">
+        <span>
+          <a class="btn disabled visited" href="#main">
+            <strong>參訪主題</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="past">
+        <span>
+          <a class="btn disabled visited" href="#main">
+            <strong>預約時間</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li>
+        <span>
+          <a class="btn disabled visited" href="#main">
+            <strong>聯絡資訊</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      <li class="present">
+        <span>
+          <a class="btn active disabled" href="#main">
+            <strong>確認預約資料</strong>
+          </a>
+        </span>
+        <i></i>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+<!-- /#steps -->
