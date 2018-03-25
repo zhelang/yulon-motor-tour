@@ -15,4 +15,5 @@ local_settings.py
 *.swp
 *.zip
 all_static
+media
 ._*

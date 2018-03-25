@@ -182,17 +182,15 @@ li h6{
   min-height: 2em;
   float: unset;
 }
-.fc-event-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-}
 .fc-bg .fc-day {
   vertical-align: bottom;
   text-align: center;
 }
 .fc-day .fc-event-dot {
   margin-right: 3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
 }
 .fc-event-slot-full {
   background-color: red;
