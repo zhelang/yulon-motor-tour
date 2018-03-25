@@ -21,27 +21,22 @@
   }
 }(this, function (jQuery) {
 
-/*!
- * Translated default messages for bootstrap-select.
- * Locale: AR (Arabic)
- * Author: Yasser Lotfy <y_l@alive.com>
- */
 (function ($) {
   $.fn.selectpicker.defaults = {
-    noneSelectedText: 'لم يتم إختيار شئ',
-    noneResultsText: 'لا توجد نتائج مطابقة لـ {0}',
+    noneSelectedText: 'Chưa chọn',
+    noneResultsText: 'Không có kết quả cho {0}',
     countSelectedText: function (numSelected, numTotal) {
-      return (numSelected == 1) ? "{0} خيار تم إختياره" : "{0} خيارات تمت إختيارها";
+      return "{0} mục đã chọn";
     },
     maxOptionsText: function (numAll, numGroup) {
       return [
-        (numAll == 1) ? 'تخطى الحد المسموح ({n} خيار بحد أقصى)' : 'تخطى الحد المسموح ({n} خيارات بحد أقصى)',
-        (numGroup == 1) ? 'تخطى الحد المسموح للمجموعة ({n} خيار بحد أقصى)' : 'تخطى الحد المسموح للمجموعة ({n} خيارات بحد أقصى)'
+        'Không thể chọn (giới hạn {n} mục)',
+        'Không thể chọn (giới hạn {n} mục)'
       ];
     },
-    selectAllText: 'إختيار الجميع',
-    deselectAllText: 'إلغاء إختيار الجميع',
-    multipleSeparator: '، '
+    selectAllText: 'Chọn tất cả',
+    deselectAllText: 'Bỏ chọn',
+    multipleSeparator: ', '
   };
 })(jQuery);
 
