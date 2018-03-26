@@ -40,12 +40,28 @@
       <div class="">
         <small class="form-text text-muted mb-3">* 請選擇預約人數</small>
         <div class="form-group col-8 mx-auto">
-          <select id="inputPerson" class="form-control">
+          <select id="inputPerson" class="form-control selectpicker">
             <option value="" selected>請選擇預約人數...</option>
-            {% for op in option %}
-            <option value="{{op}}">{{ op }}</option>
-            {% endfor %}
-            <option value="15">15 (含) 以上</option>>
+            <optgroup label="個人參訪">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+            </optgroup>
+            <optgroup label="團體參訪">
+              <option value="15">15 人以上</option>
+            </optgroup>
           </select>
         </div>
       </div>

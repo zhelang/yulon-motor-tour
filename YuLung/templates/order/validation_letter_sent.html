@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-
 {% extends 'base.html' %}
 
-{% block title %}Validation letter has been sent{% endblock %}
+{% block title %}確認信件/簡訊已寄出{% endblock %}
 
 {% block meta %} 
 {% endblock %}
@@ -15,7 +13,7 @@
   <div id="section" class="row">
     <div class="col-12">
       <div class="card p-3">
-        <strong>確認信件已寄出，請到您的電子郵件信箱查看信件。</strong>
+        <strong>確認信件/簡訊已寄出，請至你的電子郵件/手機簡訊查看，以並點選附連結，以確認相關內容</strong>
         <a href="{% url 'my_reservation' %}">回到我的預約頁面</a>
       </div>
     </div>

@@ -11,8 +11,12 @@ local_settings.py
 *.project
 *.pydevproject
 
+# Node stuff:
+node_modules
+
 # Other stuff:
 *.swp
 *.zip
 all_static
+media
 ._*

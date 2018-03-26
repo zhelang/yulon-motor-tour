@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <div class="col-lg-4 col-sm-12 order-2 order-lg-1 mb-3 mb-lg-0">
-  <h4>即時預約概況</h4>
-  <div class="small">
-    <div class="text-success">日期下方<span class="fc-event-dot fc-event-slot-empty"></span>表示尚可預約</div>
-    <div class="text-danger">日期下方<span class="fc-event-dot fc-event-slot-full"></span>表示預約已滿</div>
-    <div class="text-muted">日期顯示灰色表示非營業日</div>
+  <div class="d-flex justify-content-between">
+    <h4>即時預約概況</h4>
+    <div class="small" style="margin-top: -25px;">
+      <div class="text-success"><span class="fc-event-dot fc-event-slot-empty"></span> 為尚可預約</div>
+      <div class="text-danger"><span class="fc-event-dot fc-event-slot-full"></span> 為預約已滿</div>
+      <div class="text-muted">灰色為非營業日</div>
+    </div>
   </div>
   <div id='factoryCalendar'></div>
 </div>
