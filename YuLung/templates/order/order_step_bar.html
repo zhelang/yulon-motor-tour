@@ -58,9 +58,8 @@
             <strong>參訪主題</strong>
           </a>
         </span>
+        <i></i>
       </li>
-      <i>
-      </i>
       <li class="future">
         <span>
           <a class="btn disabled" href="#">
@@ -91,6 +90,7 @@
           <a class="btn disabled visited" href="{% url 'reservation:reservation-index' %}#main">
             <strong>參訪目的</strong>
             <small>{{selected_customer_title}}</small>
+          </a>
         </span>
         <i></i>
       </li>
@@ -99,6 +99,7 @@
           <a class="btn visited" href="{% url 'reservation:reservation-service' customer_pk %}#main">
             <strong>參訪主題</strong>
             <small>{{selected_service.service_title}}</small>
+          </a>
         </span>
         <i></i>
       </li>
@@ -106,7 +107,9 @@
         <span>
           <a class="btn active disabled" href="#">
             <strong>預約時間</strong>
+          </a>
         </span>
+        <i></i>
       </li>
       <li class="future">
         <span>
