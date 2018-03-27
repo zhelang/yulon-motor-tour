@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'YuLung',
     'reservation',
+    'google_analytics',
 ]
 
 MIDDLEWARE = [
@@ -79,9 +80,6 @@ TEMPLATES = [
         },
     },
 ]
-
-
-
 
 ROLEPERMISSIONS_MODULE = 'YuLung.roles'
 
@@ -174,6 +172,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Email
+# https://docs.djangoproject.com/en/1.11/ref/settings/#email-backend
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'localhost'
@@ -181,7 +181,6 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -203,6 +202,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'all_static')
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
 MEDIA_URL = '/media/'
+
+# Google Analytics
+# https://github.com/praekelt/django-google-analytics
+GOOGLE_ANALYTICS = {
+    'google_analytics_id': 'UA-116502914-1',
+}
+
+# Session cleanup
+# https://github.com/sandersnewmedia/django-session-cleanup
 
 CELERYBEAT_SCHEDULE = {
     'session_cleanup': weekly_schedule
