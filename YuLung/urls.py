@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.http import HttpResponse
 from django.conf.urls import url , include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
@@ -115,7 +116,8 @@ urlpatterns = [
 
     #url(r'^sitemap\.xml$', django.contrib.sitemaps.views.sitemap, {'sitemaps': SITEMAPS, 'template_name': 'sitemap.xml'}, name='django.contrib.sitemaps.views.sitemap')
     url(r'^sitemap\.xml$',sitemap, {'sitemaps':sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-
+    url(r'^googlea14532fb912s486\.html$', lambda r: HttpResponse("google-site-verification: googlee431d29ab682695b.html", content_type="text/plain")),
+    url(r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: ", content_type="text/plain")),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
