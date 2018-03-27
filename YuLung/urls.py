@@ -13,14 +13,23 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.http import HttpResponse
 from django.conf.urls import url , include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import PasswordResetConfirmView
+from django.contrib.sitemaps.views import sitemap
+from YuLung.sitemaps import StaticSitemap
+#from reservation.sitemaps import ReservationSitemap
 from django.conf import settings
 from django.conf.urls.static import static
 import views
 
+sitemaps = {
+    'static': StaticSitemap,
+#    'reservation': ReservationSitemap,
+#    'dynamic': DynamicSitemap
+}
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -103,9 +112,12 @@ urlpatterns = [
     url(r'ajax/del_user/$' , views.adminUserAccountDelete, name='ajax-admin-user-account-del'),
     url(r'ajax/update_faq_order/$', views.adminUpdateFAQOrder, name='ajax-admin-update-faq-order'),
     url(r'ajax/get_record_count/$', views.adminGetRecordCount, name='ajax-admin-get-record-count'),
-
     url(r'^oauth/', include('social_django.urls', namespace='social')),
-    
+
+    #url(r'^sitemap\.xml$', django.contrib.sitemaps.views.sitemap, {'sitemaps': SITEMAPS, 'template_name': 'sitemap.xml'}, name='django.contrib.sitemaps.views.sitemap')
+    url(r'^sitemap\.xml$',sitemap, {'sitemaps':sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    url(r'^googlea14532fb912s486\.html$', lambda r: HttpResponse("google-site-verification: googlee431d29ab682695b.html", content_type="text/plain")),
+    url(r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: ", content_type="text/plain")),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
