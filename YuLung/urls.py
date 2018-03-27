@@ -118,6 +118,7 @@ urlpatterns = [
     url(r'^sitemap\.xml$',sitemap, {'sitemaps':sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^googlee431d29ab682695b\.html$', lambda r: HttpResponse("google-site-verification: googlee431d29ab682695b.html", content_type="text/plain")),
     url(r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: ", content_type="text/plain")),
+    url(r'^djga/', include('google_analytics.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
