@@ -116,7 +116,7 @@ urlpatterns = [
 
     #url(r'^sitemap\.xml$', django.contrib.sitemaps.views.sitemap, {'sitemaps': SITEMAPS, 'template_name': 'sitemap.xml'}, name='django.contrib.sitemaps.views.sitemap')
     url(r'^sitemap\.xml$',sitemap, {'sitemaps':sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-    url(r'^googlea14532fb912s486\.html$', lambda r: HttpResponse("google-site-verification: googlee431d29ab682695b.html", content_type="text/plain")),
+    url(r'^googlee431d29ab682695b\.html$', lambda r: HttpResponse("google-site-verification: googlee431d29ab682695b.html", content_type="text/plain")),
     url(r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: ", content_type="text/plain")),
 ]
 
