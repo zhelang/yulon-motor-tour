@@ -10,6 +10,7 @@ local_settings.py
 *.settings
 *.project
 *.pydevproject
+*.bak
 
 # Node stuff:
 node_modules
