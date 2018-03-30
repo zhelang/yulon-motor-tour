@@ -192,11 +192,12 @@ class Info(View):
             customer_details = CustomerDetails.objects.create(name=name, email=email, phone=phone, address=address)
             customer_details.save()
 
-            order = Orders.objects.create(customer_type=CustomersType.objects.get(pk=customer_pk),
+            order = Orders(customer_type=CustomersType.objects.get(pk=customer_pk),
                                           service_type=ServicesType.objects.get(pk=service_pk),
                                           time_slot=TimeSlot.objects.get(pk=timeslot_pk),
                                           customer_details=customer_details
                                           )
+            flag_ErrPersonNume = False
             if order.time_slot.capacity - int(request.session['person_number']) >= 0:
                 order.time_slot.capacity = order.time_slot.capacity - int(request.session['person_number'])
                 order.number_of_customer = int(request.session['person_number'])
@@ -204,19 +205,28 @@ class Info(View):
                 request.session['person_number'] = None
             else:
                 error_msg.append("Incorrect Person Number")
+                flag_ErrPersonNume = True
 
             if request.user.is_authenticated():
                 order.user = request.user
 
+            date_str = datetime.datetime.now().strftime('%Y%m%d')
+            
             # TODO check b4 save
-            try:
-                order.code = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(7))
-                order.validation_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(30))
-                order.save()
-            except:
-                order.code = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(7))
-                order.validation_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(30))
-                order.save()
+            
+            if flag_ErrPersonNume != True:
+                try:
+                    last_order_num = Orders.objects.last().code[-7:]
+                    code = date_str + str(int(last_order_num) + 1).zfill(7)
+                    #order.code = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(7))
+                    order.code = code
+                    order.validation_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(30))
+                    order.save()
+                except:
+                    #order.code = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(7))
+                    order.code = date_str + "0000000"
+                    order.validation_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(30))
+                    order.save()
                 
             
                 
