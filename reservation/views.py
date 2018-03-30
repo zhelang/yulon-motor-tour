@@ -309,8 +309,6 @@ def send_validation_email(request , order_pk):
     
     
 def send_validation_sms(reuqest, order_pk):
-    
-    
     order = Orders.objects.get(pk=order_pk)
     validation_key = order.validation_key
     to_phone = order.customer_details.phone
@@ -319,7 +317,7 @@ def send_validation_sms(reuqest, order_pk):
     msg = email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).encode('utf-8').decode('string_escape').decode('utf-8')
 
     sms = every8dsms()
-    sms.login('dider', '03489200') #didier
+    sms.login('didier', '03489200')
     sms.send_message('', msg, to_phone, '', '')
 
     return redirect('reservation:reservation-send-success')
