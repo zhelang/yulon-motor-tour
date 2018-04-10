@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <link rel="profile" href="http://www.w3.org/1999/xhtml/vocab">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}{% endblock %} | 車之道體驗中心</title>
+  {% block meta %} {% endblock %} {% load static %}
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'lib/bootstrap-select/css/bootstrap-select.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+  <script src="{% static 'lib/fullcalendar/lib/jquery.min.js' %}"></script>
+  <script src="{% static 'lib/fullcalendar/lib/moment.min.js' %}"></script>
+  <script src="{% static 'lib/bootstrap/assets/js/vendor/popper.min.js' %}"></script>
+  <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'lib/retina/retina.min.js' %}"></script>
+</head>
+
+<body>
+  <div class="main-container">
+    {% block body %}
+    {% endblock %}
+  </div>
+</body>
+
+</html>
