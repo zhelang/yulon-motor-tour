@@ -17,7 +17,7 @@ from django.http import HttpResponse
 from django.conf.urls import url , include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.views import PasswordResetConfirmView
+from django.contrib.auth.views import logout, PasswordResetConfirmView
 from django.contrib.sitemaps.views import sitemap
 from YuLung.sitemaps import StaticSitemap
 #from reservation.sitemaps import ReservationSitemap
@@ -52,7 +52,7 @@ urlpatterns = [
     url(r'^password_reset/done/$', auth_views.password_reset_done, {'template_name':'password_reset_done.html'} ,name='front_password_reset_done'),
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.PasswordResetConfirm.as_view(), name='front_password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete, {'template_name':'password_set_complete.html'} , name='front_password_reset_complete'),
-    
+    url(r'^logou/$', logout, name='logout'),
     
     url(r'^site_admin/$' , views.AdminIndex.as_view() , name='admin-index'),
     url(r'^site_admin/login/$' , views.AdminSignIn.as_view() , name='admin-login'),
