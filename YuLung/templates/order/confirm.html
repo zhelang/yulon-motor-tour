@@ -49,7 +49,7 @@
                         <label class="col-3">預約狀態</label>
                         <div class="col-9 font-weight-bold d-flex align-items-center">
                             {% if order.status == 'unconfirmed' %}
-                                <span class="text-danger mr-2">未確認</span>(<a class="sendemail" value="{{order.pk}}" href="{% url 'reservation:reservation-send-email' order.pk %}">電子郵件確認</a> / <a class="sendsms" value="{{order.pk}}" href="{% url 'reservation:reservation-send-sms' order.pk %}">電話簡訊確認</a>)
+                                <span class="text-danger mr-2">請選擇利用電子郵件或手機簡訊確認您的預約內容</span>(<a class="sendemail" value="{{order.pk}}" href="{% url 'reservation:reservation-send-email' order.pk %}">電子郵件確認</a> / <a class="sendsms" value="{{order.pk}}" href="{% url 'reservation:reservation-send-sms' order.pk %}">電話簡訊確認</a>)
                             {% elif order.status == 'confirmed' %}
                                 <span class="text-success">服務人員將與您確認上述行程</span>
                             {% elif order.status == 'occupy' %}
