@@ -192,11 +192,12 @@ class Info(View):
             customer_details = CustomerDetails.objects.create(name=name, email=email, phone=phone, address=address)
             customer_details.save()
 
-            order = Orders.objects.create(customer_type=CustomersType.objects.get(pk=customer_pk),
+            order = Orders(customer_type=CustomersType.objects.get(pk=customer_pk),
                                           service_type=ServicesType.objects.get(pk=service_pk),
                                           time_slot=TimeSlot.objects.get(pk=timeslot_pk),
                                           customer_details=customer_details
                                           )
+            flag_ErrPersonNume = False
             if order.time_slot.capacity - int(request.session['person_number']) >= 0:
                 order.time_slot.capacity = order.time_slot.capacity - int(request.session['person_number'])
                 order.number_of_customer = int(request.session['person_number'])
@@ -204,19 +205,28 @@ class Info(View):
                 request.session['person_number'] = None
             else:
                 error_msg.append("Incorrect Person Number")
+                flag_ErrPersonNume = True
 
             if request.user.is_authenticated():
                 order.user = request.user
 
+            date_str = datetime.datetime.now().strftime('%Y%m%d')
+            
             # TODO check b4 save
-            try:
-                order.code = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(7))
-                order.validation_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(30))
-                order.save()
-            except:
-                order.code = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(7))
-                order.validation_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(30))
-                order.save()
+            
+            if flag_ErrPersonNume != True:
+                try:
+                    last_order_num = Orders.objects.last().code[-7:]
+                    code = date_str + str(int(last_order_num) + 1).zfill(7)
+                    #order.code = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(7))
+                    order.code = code
+                    order.validation_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(30))
+                    order.save()
+                except:
+                    #order.code = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(7))
+                    order.code = date_str + "0000000"
+                    order.validation_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for k in range(30))
+                    order.save()
                 
             
                 
@@ -299,8 +309,6 @@ def send_validation_email(request , order_pk):
     
     
 def send_validation_sms(reuqest, order_pk):
-    
-    
     order = Orders.objects.get(pk=order_pk)
     validation_key = order.validation_key
     to_phone = order.customer_details.phone
@@ -309,7 +317,7 @@ def send_validation_sms(reuqest, order_pk):
     msg = email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).encode('utf-8').decode('string_escape').decode('utf-8')
 
     sms = every8dsms()
-    sms.login('dider', '03489200') #didier
+    sms.login('didier', '03489200')
     sms.send_message('', msg, to_phone, '', '')
 
     return redirect('reservation:reservation-send-success')

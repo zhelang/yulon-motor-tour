@@ -342,17 +342,15 @@ class UserInfo(LoginRequiredMixin , View):
 
 
 class PasswordReset(PasswordResetView):
-        
-        
     template_name = 'forgot_password.html'
     form_class = AdminPasswordResetForm
+    subject_template_name = 'password_reset_subject.txt'
     success_url = reverse_lazy('front_password_reset_done')
-    html_email_template_name = 'admin_site/forgot_password_email.html'
-    extra_email_context = {'site_name':'Yulon','protocol':'https','domain':ALLOWED_HOSTS[0]}
+    html_email_template_name = 'forgot_password_email.html'
+    extra_email_context = {'site_name':u'車之道體驗中心','protocol':'https','domain':ALLOWED_HOSTS[0]}
 
   
 class PasswordResetConfirm(PasswordResetConfirmView):
-        
     template_name = 'admin_site/password_reset_confirm.html'
     form_class = AdminSetPasswordForm
     success_url = reverse_lazy('front_password_reset_complete')
