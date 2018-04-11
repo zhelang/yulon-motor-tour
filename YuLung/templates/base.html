@@ -40,12 +40,15 @@
       }
     };
   </script>
-  <script src="https://wchat.freshchat.com/js/widget.js" async></script> {% block extraheader %} {% endblock %}
+  <script src="https://wchat.freshchat.com/js/widget.js" async></script> 
+  {% block extraheader %} 
+  {% endblock %}
 </head>
 
 <body>
-
-  {% block navbar %} {% include 'navbar.html' %} {% endblock %}
+  {% block navbar %} 
+    {% include 'navbar.html' %} 
+  {% endblock %}
 
   <div class="main-container">
     {% block banner %}
@@ -57,21 +60,27 @@
 
     <div class="container">
       <div class="row">
-        {% block alert %} {% endblock %}
+        {% block alert %} 
+        {% endblock %}
       </div>
     </div>
 
-    {% block body %} {% endblock %}
+    {% block body %} 
+    {% endblock %}
 
   </div>
 
-  {% block footer %} {% include 'footer.html' %} {% endblock %}
+  {% block footer %} 
+    {% include 'footer.html' %} 
+  {% endblock %}
 
+  {% block google_analytics_script %}
   <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
-  {% load google_analytics_tags %}
-  <div style="display:none">
-    <img src="{% google_analytics %}" width="0" height="0" />
-  </div>
+    {% load google_analytics_tags %}
+    <div style="display:none">
+      <img src="{% google_analytics %}" width="0" height="0" />
+    </div>
+  {% endblock %}
 </body>
 
 </html>
