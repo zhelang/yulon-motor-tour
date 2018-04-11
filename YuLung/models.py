@@ -12,16 +12,12 @@ from reservation.models import Orders
 bannerfs = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT , 'banners_image'))
 
 class Banner(models.Model):
-    
-    #banner_image = models.FileField(storage=bannerfs)
     banner_image = models.ImageField(upload_to='banners_image')
     banner_description = models.CharField(max_length=255)
     banner_url = models.URLField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
-    
 class Comment(models.Model):
-    
     title = models.CharField(max_length=255)
     content = models.CharField(max_length=1024)
     star = models.DecimalField(max_digits=2, decimal_places=1, validators=[MinValueValidator(0.0) , MaxValueValidator(5.0)])
@@ -43,10 +39,7 @@ class Comment(models.Model):
         
         return active + ' || ' + self.title + '-' + content
 
-
-
 class FAQ(models.Model):
-    
     question = models.CharField(max_length=1024)
     answer = RichTextField(max_length=1024)
     priority = models.DecimalField(max_digits=5, decimal_places=3)
@@ -69,18 +62,14 @@ class FAQ(models.Model):
 
     def get_absolute_url(self):
         return reverse('faq')
-
             
 class SiteInfo(models.Model):
-    
     site_info_content = RichTextField(max_length=1024)
     email = models.EmailField(validators=[validate_email])
     phone = models.CharField(max_length=16)
     address = models.CharField(max_length=255)
     
-    
 class Ticket(models.Model):
-    
     assigned_by = models.ForeignKey(User, related_name="%(class)s_assigned_by" , on_delete=models.CASCADE, null=True)
     assigned_to = models.ForeignKey(User, related_name="%(class)s_assigned_to", on_delete=models.CASCADE, null=True)
     order = models.ForeignKey(Orders, on_delete=models.CASCADE, null=True)
@@ -89,29 +78,16 @@ class Ticket(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     reminder = models.TextField(max_length=2048, null=True, blank=True)
-            
 
 class SEO(models.Model):
-    
     title = models.CharField(max_length=1024,null=True)
     url_address = models.URLField(null=True)
     description = models.CharField(max_length=1024,null=True)
     img = models.ImageField(upload_to='seo_image',null=True)
     type = models.CharField(default='website', max_length=1024)
-    
     #tag = models.CharField(max_length=2048)
- 
 
 class EmailTemplate(models.Model):
-    
     from_email = models.EmailField()
     subject = models.CharField(max_length=1024)
     email_content = models.TextField(max_length=2048)
- 
-    
-    
-    
- 
-            
-            
-            

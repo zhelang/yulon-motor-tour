@@ -1,7 +1,7 @@
 <div id="all_comments" class="tab-pane active" role="tabpanel" aria-expanded="true" aria-labelledby="comment_all">
   <div>
     {% for obj in comment_list %}
-      <div class="row comment my-4">
+      <div class="row comment my-4 star{{ obj.star|floatformat:'0' }}">
         <div class="col">
           <div class="card">
             <div class="card-body bg-light">

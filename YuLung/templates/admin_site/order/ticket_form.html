@@ -1,18 +1,24 @@
-<div class="ticket-form col-2 d-none">
+<div class="ticket-form col-3 d-none">
   <form method="post">
     {% csrf_token %}
     <input class="d-none" id="hidden-ticket-pk" name="ticket_pk" value="">
     <div class="form-group">
-      <label class="form-control-label">指派人員</label>
-      <div class="">
-        <select required name="assign_to" class="custom-select form-control-plaintext" type="text">
-          <option selected value="">指派人員</option>
+        <label class="col-form-label">指派人員</label>
+        <select required name="assign_to" class="custom-select form-control-plaintext form-control" type="text">
+          <option selected value="">請選擇指派人員</option>
           {% for user in all_user%}
           <option value="{{user.pk}}">{{ user.last_name }}{{ user.first_name }} ({{ user.username|truncatechars:9 }})</option>
           {% endfor %}
         </select>
       </div>
-    </div>
+      <div class="form-group">
+        <label class="col-form-label">相關通知人 Email</label>
+        <input type="email" class="form-control" name="reminder_email" multiple placeholder="請用「,」區隔 Email 信箱">
+      </div>
+      <div class="form-group">
+        <label class="col-form-label">通知事項</label>
+        <textarea class="form-control" name="reminder" rows="6" placeholder="通知內容會註記在 Email 寄出"></textarea>
+      </div>
     <div class="form-group">
       {% include 'admin_site/button/submit.html' %}
     </div>

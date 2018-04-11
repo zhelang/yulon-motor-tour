@@ -8,16 +8,24 @@
 {% block extraheader %}
 {% endblock %}
 
+{% block banner %}
+{% endblock %}
+
 {% block body %}
-<div id="main" class="container mb-3">
+<div id="main" class="container my-3">
   <div id="section" class="row">
     <div class="col-12">
       <div class="card p-3">
         <strong>確認信件/簡訊已寄出，請至你的電子郵件/手機簡訊查看，以並點選附連結，以確認相關內容</strong>
-        <a href="{% url 'my_reservation' %}">回到我的預約頁面</a>
+        <a href="#" class="btn btn-primary btn-sm mx-auto col-2" onclick="closeAndRefresh()" role="button">關閉視窗</a>
       </div>
     </div>
   </div>
 </div>
-
+<script>
+  function closeAndRefresh() {
+    opener.location.reload(); // or opener.location.href = opener.location.href;
+    window.close(); // or self.close();
+  }
+</script>
 {% endblock %}

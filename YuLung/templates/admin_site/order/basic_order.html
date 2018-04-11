@@ -35,11 +35,10 @@
           <div class="tab-pane" id="notassign">
             <div class="d-flex">
               <div class="table-responsive col">
-                <table class="table center-aligned-table table-hover">
+                <table class="table table-hover">
                   <thead>
                     <tr class="text-primary">
-                      <th class="col-1">#</th>
-                      <th class="col-1">訂單代碼</th>
+                      <th class="col-1">訂單編號</th>
                       <th class="col-1">預約日期</th>
                       <th class="col-1">所屬客群</th>
                       <th class="col-1">預約課程</th>
@@ -54,9 +53,8 @@
                   <tbody>
                     {% for order in confirmed_orders %}
                     <tr>
-                      <td></td>
                       <td>{{ order.code }}</td>
-                      <td>{{ order.time_slot.date }} {{ order.time_slot.start_time }}</td>
+                      <td>{{ order.time_slot.date|date:'Y/m/d' }} {{ order.time_slot.start_time|date:'H:i' }}</td>
                       <td>{{ order.customer_type.customer_title }}</td>
                       <td>{{ order.service_type.service_title }}</td>
                       <td>{{ order.customer_details.name }}</td>
@@ -65,7 +63,6 @@
                       <td>{{ order.customer_details.address }}</td>
                       <td>{{ order.number_of_customer }}</td>
                       <td>
-                        
                         {% if request.user|can:'edit_site_admin' %}
                         <a value="{{order.pk}}" class="btn btn-primary btn-sm btn-edit-order">指派</a>
                         {% endif %}
@@ -81,11 +78,10 @@
           <div class="tab-pane" id="assign">
             <div class="d-flex">
               <div class="table-responsive col">
-                <table class="table center-aligned-table table-hover">
+                <table class="table table-hover">
                   <thead>
                     <tr class="text-primary">
-                      <th class="col-1">#</th>
-                      <th class="col-1">訂單代碼</th>
+                      <th class="col-1">訂單編號</th>
                       <th class="col-1">預約日期</th>
                       <th class="col-1">所屬客群</th>
                       <th class="col-1">預約課程</th>
@@ -100,9 +96,8 @@
                   <tbody>
                     {% for ticket in unfinished_ticket %}
                     <tr>
-                      <td></td>
                       <td>{{ ticket.order.code }}</td>
-                      <td>{{ ticket.order.time_slot.date }} {{ ticket.order.time_slot.start_time }}</td>
+                      <td>{{ ticket.order.time_slot.date|date:'Y/m/d' }} {{ ticket.order.time_slot.start_time|date:'H:i' }}</td>
                       <td>{{ ticket.order.customer_type.customer_title }}</td>
                       <td>{{ ticket.order.service_type.service_title }}</td>
                       <td>{{ ticket.order.customer_details.name }}</td>

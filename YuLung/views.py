@@ -15,6 +15,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core import serializers
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
+from django.template.loader import render_to_string
 from rolepermissions.mixins import HasPermissionsMixin
 from rolepermissions.decorators import has_permission_decorator
 from rolepermissions.roles import get_user_roles , assign_role , remove_role, clear_roles
@@ -532,39 +533,32 @@ class AdminBanner( HasPermissionsMixin, View):
         
     
 class AdminFAQ(HasPermissionsMixin, View):
-    
     required_permission = 'view_site_admin'
     template_name = 'admin_site/info/basic_faq.html'
     form_class = FAQAdminForm
 
     @never_cache
     def get(self, request):
-        
         faq_list = FAQ.objects.order_by('priority')    
         form = self.form_class(None)
         return render(request, self.template_name , context={'faq_list':faq_list,
                                                              'form':form
                                                              })
 
-
 class AdminFAQCreate(HasPermissionsMixin, View):
-
     required_permission = 'view_site_admin'
     template_name = 'admin_site/info/faq_form.html'
     form_class = FAQAdminForm
     
     @never_cache
     def get(self, request):
-        
         faq_list = FAQ.objects.order_by('priority')    
         form = self.form_class(None)
         return render(request, self.template_name , context={'faq_list':faq_list,
                                                              'form':form
                                                              })
         
-    
     def post(self, request):
-        
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
@@ -578,7 +572,6 @@ class AdminFAQCreate(HasPermissionsMixin, View):
     
     
 class AdminFAQEdit(HasPermissionsMixin , UpdateView):
-    
     required_permission = 'view_site_admin'
     template_name = 'admin_site/info/faq_form.html'
     form_class = FAQAdminForm
@@ -593,35 +586,27 @@ class AdminFAQEdit(HasPermissionsMixin , UpdateView):
     def get_success_url(self):
         return reverse('admin-faq')
     
-
 @has_permission_decorator('view_site_admin')    
 def adminUpdateFAQOrder(request):
-
     faqOrder = request.GET.getlist('faqOrder[]')
 
     #print faqOrder
 
     if faqOrder != "" and faqOrder != None and faqOrder != []:
-        
         for i in range(len(faqOrder)):
             faq = FAQ.objects.get(pk=faqOrder[i])
             faq.priority = i
             faq.save()
-        
         return HttpResponse("success")
-    
     return HttpResponse("fail")
-
     
 @has_permission_decorator('view_site_admin')
 def adminFAQDelete(request, pk):
-    
     faq = get_object_or_404(FAQ , pk=pk)
     faq.delete()
     return redirect('admin-faq')
     
 class AdminSiteInfo(HasPermissionsMixin, View):
-    
     required_permission = 'view_site_admin'
     template_name = 'admin_site/info/basic_info.html'
     form_class = SiteInfoAdminForm
@@ -629,13 +614,11 @@ class AdminSiteInfo(HasPermissionsMixin, View):
     
     @never_cache
     def get(self, request):
-        
         last_site_info = SiteInfo.objects.last()
         form = self.form_class(instance=self.instance)
         return render(request, self.template_name, context={'form':form})
     
     def post(self, request):
-        
         form = self.form_class(request.POST,instance=self.instance)
         if form.is_valid():
             form.save()
@@ -643,9 +626,7 @@ class AdminSiteInfo(HasPermissionsMixin, View):
         return render(request, self.template_name, context={'form':form,
                                                             'error_msg':'Invalid Form'})
     
-    
 class AdminSEO(HasPermissionsMixin, UpdateView):
-    
     model = SEO
     required_permission = 'view_site_admin'
     template_name = 'admin_site/info/basic_seo.html'
@@ -657,9 +638,7 @@ class AdminSEO(HasPermissionsMixin, UpdateView):
     def get_success_url(self):
         return reverse('admin-seo')
         
-        
 class AdminEmailTemplate(HasPermissionsMixin, UpdateView):
-        
     required_permission = 'view_site_admin'
     model = EmailTemplate    
     template_name = "admin_site/info/basic_email.html"
@@ -672,7 +651,6 @@ class AdminEmailTemplate(HasPermissionsMixin, UpdateView):
         return reverse('admin-email')
         
 class AdminService(HasPermissionsMixin, View):
-    
     required_permission = 'view_site_admin'
     template_name = 'admin_site/service/basic_service.html'
     form_class = ServicesTypeCreateForm
@@ -687,8 +665,8 @@ class AdminService(HasPermissionsMixin, View):
         return render(request, self.template_name, context={'service_list':service_list,
                                                             'form':form
                                                             })
+
 class AdminServiceCreate(HasPermissionsMixin, CreateView):
-    
     required_permission = 'view_site_admin'
     form_class = ServicesTypeCreateForm
     model = ServicesType
@@ -704,7 +682,6 @@ class AdminServiceCreate(HasPermissionsMixin, CreateView):
         return reverse('admin-service')
         
 class AdminServiceEdit(HasPermissionsMixin, UpdateView):
-    
     required_permission = 'view_site_admin'
     form_class = ServicesTypeCreateForm
     model = ServicesType
@@ -721,29 +698,24 @@ class AdminServiceEdit(HasPermissionsMixin, UpdateView):
     
 @has_permission_decorator('view_site_admin')
 def adminServiceDelete(request, pk):
-    
     service = get_object_or_404(ServicesType , pk=pk)
     service.delete()
     return redirect('admin-service')
     
 class AdminCustomer(HasPermissionsMixin, View):
-    
     required_permission = 'view_site_admin'
     template_name = 'admin_site/service/basic_customer.html'
     form_class = CustomersTypeForm
 
     @never_cache
     def get(self, request):
-        
         customer_list = CustomersType.objects.all()
         form = self.form_class(None)
-        
         return render(request, self.template_name, context={'customer_list':customer_list,
                                                             'form':form
                                                             })
         
 class AdminCustomerCreate(HasPermissionsMixin, CreateView):
-
     required_permission = 'view_site_admin'
     template_name = 'admin_site/service/customer_form.html'
     form_class = CustomersTypeForm
@@ -759,12 +731,10 @@ class AdminCustomerCreate(HasPermissionsMixin, CreateView):
         return reverse('admin-customer')
         
 class AdminCustomerEdit(HasPermissionsMixin, UpdateView):
-    
     required_permission = 'view_site_admin'
     form_class = CustomersTypeForm
     model = CustomersType
     template_name = 'admin_site/service/customer_form.html'
-    
     
     def get_context_data(self, *args, **kwargs):
         context = super(AdminCustomerEdit, self).get_context_data(*args, **kwargs)
@@ -774,18 +744,14 @@ class AdminCustomerEdit(HasPermissionsMixin, UpdateView):
     
     def get_success_url(self):
         return reverse('admin-customer')
-
-        
         
 @has_permission_decorator('view_site_admin')
 def adminCustomerDelete(request, pk):
-    
     customer = get_object_or_404(CustomersType , pk=pk)
     customer.delete()
     return redirect('admin-customer')      
 
 class AdminCalendar(HasPermissionsMixin, View):
-    
     required_permission = 'view_site_admin'
     template_name = 'admin_site/calendar/basic_calendar.html'
     
@@ -794,17 +760,12 @@ class AdminCalendar(HasPermissionsMixin, View):
         return render(request, self.template_name, context={})
     
     def post(self, request):
-        
         #print request.POST['allWorkingDay']
         #print request.POST['time_slot']
-        
         allWoringDay = json.loads(request.POST['allWorkingDay'])
         #print allWoringDay
         
-        
         for workingDay in allWoringDay:
-            
-            
             if TimeSlot.objects.filter(date=workingDay).exists():
                 print 'skip'
                 continue
@@ -824,12 +785,9 @@ class AdminCalendar(HasPermissionsMixin, View):
                     time_slot.save()
         return HttpResponse('OK')
     
-    
 @has_permission_decorator('view_site_admin') 
 def check_adminDayRender(request):
-    
     #print 'checking date', request.GET['date']
-    
     date = Q(date=request.GET['date'])
     active = Q(active=True)
     time_slot_list = TimeSlot.objects.filter(date , active)
@@ -842,12 +800,9 @@ def check_adminDayRender(request):
             return HttpResponse("HASTIMESLOT")
         else:
             return HttpResponse("NOTIMESLOT")
-    
     return HttpResponse('ERROR')
     
-    
 class AdminTimeSlot(HasPermissionsMixin, View):
-    
     required_permission = 'view_site_admin'
     template_class = 'admin_site/calendar/basic_time.html'
     form_class = TimeSlotAdminForm
@@ -862,17 +817,15 @@ class AdminTimeSlot(HasPermissionsMixin, View):
                                                               })
     
     def post(self, request, date):
-        
         form = self.form_class(request.POST)
         url_date = date
+
         if form.is_valid():
-            
             date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
             start_time = form.cleaned_data['start_time']
             available_manpower = form.cleaned_data['available_manpower']
             capacity = form.cleaned_data['capacity']
             active = form.cleaned_data['active']
-                    
             time_slot = TimeSlot.objects.create(date=date,start_time=start_time,
                                                 available_manpower=available_manpower,
                                                 remain_mainpower=available_manpower,
@@ -886,20 +839,14 @@ class AdminTimeSlot(HasPermissionsMixin, View):
                                                               'form':form,
                                                               'date':date
                                                               })
-            
-
-    
-    
 
 class AdminTimeSlotEdit(HasPermissionsMixin, View):
-    
     required_permission = 'view_site_admin'
     template_class = 'admin_site/calendar/basic_time.html'
     form_class = TimeSlotAdminForm
     
     @never_cache
     def get(self, request, date, pk):
-        
         timeslot_list = TimeSlot.objects.filter(date=date)
         ts = get_object_or_404(TimeSlot , pk=pk)
         form = self.form_class(instance=ts)
@@ -911,9 +858,9 @@ class AdminTimeSlotEdit(HasPermissionsMixin, View):
                                                               })
     
     def post(self, request, date, pk):
-        
         ts = get_object_or_404(TimeSlot , pk=pk)
         form = self.form_class(request.POST, instance=ts)
+
         if form.is_valid():
             form.save()
             return redirect('admin-timeslot-date' , date=date)
@@ -928,16 +875,13 @@ class AdminTimeSlotEdit(HasPermissionsMixin, View):
     
 @has_permission_decorator('view_site_admin')
 def adminTimeSlotDelete(request, date, pk):
-    
     ts = get_object_or_404(TimeSlot, pk=pk)
     ts.delete()
     return redirect('admin-timeslot-date' , date=date)
     
 @has_permission_decorator('view_site_admin')
 def getOrderDetails(request):
-    
     order = Orders.objects.get(pk=request.GET['order_pk'])
-    
     outJson = {'username':order.user.username,
                'service_title':order.service_type.service_title,
                'status':order.status,
@@ -946,14 +890,11 @@ def getOrderDetails(request):
                'email':order.customer_details.email,
                'address':order.customer_details.address
                }
-    
     return JsonResponse(outJson)
 
 @has_permission_decorator('view_site_admin')
 def getTicketDetails(request):
-    
     order = Ticket.objects.get(pk=request.GET['ticket_pk']).order
-    
     outJson = {'username':order.user.username,
                'service_title':order.service_type.service_title,
                'status':order.status,
@@ -962,12 +903,10 @@ def getTicketDetails(request):
                'email':order.customer_details.email,
                'address':order.customer_details.address
                }
-    
     return JsonResponse(outJson)
     
     
 class AdminOrder(HasPermissionsMixin, View):
-    
     required_permission = 'view_site_admin'
     template_class = 'admin_site/order/basic_order.html'
     
@@ -975,12 +914,10 @@ class AdminOrder(HasPermissionsMixin, View):
     def get(self, request):
         confirmed_orders = Orders.objects.filter(status='confirmed').order_by('time_slot__date')
         unfinished_ticket = Ticket.objects.filter(finished=False).order_by('create_at')
-        
         all_user = User.objects.all()
         roleUser = []
         
         for user in all_user:
-            
             if has_permission(user, 'edit_site_admin'):
                 roleUser.append(user)
         
@@ -991,14 +928,13 @@ class AdminOrder(HasPermissionsMixin, View):
                                                               'all_user':all_user
                                                               })
         
-        
-        
     def post(self, request):
-        
         order_pk = request.POST.get('order_pk')
         ticket_pk = request.POST.get('ticket_pk')
         assign_to = request.POST.get('assign_to')
-       
+        reminder = request.POST.get('reminder')
+        reminder_email = request.POST.get('reminder_email')
+
         if ticket_pk != None and ticket_pk != "":
             ticket = Ticket.objects.get(pk=ticket_pk)
             assign_to_user = User.objects.get(pk = assign_to)
@@ -1008,41 +944,44 @@ class AdminOrder(HasPermissionsMixin, View):
             ticket.assigned_to = assign_to_user
             ticket.save()
 
-            subject = u'您有新的工作指派單'
-            message = u'訊息內文要放什麼？'
-            to_email = [user.email, assign_to_user.email]
+            subject = u'[車之道體驗中心] 您有新的工作指派單'
+            message = render_to_string('admin_site/order/ticket_email.txt', {'order': ticket.order, 'reminder': reminder})
+            html_message = render_to_string('admin_site/order/ticket_email.html', {'order': ticket.order, 'reminder': reminder})
+            to_email = [user.email, assign_to_user.email, reminder_email]
 
             send_mail(
                 subject,
                 message,
-                'noreply@tour.yulon-motor.com.tw', 
+                'no-reply@tour.yulon-motor.com.tw', 
                 to_email, 
                 fail_silently=False,
+                html_message=html_message
             )
 
             return redirect('admin-order')
         
         
         if order_pk != None and order_pk != "":    
-        
             if assign_to != None:
                 order = Orders.objects.get(pk=order_pk)
                 assign_to_user = User.objects.get(pk = assign_to)
                 user = request.user
             
-                ticket = Ticket.objects.create(assigned_by=user, assigned_to=assign_to_user,order=order)
+                ticket = Ticket.objects.create(assigned_by=user, assigned_to=assign_to_user,order=order, reminder=reminder)
                 ticket.save()
 
-                subject = u'您有新的工作指派單'
-                message = u'訊息內文要放什麼？'
-                to_email = [user.email, assign_to_user.email]
+                subject = u'[車之道體驗中心] 您有新的工作指派單'
+                message = render_to_string('admin_site/order/ticket_email.txt', {'order': order, 'reminder': reminder})
+                html_message = render_to_string('admin_site/order/ticket_email.html', {'order': order, 'reminder': reminder})
+                to_email = [user.email, assign_to_user.email, reminder_email]
 
                 send_mail(
                     subject,
                     message,
-                    'noreply@tour.yulon-motor.com.tw',
+                    'no-reply@tour.yulon-motor.com.tw',
                     to_email,
                     fail_silently=False,
+                    html_message=html_message
                 )
 
                 order.status = 'completed'
@@ -1097,19 +1036,11 @@ class AdminTicket(HasPermissionsMixin, View):
         
 @has_permission_decorator('view_site_admin') 
 def adminSearchTicket(request):
-    
     year = request.GET.get('year')
     month = request.GET.get('month')
     keywords = request.GET.get('keywords')
     assigned_by = request.GET.get('assigned_by')
     assigned_to = request.GET.get('assigned_to')
-    
-    #print 'Year = ', year
-    #print 'Month =', month
-    #print 'keywords', keywords
-    #print 'by' , assigned_by
-    #print 'to' , assigned_to
-    
     
     if year=="" and month == "" and keywords == "" and assigned_by == "" and assigned_to == "":
         print "No input"
@@ -1119,7 +1050,6 @@ def adminSearchTicket(request):
     
     if ticketSet == None and year != '':
         ticketSet = Ticket.objects.filter(order__time_slot__date__year = int(year))
-        
     
     if month != "" and ticketSet == None:
         ticketSet = Ticket.objects.filter(order__time_slot__date__month = int(month))
@@ -1127,15 +1057,12 @@ def adminSearchTicket(request):
     elif month !="":
         ticketSet = ticketSet.filter(order__time_slot__date__month = int(month))
     
-    
     if keywords != '':
-        
         Qname = Q(order__customer_details__name__icontains=keywords)
         Qphone = Q(order__customer_details__phone__icontains=keywords)
         Qemail = Q(order__customer_details__email__icontains=keywords)
         Qcust = Q(order__customer_type__customer_title__icontains=keywords)
         Qser = Q(order__service_type__service_title__icontains=keywords)
-        
         
         if ticketSet == None:
             ticketSet = Ticket.objects.filter(Qname | Qphone| Qemail | Qcust | Qser )
@@ -1143,14 +1070,12 @@ def adminSearchTicket(request):
             ticketSet = ticketSet.filter(Qname | Qphone| Qemail | Qcust | Qser )
     
     if assigned_by != '':
-        
         if ticketSet == None:
             ticketSet = Ticket.objects.filter(assigned_by__username__icontains=assigned_by)
         else:
             ticketSet = ticketSet.filter(assigned_by__username__icontains=assigned_by)
     
     if assigned_to != '':
-        
         if ticketSet == None:
             ticketSet = Ticket.objects.filter(assigned_to__username__icontains=assigned_to)
         else:

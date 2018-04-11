@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <div>
+    <strong>訂單代碼: </strong>{{ order.code }}<br />
+    <strong>預約日期: </strong>{{ order.time_slot.date|date:'Y/m/d' }} {{ order.time_slot.start_time|date:'H:i' }}<br />
+    <strong>所屬客群: </strong>{{ order.customer_type.customer_title }}<br />
+    <strong>預約課程: </strong>{{ order.service_type.service_title }}<br />
+    <strong>客戶名稱: </strong>{{ order.customer_details.name }}<br />
+    <strong>聯絡電話: </strong>{{ order.customer_details.phone }}<br />
+    <strong>Email: </strong>{{ order.customer_details.email }}<br />
+    <strong>居住地: </strong>{{ order.customer_details.address }}<br />
+    <strong>參訪人數: </strong>{{ order.number_of_customer }}<br />
+  </div>
+  <p>備註: {{ reminder }}</p>
+</body>
+</html>

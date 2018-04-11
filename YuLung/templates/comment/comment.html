@@ -13,38 +13,48 @@
   <div class="row">
     <div class="col-md-2 star_view text-warning">
       <p class="5star">
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <label for="5star" class="text-muted small">({{num5Star}})</label>
+        <a href="#" id="star5">
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <label for="5star" class="text-muted small">({{num5Star}})</label>
+        </a>
       </p>
 
       <p class="4star">
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <label for="4star" class="text-muted small">({{num4Star}})</label>
+        <a href="#" id="star4">
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <label for="4star" class="text-muted small">({{num4Star}})</label>
+        </a>
       </p>
 
       <p class="3star">
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <label for="3star" class="text-muted small">({{num3Star}})</label>
+        <a href="#" id="star3">
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <label for="3star" class="text-muted small">({{num3Star}})</label>
+        </a>
       </p>
 
       <p class="2star">
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <label for="2star" class="text-muted small">({{num2Star}})</label>
+        <a href="#" id="star2">
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <label for="2star" class="text-muted small">({{num2Star}})</label>
+        </a>
       </p>
 
       <p class="1star">
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <label for="1star" class="text-muted small">({{num1Star}})</label>
+        <a href="#" id="star1">
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <label for="1star" class="text-muted small">({{num1Star}})</label>
+        </a>
       </p>
     </div>
 
@@ -58,9 +68,34 @@
         </li>
       </ul>
       <div class="tab-content">
-        {% include 'comment/all_comments.html' %} {% include 'comment/leave_comment.html' %}
+        {% include 'comment/all_comments.html' %} 
+        {% include 'comment/leave_comment.html' %}
       </div>
     </div>
   </div>
 </div>
+<script>
+  $(document).ready(() => {
+    $('#star5').click(() => {
+      $('.comment:not(.star5)').hide();
+      $('.comment.star5').show();
+    });
+    $('#star4').click(() => {
+      $('.comment:not(.star4)').hide();
+      $('.comment.star4').show();
+    });
+    $('#star3').click(() => {
+      $('.comment:not(.star3)').hide();
+      $('.comment.star3').show();
+    });
+    $('#star2').click(() => {
+      $('.comment:not(.star2)').hide();
+      $('.comment.star2').show();
+    });
+    $('#star1').click(() => {
+      $('.comment:not(.star1)').hide();
+      $('.comment.star1').show();
+    });
+  });
+</script>
 {% endblock %}

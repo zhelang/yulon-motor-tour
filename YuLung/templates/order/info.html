@@ -41,7 +41,10 @@
         {% csrf_token %}
         {% for field in form %}
         <div class="form-group row">
-          <label for="name" class="col-4 col-form-label">{{field.label_tag}}</label>
+          <label for="name" class="col-4 col-form-label">
+            {{ field.label }}
+            {% if field.field.required %}<span class="text-danger font-weight-bold">*</span>{% endif %}
+          </label>
           <div class="col-8">
             {{ field }}
           </div>
@@ -55,7 +58,7 @@
         </div>
         {% endfor %}
         <div class="form-group row">
-          <label for="note" class="col-4 col-form-label">參訪須知:</label>
+          <label for="note" class="col-4 col-form-label">參訪須知: <span class="text-danger font-weight-bold">*</span></label>
           <div class="col-8 font-weight-bold d-flex align-items-center form-check">
             <label class="form-check-label">
               <input type="checkbox" id="checkbox" class="form-check-input" required>我已閱讀並同意
