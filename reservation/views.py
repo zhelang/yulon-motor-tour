@@ -20,6 +20,7 @@ from django_cal.views import Events
 import dateutil.rrule as rrule
 from YuLung.settings import ALLOWED_HOSTS
 from YuLung.models import EmailTemplate
+import re
 
 class Reservation(ListView):
     template_name = 'order/reservation.html'
@@ -263,7 +264,6 @@ class OrderDetails(View):
         return render(request , self.template_name, context={'order':order})
 
 def cancel_reservation(request, order_pk):
-    
     if (request.user.is_authenticated()):
         user = User.objects.get(username = request.user.username)
         
@@ -277,39 +277,40 @@ def cancel_reservation(request, order_pk):
     return HttpResponseNotFound("Page Not Found")
         
 def send_validation_email(request , order_pk):
-
     order = Orders.objects.get(pk=order_pk)
     validation_key = order.validation_key
     to_email = order.customer_details.email
     email_template = EmailTemplate.objects.last()
-    
     email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).encode('utf-8').decode('string_escape')
    
-
-   
     send_mail(
-    unicode(email_template.subject.format(order.code)).encode('utf-8'),
-    #unicode(email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).decode('string_escape')).encode('utf-8'),
-    email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).encode('utf-8').decode('string_escape').decode('utf-8'),
-    email_template.from_email,
-    [to_email],
-    fail_silently=False,
+        unicode(email_template.subject.format(order.code)).encode('utf-8'),
+        #unicode(email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).decode('string_escape')).encode('utf-8'),
+        email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).encode('utf-8').decode('string_escape').decode('utf-8'),
+        email_template.from_email,
+        [to_email],
+        fail_silently=False,
     )
  
     return redirect('reservation:reservation-send-success')
-    
     
 def send_validation_sms(reuqest, order_pk):
     order = Orders.objects.get(pk=order_pk)
     validation_key = order.validation_key
     to_phone = order.customer_details.phone
+    to_phone2 = order.customer_details.phone2
     email_template = EmailTemplate.objects.last()
-   
     msg = email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).encode('utf-8').decode('string_escape').decode('utf-8')
 
     sms = every8dsms()
     sms.login('didier', '03489200')
     sms.send_message('', msg, to_phone, '', '')
+
+    if (to_phone2 != None):
+        #to_phone2 = re.findall(r'^\+?1?\d{9,15}$', phone2)
+        sms2 = every8dsms()
+        sms2.login('didier', '03489200')
+        sms2.send_message('', msg, to_phone2, '', '')
 
     return redirect('reservation:reservation-send-success')
     
