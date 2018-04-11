@@ -7,10 +7,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-
-
 class ServicesType(models.Model):
-    
     service_type_image = models.ImageField(upload_to='services_type_image')
     service_title = models.CharField(max_length=255)
     service_description = models.CharField(max_length=1024)
@@ -26,7 +23,6 @@ class ServicesType(models.Model):
 
 
 class CustomersType(models.Model):
-    
     customers_type_image = models.ImageField(upload_to='customers_type_image')
     customer_title = models.CharField(max_length=255)
     customer_description = models.CharField(max_length=1024)
@@ -42,7 +38,6 @@ class CustomersType(models.Model):
 
 
 class TimeSlot(models.Model):
-
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField(blank=True, null=True)
@@ -63,15 +58,14 @@ class CustomerDetails(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField(validators=[validate_email])
     phone = models.CharField(max_length=16, validators=[phone_regex])
+    phone2 = models.CharField(max_length=16, blank=True)
     address = models.CharField(max_length=255,blank=True)
 
     def __unicode__(self):
         return self.name + ' - ' + self.email + ' - ' + self.phone
 
 
-
 class Orders(models.Model):
-
     customer_type = models.ForeignKey(CustomersType, on_delete=models.CASCADE, null=True)
     service_type = models.ForeignKey(ServicesType, on_delete=models.CASCADE, null=True)
     time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, null=True)
@@ -84,7 +78,4 @@ class Orders(models.Model):
 
     def __unicode__(self):
         return str(self.code) + ' || '# + self.time_slot.__unicode__()
-
-
-
 

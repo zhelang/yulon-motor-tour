@@ -22,7 +22,6 @@ from YuLung.settings import ALLOWED_HOSTS
 from YuLung.models import EmailTemplate
 
 class Reservation(ListView):
-    
     template_name = 'order/reservation.html'
 
     @never_cache
@@ -32,7 +31,6 @@ class Reservation(ListView):
 
 
 class Service(View):
-    
     template_name = 'order/service.html'
 
     @never_cache
@@ -47,7 +45,6 @@ class Service(View):
 
     
 class Date(View):
-    
     template_name = 'order/date.html'
     
     @never_cache
@@ -64,7 +61,6 @@ class Date(View):
         
     
 def get_dayrender(request):
-    
     date = Q(date=request.GET['date'])
     active = Q(active=True)
     time_slot_list = TimeSlot.objects.filter(date , active).order_by('start_time')
@@ -110,7 +106,6 @@ def get_dayrender(request):
     
     
 def get_dayclick(request):
-    
     date = Q(date=request.GET['date'])
     active = Q(active=True)
     time_slot_list = TimeSlot.objects.filter(date , active)
@@ -128,7 +123,6 @@ def set_inputperson(request):
     
     
 class Info(View):
-    
     template_name = 'order/info.html'
     form_class = CustomerDetailsForm
     
@@ -149,9 +143,6 @@ class Info(View):
         
         
         if request.session.get('person_number') != None:
-        
-
-        
             return render(request , self.template_name , context={'selected_service_title':selected_service.service_title,
                                                                   'selected_service_note':selected_service.service_note,
                                                                   'selected_service_obj':selected_service,
@@ -179,7 +170,6 @@ class Info(View):
         
 
     def post(self, request, customer_pk, service_pk, timeslot_pk):
-        
         form=self.form_class(request.POST)
         error_msg = []
         
@@ -187,9 +177,10 @@ class Info(View):
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             phone = form.cleaned_data['phone']
+            phone2 = form.cleaned_data['phone2']
             address = form.cleaned_data['address']
 
-            customer_details = CustomerDetails.objects.create(name=name, email=email, phone=phone, address=address)
+            customer_details = CustomerDetails.objects.create(name=name, email=email, phone=phone, phone2=phone2, address=address)
             customer_details.save()
 
             order = Orders(customer_type=CustomersType.objects.get(pk=customer_pk),

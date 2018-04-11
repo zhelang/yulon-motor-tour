@@ -4,7 +4,6 @@ from django.core.validators import validate_email, RegexValidator
 from models import *
 
 class CustomerDetailsForm(forms.Form):
-
     county = [
         ('63', '臺北市'),
         ('65', '新北市'),
@@ -35,10 +34,10 @@ class CustomerDetailsForm(forms.Form):
     name = forms.CharField(label=u'姓名:' , required=True, widget=forms.TextInput(attrs={'placeholder': u'請輸入姓名','class':'form-control'}))
     email = forms.EmailField(label=u'電子信箱:', required=True, validators=[validate_email],  widget=forms.TextInput(attrs={'placeholder': u'請輸入電子信箱','class':'form-control','type':'email'}))
     phone = forms.CharField(label=u'行動電話:', required=True, validators=[phone_regex],  widget=forms.TextInput(attrs={'placeholder': u'請輸入行動電話號碼','class':'form-control'}))
-    address = forms.ChoiceField(label=u'居住地:',  choices=county, widget=forms.Select(attrs={'placeholder': u'請選擇居住地','class':'form-control'}))
+    phone2 = forms.CharField(label=u'其他聯絡電話:', required=False, widget=forms.TextInput(attrs={'placeholder': u'請輸入其他聯絡電話號碼','class':'form-control'}))
+    address = forms.ChoiceField(label=u'居住地:',  required=True, choices=county, widget=forms.Select(attrs={'placeholder': u'請選擇居住地','class':'form-control'}))
     
 class ServicesTypeCreateForm(forms.ModelForm):
-    
     class Meta:
         model = ServicesType
         fields = '__all__'
@@ -70,7 +69,6 @@ class CustomersType(models.Model):
 '''     
         
 class CustomersTypeForm(forms.ModelForm):
-    
     class Meta:
         model = CustomersType
         fields = '__all__'
@@ -83,10 +81,7 @@ class CustomersTypeForm(forms.ModelForm):
                 'active' : forms.CheckboxInput(attrs={'type':'checkbox','class':'form-check-input ml-1' , 'id':'customEnable'})
             }
         
-        
-        
 class TimeSlotAdminForm(forms.ModelForm):
-    
     class Meta:
         model = TimeSlot
         exclude = ['date','end_time','remain_mainpower']
@@ -99,11 +94,3 @@ class TimeSlotAdminForm(forms.ModelForm):
                 'capacity':forms.NumberInput(attrs={'class':'form-control col-12'}),
                 'active':forms.CheckboxInput(attrs={'type':'checkbox','class':'form-check-input' , 'id':'customEnable'})
             }
-        
-        
-        
-        
-        
-        
-        
-        
