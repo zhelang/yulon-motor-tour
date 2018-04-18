@@ -4,11 +4,13 @@ from __future__ import unicode_literals
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator , validate_email, RegexValidator
 from django.contrib.auth.models import User
+from sorl.thumbnail import ImageField
 
 # Create your models here.
 
 class ServicesType(models.Model):
-    service_type_image = models.ImageField(upload_to='services_type_image')
+    #service_type_image = models.ImageField(upload_to='services_type_image')
+    service_type_image = ImageField(upload_to='services_type_image')
     service_title = models.CharField(max_length=255)
     service_description = models.CharField(max_length=1024)
     session_time_length = models.DecimalField(max_digits=4 , decimal_places=2 , validators=[MinValueValidator(0.0) , MaxValueValidator(9.0)])
@@ -23,7 +25,8 @@ class ServicesType(models.Model):
 
 
 class CustomersType(models.Model):
-    customers_type_image = models.ImageField(upload_to='customers_type_image')
+    #customers_type_image = models.ImageField(upload_to='customers_type_image')
+    customers_type_image = ImageField(upload_to='customers_type_image')
     customer_title = models.CharField(max_length=255)
     customer_description = models.CharField(max_length=1024)
     #session_time_lenth = models.DecimalField(max_digits=4 , decimal_places=2, validators=[MinValueValidator(0.0) , MaxValueValidator(9.0)])
