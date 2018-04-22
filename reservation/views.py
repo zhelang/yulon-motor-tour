@@ -51,8 +51,7 @@ class ServiceDetail(View):
 
     def get(self, request, service_pk):
         service_id = get_object_or_404(ServicesType, pk=service_pk)
-        return render(request , self.template_name, context={'service':service_id
-                                                             })
+        return render(request , self.template_name, context={'service':service_id})
     
 class Date(View):
     template_name = 'order/date.html'

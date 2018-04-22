@@ -20,15 +20,14 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import logout, PasswordResetConfirmView
 from django.contrib.sitemaps.views import sitemap
 from YuLung.sitemaps import StaticSitemap
-#from reservation.sitemaps import ReservationSitemap
+from reservation.sitemaps import ServiceSitemap
 from django.conf import settings
 from django.conf.urls.static import static
 import views
 
 sitemaps = {
     'static': StaticSitemap,
-#    'reservation': ReservationSitemap,
-#    'dynamic': DynamicSitemap
+    'service': ServiceSitemap
 }
 
 urlpatterns = [
