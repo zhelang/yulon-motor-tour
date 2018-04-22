@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator , validate_email, RegexValidator
 from django.contrib.auth.models import User
 from sorl.thumbnail import ImageField
@@ -23,6 +24,8 @@ class ServicesType(models.Model):
     def __unicode__(self):
         return self.service_code + '-' + self.service_title
 
+    def get_absolute_url(self):
+        return reverse('reservation:service-detail', kwargs={'service_pk':self.id})
 
 class CustomersType(models.Model):
     #customers_type_image = models.ImageField(upload_to='customers_type_image')

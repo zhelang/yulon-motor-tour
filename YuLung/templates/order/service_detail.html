@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ service.service_title  }}
+{% endblock %}
+
+{% block meta %}
+  <meta name="description" content="{{ service.service_description }}">
+  <meta property="og:title" content="{{ service.service_title }} - 裕隆汽車 車之道體驗中心" >
+  <meta property="og:url" content="{{ base_url }}{{ request.get_full_path }}">
+  <meta property="og:image" content="{{ base_url }}{{ service.service_type_image.url }}">
+  <meta property="og:description" content="{{ service.service_description }}" >
+{% endblock %}
+
+{% block extraheader %}
+{% endblock %}
+
+{% block body %}
+<div id="main" class="container mb-3">
+  <div id="section" class="row">
+    <div class="col">
+      <div class="service-detail">
+        <div class="row">
+          <div class="col-4">
+            <img class="img-fluid w-100 mb-2" src="{{ service.service_type_image.url }}" alt="{{ service.service_title }}" />
+            {% if service.for_family %}
+            <div class="badge badge-info p-1 mr-5 my-1">
+              <i class="fa fa-users" aria-hidden="true"></i> 適合親子同遊
+            </div>
+            {% endif %}
+            <div class="my-1">
+              <i class="fa fa-usd" aria-hidden="true"></i> {{ service.service_fee }} 元
+            </div>
+            <div class="my-1">
+              <i class="fa fa-clock-o" aria-hidden="true"></i> {{ service.session_time_length }} 小時
+            </div>
+          </div>
+          <div class="col-8">
+            <h4 class="title">{{ service.service_title }}</h4>
+            <p class="text">{{ service.service_description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /#section -->
+</div>
+{% endblock %}

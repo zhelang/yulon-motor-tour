@@ -16,6 +16,7 @@ from session_cleanup.settings import weekly_schedule
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_URL = 'http://example.com'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -83,19 +84,14 @@ TEMPLATES = [
 ]
 
 ROLEPERMISSIONS_MODULE = 'YuLung.roles'
-
 ROLEPERMISSIONS_REDIRECT_TO_LOGIN = True
 ROLEPERMISSIONS_REGISTER_ADMIN = True
 LOGIN_URL='admin-login'
 
-
-
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 AUTHENTICATION_BACKENDS = (
-    
     'social_core.backends.facebook.FacebookOAuth2',
-    #'social_auth.backends.facebook.FacebookBackend',
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -103,14 +99,8 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '412112655924-6nmhgc8ov9trppfb0imb5l6nq4cq43h9.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'svVS5JNSCtDCWHzVifVjnWMJ'
 
-#yulon.dev
 SOCIAL_AUTH_FACEBOOK_KEY = '294797807684724'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'addd1c4c10fc3f91e23dbfb5f051b8ce'
-
-#pandaman.dev
-#SOCIAL_AUTH_FACEBOOK_KEY = '991808234264199'
-#SOCIAL_AUTH_FACEBOOK_SECRET = '5e1dbf5123918d7415601483993cc038'
-
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id,name,email', 
@@ -118,7 +108,6 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.10'
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'login-success'
-
 #SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'index'
 
 WSGI_APPLICATION = 'YuLung.wsgi.application'

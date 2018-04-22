@@ -46,6 +46,12 @@ class Service(View):
                                                              'selected_customer_title':selected_customer.customer_title
                                                              })
 
+class ServiceDetail(View):
+    template_name = 'order/service_detail.html'
+
+    def get(self, request, service_pk):
+        service_id = get_object_or_404(ServicesType, pk=service_pk)
+        return render(request , self.template_name, context={'service':service_id})
     
 class Date(View):
     template_name = 'order/date.html'
