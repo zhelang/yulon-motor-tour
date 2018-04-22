@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^(?P<customer_pk>[0-9]+)/(?P<service_pk>[0-9]+)/(?P<timeslot_pk>[0-9]+)/info/$' , views.Info.as_view() , name='reservation-info'),
     url(r'^(?P<order_pk>[0-9]+)/confirm/$' , views.Confirm.as_view() , name='reservation-confirm'),
     url(r'^(?P<order_pk>[0-9]+)/details/$' , views.Confirm.as_view() , name='reservattion-order-details'),
+    url(r'^service/(?P<service_pk>[0-9]+)/detail/$' , views.ServiceDetail.as_view() , name='service-detail'),
     url(r'^cancelreservation/(?P<order_pk>[0-9]+)/$' , views.cancel_reservation , name='reservation-cancel'),
     url(r'^site_admin/order/cancelreservation/(?P<order_pk>[0-9]+)/$' , views.admin_cancel_reservation , name='admin-reservation-cancel'),
     url(r'^site_admin/order/ticket/cancelreservation/(?P<ticket_pk>[0-9]+)/$' , views.admin_cancel_ticket_reservation , name='admin-ticket-reservation-cancel'),
