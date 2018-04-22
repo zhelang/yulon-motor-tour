@@ -268,7 +268,8 @@ def admin_cancel_reservation(request, order_pk):
     order = get_object_or_404(Orders, pk=order_pk)
     order.time_slot.capacity = order.time_slot.capacity + order.number_of_customer
     order.time_slot.save()
-    order.delete()
+    order.status = "cancelled"
+    order.save()
     return redirect('admin-order')
 
 @has_permission_decorator('view_site_admin')
@@ -276,19 +277,20 @@ def admin_cancel_ticket_reservation(request, ticket_pk):
     ticket = get_object_or_404(Ticket, pk=ticket_pk)
     ticket.order.time_slot.capacity = ticket.order.time_slot.capacity + ticket.order.number_of_customer
     ticket.order.time_slot.save()
-    ticket.order.delete()
+    ticket.order.status = "cancelled"
+    ticket.order.save()
     ticket.delete()
     return redirect('admin-order')
 
 def cancel_reservation(request, order_pk):
     if (request.user.is_authenticated()):
         user = User.objects.get(username = request.user.username)
-        
         order = get_object_or_404(Orders, pk=order_pk)
         if (order.user == user):
             order.time_slot.capacity = order.time_slot.capacity + order.number_of_customer 
             order.time_slot.save()
-            order.delete()
+            order.status = "cancelled"
+            order.save()
             
             return render(request, 'order/cancel_success.html')
     return HttpResponseNotFound("Page Not Found")

@@ -17,8 +17,8 @@
 
   <div id="section" class="row">
     {% for obj in object_list %}
-    <div class="col-lg-3 col-6 d-flex">
-      <div class="card" id="{{obj.pk}}">
+    <div class="col-lg-3 col-6 d-flex mh-100" style="min-height: 350px;">
+      <div class="card w-100" id="{{obj.pk}}">
         <a class="enlarge" data-fancybox data-src="#popup-{{obj.pk}}" href="javascript:;">
           <i class="fa fa-expand fa-2x text-white bg-warning p-2" aria-hidden="true"></i>
         </a>

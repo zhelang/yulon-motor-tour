@@ -65,7 +65,7 @@
                       <td>
                         {% if request.user|can:'edit_site_admin' %}
                         <a value="{{order.pk}}" class="btn btn-primary btn-sm btn-edit-order my-1">指派</a>
-                        <a href="{% url 'reservation:admin-reservation-cancel' order.pk %}" class="btn btn-warning btn-sm my-1">刪除訂單</a>
+                        <a href="{% url 'reservation:admin-reservation-cancel' order.pk %}" class="btn btn-warning btn-sm my-1">取消訂單</a>
                         {% endif %}
                       </td>
                     </tr>
@@ -109,7 +109,7 @@
                       <td>
                         {% if request.user|can:'edit_site_admin' %}
                         <a value="{{ticket.pk}}" class="btn btn-primary btn-sm btn-edit-ticket my-1">重新指派</a>
-                        <a href="{% url 'reservation:admin-ticket-reservation-cancel' ticket.pk %}" class="btn btn-warning btn-sm my-1">刪除訂單</a>
+                        <a href="{% url 'reservation:admin-ticket-reservation-cancel' ticket.pk %}" class="btn btn-warning btn-sm my-1">取消訂單</a>
                         {% endif %}
                       </td>
                     </tr>

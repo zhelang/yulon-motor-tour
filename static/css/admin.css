@@ -13095,7 +13095,7 @@ input:focus {
   min-height: 100%;
   padding: 0;
   position: absolute;
-  width: 215px;
+  width: 250px;
   z-index: 1;
   transition: width .8s ease; }
   .sidebar .user-info {
@@ -13649,11 +13649,11 @@ input:focus {
 
 .content-wrapper {
   background: #f2f7f8;
-  margin-left: 215px;
+  margin-left: 250px;
   min-height: calc(100vh - 4.5rem);
   padding: 2rem 1rem;
   transition: all .8s ease;
-  width: calc(100% - 215px); }
+  width: calc(100% - 250px); }
   @media (max-width: 991px) {
     .content-wrapper {
       margin-left: 0;
