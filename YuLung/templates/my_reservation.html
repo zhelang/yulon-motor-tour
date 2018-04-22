@@ -24,11 +24,11 @@
         </div>
         <div class="form-group row">
           <label class="col-3 col-form-label">預約日期</label>
-          <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.time_slot.date }}</div>
+          <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.time_slot.date | date:'Y-m-d' }}</div>
         </div>
         <div class="form-group row">
           <label class="col-3 col-form-label">預約時間</label>
-          <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.time_slot.start_time }}</div>
+          <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.time_slot.start_time | date:'H:i' }}</div>
         </div>
         <div class="form-group row">
           <label class="col-3 col-form-label">預約代碼</label>
@@ -36,11 +36,14 @@
         </div>
         <div class="form-group row">
           <label class="col-3 col-form-label">預約狀態</label>
-          <div class="col-9 font-weight-bold d-flex align-items-center">
+          <div class="col-9 font-weight-bold align-items-center">
             {% if order.status == 'unconfirmed' %}
-            <span class="text-danger mr-2">請至電子郵件或手機簡訊確認您的預約內容</span>(
-            <a class="sendemail" value="{{order.pk}}" href="{% url 'reservation:reservation-send-email' order.pk %}">電子郵件確認</a> /
-            <a class="sendsms" value="{{order.pk}}" href="{% url 'reservation:reservation-send-sms' order.pk %}">電話簡訊確認</a>) {% elif order.status == 'confirmed' %}
+            <span class="text-danger mr-2">請至電子郵件或手機簡訊確認您的預約內容</span>
+            <div>
+              ( <a class="sendemail" value="{{order.pk}}" href="{% url 'reservation:reservation-send-email' order.pk %}">電子郵件確認</a> /
+              <a class="sendsms" value="{{order.pk}}" href="{% url 'reservation:reservation-send-sms' order.pk %}">電話簡訊確認</a> )
+            </div>
+            {% elif order.status == 'confirmed' %}
             <span class="text-success">服務人員將與您確認上述行程</span>
             {% elif order.status == 'occupy' or order.status == 'completed' %}
             <span class="text-primary">已確認您的行程</span>
