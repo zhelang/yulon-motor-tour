@@ -11,8 +11,10 @@ import json
 from django.core import serializers
 from django.core.mail import send_mail
 from django.db.models import Q
+from rolepermissions.decorators import has_permission_decorator
 from forms import *
 from models import *
+from YuLung.models import Ticket
 import random , string
 import datetime, pytz
 from every8dsms import *
@@ -249,7 +251,6 @@ class Confirm(View):
     
     @never_cache
     def get(self, request, order_pk):
-        #order = Orders.objects.get(pk=order_pk)
         order = get_object_or_404(Orders, pk=order_pk)
         return render(request , self.template_name, context={'order':order})
 
@@ -259,19 +260,37 @@ class OrderDetails(View):
 
     @never_cache
     def get(self, request, order_pk):
-        #order = Orders.objects.get(pk=order_pk)
         order = get_object_or_404(Orders, pk=order_pk)
         return render(request , self.template_name, context={'order':order})
+
+@has_permission_decorator('view_site_admin')
+def admin_cancel_reservation(request, order_pk):
+    order = get_object_or_404(Orders, pk=order_pk)
+    order.time_slot.capacity = order.time_slot.capacity + order.number_of_customer
+    order.time_slot.save()
+    order.status = "cancelled"
+    order.save()
+    return redirect('admin-order')
+
+@has_permission_decorator('view_site_admin')
+def admin_cancel_ticket_reservation(request, ticket_pk):
+    ticket = get_object_or_404(Ticket, pk=ticket_pk)
+    ticket.order.time_slot.capacity = ticket.order.time_slot.capacity + ticket.order.number_of_customer
+    ticket.order.time_slot.save()
+    ticket.order.status = "cancelled"
+    ticket.order.save()
+    ticket.delete()
+    return redirect('admin-order')
 
 def cancel_reservation(request, order_pk):
     if (request.user.is_authenticated()):
         user = User.objects.get(username = request.user.username)
-        
         order = get_object_or_404(Orders, pk=order_pk)
         if (order.user == user):
             order.time_slot.capacity = order.time_slot.capacity + order.number_of_customer 
             order.time_slot.save()
-            order.delete()
+            order.status = "cancelled"
+            order.save()
             
             return render(request, 'order/cancel_success.html')
     return HttpResponseNotFound("Page Not Found")

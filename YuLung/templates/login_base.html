@@ -4,6 +4,7 @@
 <head>
   <link rel="profile" href="http://www.w3.org/1999/xhtml/vocab">
   <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>{% block title %}{% endblock %} | 車之道體驗中心</title>
   {% block meta %} {% endblock %} {% load static %}
@@ -17,6 +18,13 @@
   <script src="{% static 'lib/bootstrap/assets/js/vendor/popper.min.js' %}"></script>
   <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
   <script src="{% static 'lib/retina/retina.min.js' %}"></script>
+  <!--[if IE]>
+    <link href="https://cdn.jsdelivr.net/gh/coliff/bootstrap-ie8/css/bootstrap-ie9.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/g/html5shiv@3.7.3"></script>
+  <![endif]-->
+  <!--[if lt IE 9]>
+  <link href="https://cdn.jsdelivr.net/gh/coliff/bootstrap-ie8/css/bootstrap-ie8.min.css" rel="stylesheet">
+  <![endif]-->
 </head>
 
 <body>

@@ -5,7 +5,7 @@
         <i class="fa fa-ticket fa-lg" aria-hidden="true"></i>
     </span>
     <span>
-      <strong>{{t.order.time_slot.date}} {{t.order.time_slot.start_time | date:'H:i'}}</strong> ｜ {{t.order.service_type.service_title}}
+      {{ t.order.code }} | <strong>{{t.order.time_slot.date | date:'Y-m-d' }} {{t.order.time_slot.start_time | date:'H:i'}}</strong> ｜ {{t.order.service_type.service_title}}
     </span>
   </a>
 
@@ -39,11 +39,11 @@
                 <td>{{t.order.number_of_customer}}</td>
               </tr>
               <tr>
-                <th scope="row">Created At</th>
+                <th scope="row">建立日期</th>
                 <td>{{t.create_at | date:'Y-m-d H:i' }}</td>
               </tr>
               <tr>
-                <th scope="row">Last Modify</th>
+                <th scope="row">最後修改日期</th>
                 <td>{{t.last_modified | date:'Y-m-d H:i' }}</td>
               </tr>
                 <tr>
@@ -51,7 +51,7 @@
                 <td>{{t.finished}}</td>
               </tr>
               <tr>
-                <th scope="row">Reminder</th>
+                <th scope="row">備註</th>
                 <td>{{t.reminder}}</td>
               </tr>
 

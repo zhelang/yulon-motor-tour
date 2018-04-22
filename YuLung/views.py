@@ -207,57 +207,44 @@ class Comments(View):
                                                              })
     
 class MyReservation(View):
-    
     template_name = 'my_reservation.html'
     
     @never_cache
     def get(self, request):
-        
         if request.user.is_authenticated():
-            
             user = User.objects.get(username=request.user.username)
-            order_list = Orders.objects.filter(user=user)
+            order_list = Orders.objects.filter(user=user).exclude(status='cancelled')
             print order_list
             return render(request, self.template_name, context={'order_list':order_list,'current_page':'my_reservation'})
-            
         return render(request , self.template_name , context={'error_msg':'Please Login 1st','current_page':'my_reservation'})
 
 
 class MyPage(View):
-
     template_name = 'my_reservation.html'
 
     @never_cache
     def get(self, request):
-
         if request.user.is_authenticated():
-
             user = User.objects.get(username=request.user.username)
             order_list = Orders.objects.filter(user=user)
             print order_list
             return render(request, self.template_name, context={'order_list':order_list,'current_page':'my_reservation'})
-
         return render(request , self.template_name , context={'error_msg':'Please Login 1st','current_page':'my_reservation'})    
     
 class SignIn(View):
-    
     template_name = 'signin.html'
     form_class = LoginForm
     
     @never_cache
     def get(self, request):
-        
         form = self.form_class(None)
         return render(request, self.template_name , context={'form':form})
     
     def post(self, request):
-        
         form = self.form_class(request.POST)
-        
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-        
             user = authenticate(username=username, password=password)
             print "User = ", user
             if user != None:
@@ -266,43 +253,31 @@ class SignIn(View):
             return render(request, self.template_name , context={'error_msg':'Incorrect Password or Username', 'form':form})
         return render(request, self.template_name , context={'error_msg':'Invalid Form', 'form':form})
 
-
 class SignUp(View):
-
     template_name = 'signup.html'
     form_class = RegisterForm
 
     @never_cache
     def get(self, request):
-
         form = self.form_class(None)
         return render(request, self.template_name , context={'form':form})
 
     def post(self, request):
-
         form = self.form_class(request.POST)
-
         if form.is_valid():
-            
             try:
                 user = User.objects.get(username = form.cleaned_data['username'])
                 return render(request, self.template_name , context={'error_msg':'Username has been taken', 'form':form}) 
-                
             except ObjectDoesNotExist:
                 if form.cleaned_data['password'] == form.cleaned_data['password_confirm']:
                     user = User.objects.create_user(username = form.cleaned_data['username'],
                                                     email=form.cleaned_data['username'],
                                                     password=form.cleaned_data['password'])
                     user.save()
-                
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     return redirect('login-success')
-                    
-                
                 return render(request, self.template_name , context={'error_msg':'Unmatched Password', 'form':form})
-                
         return render(request, self.template_name , context={'error_msg':'Invalid Form', 'form':form})
-
 
 def privacy(request):
     return render(request, 'privacy.html' , context={})
@@ -310,37 +285,27 @@ def privacy(request):
 def tos(request):
     return render(request, 'tos.html' , context={})
 
-
-
 class UserInfo(LoginRequiredMixin , View):
-    
     login_url =  reverse_lazy('sign-in')
     redirect_field_name = 'user-info'
     template_name = 'user/alter_personalinfo.html'
 
     @never_cache
     def get(self, request):
-        
         return render(request, self.template_name, context={})
 
-
     def post(self, request):
-        
         user = User.objects.get(username=request.user.username)
-        
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')
         user.email = request.POST.get('email')
         
         if request.POST.get('password') != "":
             user.set_password(request.POST.get('password'))
-        
         user.save()
     
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('user-profile')
-
-
 
 class PasswordReset(PasswordResetView):
     template_name = 'forgot_password.html'
@@ -349,31 +314,20 @@ class PasswordReset(PasswordResetView):
     success_url = reverse_lazy('front_password_reset_done')
     html_email_template_name = 'forgot_password_email.html'
     extra_email_context = {'site_name':u'車之道體驗中心','protocol':'https','domain':ALLOWED_HOSTS[0]}
-
   
 class PasswordResetConfirm(PasswordResetConfirmView):
     template_name = 'admin_site/password_reset_confirm.html'
     form_class = AdminSetPasswordForm
     success_url = reverse_lazy('front_password_reset_complete')
 
-
-
-
-
 # ============================================================================================================================
-
-
 class AdminIndex(HasPermissionsMixin, View):
-
     required_permission = 'view_site_admin'
     template_name = 'admin_site/index/index.html'
 
     @never_cache
     def get(self, request):
-        
         is_manager = has_role(request.user, 'manager')
-            
-        
         if is_manager:
             allTicket = Ticket.objects.all()
         else:
@@ -392,7 +346,6 @@ class AdminIndex(HasPermissionsMixin, View):
                              })
             
         today = datetime.datetime.now(pytz.timezone('Asia/Taipei'))
-
 
         if is_manager:
             weekTicket = Ticket.objects.filter(Q(order__time_slot__date__lte = today) & Q(order__time_slot__date__gte=today-datetime.timedelta(days=7)) & Q(finished=False))
@@ -920,9 +873,7 @@ class AdminOrder(HasPermissionsMixin, View):
         for user in all_user:
             if has_permission(user, 'edit_site_admin'):
                 roleUser.append(user)
-        
         all_user = roleUser
-        
         return render(request, self.template_class , context={'confirmed_orders':confirmed_orders,
                                                               'unfinished_ticket':unfinished_ticket,
                                                               'all_user':all_user
@@ -1012,13 +963,11 @@ class AdminOrder(HasPermissionsMixin, View):
         
         
 class AdminTicket(HasPermissionsMixin, View):
-    
     required_permission = 'view_site_admin'
     template_class = 'admin_site/order/basic_ticket.html'
         
     @never_cache    
     def get(self, request):
-        
         allTicket = Ticket.objects.all().order_by('-order__time_slot__date')
         paginator = Paginator(allTicket, 20)
         page = request.GET.get('page')

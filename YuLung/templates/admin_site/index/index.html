@@ -50,16 +50,18 @@
     var y = date.getFullYear();
 
     $('#calendar').fullCalendar({
+      locale: 'zh-tw',
       header: {
-        right: '',
-        center: '',
-        left: ''
+        right: 'next',
+        center: 'title',
+        left: 'prev',
       },
       buttonIcons: {
-        prev: 'calendar__prev',
-        next: 'calendar__next'
+        //prev: 'calendar__prev',
+        //next: 'calendar__next',
       },
-      theme: false,
+      titleFormat: 'YYYY/MM',
+      //theme: false,
       selectable: true,
       selectHelper: true,
       editable: true,

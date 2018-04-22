@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'YuLung',
     'reservation',
     'google_analytics',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
