@@ -5,12 +5,12 @@
 {% block title %}首頁{% endblock %}
 
 {% block meta %}
-    <meta property="og:url" content="{{seo.url_address}}" />
-    <meta property="og:title" content="{{seo.title}}" />
-    <meta property="og:description" content="{{seo.description}}" />
-    <meta property="og:image" content="https://{{site}}{{seo.img.url}}" />
-    <meta property="og:type" content="{{seo.type}}" />
-    <meta name="twitter.card" content="summary" />
+  <meta property="og:url" content="{{ seo.url_address }}" />
+    <meta property="og:title" content="{{ seo.title }}" />
+    <meta property="og:description" content="{{ seo.description }}" />
+    <meta property="og:image" content="{{ base_url }}{{ seo.img.url }}" />
+    <meta property="og:type" content="{{ seo.type }}" />
+    <meta name="twitter.card" content="{{ seo.description }}" />
 {% endblock %}
 
 {% block extraheader %}
