@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 {% extends 'base.html' %}
 
 {% block title %}預約時間{% endblock %}
@@ -16,9 +14,9 @@
   {% include 'order/order_step_bar.html' with page_name='date' %}
 
   <div id="section" class="row">
-    <div class="col-lg-4 col-sm-12 d-flex justify-content-center">
-      <div class="card col-11 mh-100">
-        <img class="card-img-top h-100" src="{{ selected_service.service_type_image.url }}" alt="{{ selected_service.title }}">
+    <div class="col-lg-4 col-12 d-flex justify-content-center">
+      <div class="card w-100">
+        <img class="card-img-top" src="{{ selected_service.service_type_image.url }}" alt="{{ selected_service.title }}">
         <div class="card-body">
           <h4 class="card-title">{{ selected_service.service_title }}</h4>
           <p class="card-text">{{ selected_service.service_description }}</p>
@@ -36,7 +34,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-4 col-sm-12">
+    <div class="col-lg-4 col-12">
       <div class="">
         <small class="form-text text-muted mb-3">* 請選擇預約人數</small>
         <div class="form-group col-8 mx-auto">
@@ -70,7 +68,7 @@
         <div id="calendar"></div>
       </div>
     </div>
-    <div class="col-lg-4 col-sm-12">
+    <div class="col-lg-4 col-12">
       <small class="form-text text-muted mb-3">* 請選擇預約時間</small>
       <div id="timeslot"></div>
     </div>
