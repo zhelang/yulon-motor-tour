@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 {% extends 'base.html' %}
 
 {% block title %}參訪主題{% endblock %}
@@ -22,7 +20,7 @@
         <a class="enlarge" data-fancybox data-src="#popup-{{obj.pk}}" href="javascript:;">
           <i class="fa fa-expand fa-2x text-white bg-warning p-2" aria-hidden="true"></i>
         </a>
-        <a href="{% url 'reservation:reservation-date' customer_pk obj.pk %}#main">
+        <a class="h-100" href="{% url 'reservation:reservation-date' customer_pk obj.pk %}#main">
           <img class="card-img-top" src="{{ obj.service_type_image.url }}" alt="{{ obj.service_title }}">
           <div class="card-body">
             <h4 class="card-title">{{ obj.service_title }}</h4>
