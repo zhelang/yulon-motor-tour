@@ -35,7 +35,7 @@
         {% for faq in faq_list %}
         <li class="answer my-4 px-2">
             <a name="Q{{forloop.counter}}">
-              <h6>Q{{forloop.counter}}.{{faq.question}}</h6>
+              <h6>Q{{faq.question}}</h6>
               <p>{{faq.answer|safe}}</p>
             </a>
             <a href="#main">回問題列表</a>

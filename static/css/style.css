@@ -192,6 +192,7 @@ li h6{
 .fc-event-slot-full {
   background-color: red;
 }
+.fc-event-slot-occupy,
 .fc-event-slot-empty {
   background-color: green;
 }

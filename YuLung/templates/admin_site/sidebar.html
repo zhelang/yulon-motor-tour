@@ -75,6 +75,10 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin-calendar' %}">批次設定開放時段</a>
           </li>
+          <li class="nav-item">
+            {% now "Y-m-d" as DATE %}
+            <a class="nav-link" href="{% url 'admin-timeslot-date' date=DATE %}">設定單日開放時段</a>
+          </li>
         </ul>
       </div>
     </li>

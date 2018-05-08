@@ -17,7 +17,6 @@
                 <table class="table center-aligned-table table-hover">
                     <thead>
                         <tr class="text-primary">
-                            <th class="col-1">#</th>
                             <th class="col-2">日期</th>
                             <th class="col-1">起始時間</th>
                             <th class="col-1">可用人力</th>
@@ -30,12 +29,11 @@
                     <tbody>
                         {% for time_slot in timeslot_list %}
                         <tr class="">
-                            <td></td>
-                            <td>{{time_slot}}</td>
-                            <td>{{time_slot.start_time}}</td>
-                            <td>{{time_slot.available_manpower}}</td>
-                            <td>{{time_slot.capacity}}</td>
-                            <td>{{time_slot.active}}</td>
+                            <td>{{ time_slot.date | date:'Y-m-d' }}</td>
+                            <td>{{ time_slot.start_time | date:'H:i' }}</td>
+                            <td>{{ time_slot.available_manpower }}</td>
+                            <td>{{ time_slot.capacity }}</td>
+                            <td>{% if time_slot.active == True %}是{% else %}否{% endif %}</td>
                             <td>
                                 <a href="{% url 'admin-timeslot-date-edit' date time_slot.pk %}" class="btn btn-primary btn-sm">編輯</a>
                             </td>

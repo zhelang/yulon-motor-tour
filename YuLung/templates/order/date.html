@@ -16,7 +16,7 @@
   <div id="section" class="row">
     <div class="col-lg-4 col-12 d-flex mh-100">
       <div class="card w-100">
-        <img class="card-img-top h-100" src="{{ selected_service.service_type_image.url }}" alt="{{ selected_service.title }}" style="height: auto;">
+        <img class="card-img-top" src="{{ selected_service.service_type_image.url }}" alt="{{ selected_service.title }}">
         <div class="card-body">
           <h4 class="card-title">{{ selected_service.service_title }}</h4>
           <p class="card-text">{{ selected_service.service_description }}</p>
@@ -70,6 +70,7 @@
     </div>
     <div class="col-lg-4 col-12 h-100">
       <small class="form-text text-muted mb-3">* 請選擇預約時間</small>
+      <p class="help-text">請先選擇<span class="mark">預約人數</span>與<span class="mark">預約日期</span>，系統會自動顯示當日可預約的時段資訊。</p>
       <div id="timeslot"></div>
     </div>
   </div>

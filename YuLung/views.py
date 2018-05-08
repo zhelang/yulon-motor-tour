@@ -763,8 +763,11 @@ class AdminTimeSlot(HasPermissionsMixin, View):
     @never_cache
     def get(self, request, date):
         timeslot_list = TimeSlot.objects.filter(date=date)
+        today = datetime.datetime.now(pytz.timezone('Asia/Taipei'))
+        date_list = TimeSlot.objects.filter(Q(date__gte = today) & Q(active=True)).values('date').distinct().order_by('date')
         form = self.form_class(None)
         return render(request, self.template_class , context={'timeslot_list':timeslot_list,
+                                                              'date_list':date_list,
                                                               'form':form,
                                                               'date':date
                                                               })
@@ -801,9 +804,12 @@ class AdminTimeSlotEdit(HasPermissionsMixin, View):
     @never_cache
     def get(self, request, date, pk):
         timeslot_list = TimeSlot.objects.filter(date=date)
+        today = datetime.datetime.now(pytz.timezone('Asia/Taipei'))
+        date_list = TimeSlot.objects.filter(Q(date__gte = today) & Q(active=True)).values('date').distinct().order_by('date')
         ts = get_object_or_404(TimeSlot , pk=pk)
         form = self.form_class(instance=ts)
         return render(request, self.template_class , context={'timeslot_list':timeslot_list,
+                                                              'date_list':date_list,
                                                               'form':form,
                                                               'date':date,
                                                               'edit':True,
