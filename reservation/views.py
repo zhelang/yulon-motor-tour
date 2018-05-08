@@ -11,6 +11,8 @@ import json
 from django.core import serializers
 from django.core.mail import send_mail
 from django.db.models import Q
+from django.template.loader import render_to_string
+from rolepermissions.checkers import has_role, has_permission
 from rolepermissions.decorators import has_permission_decorator
 from forms import *
 from models import *
@@ -343,20 +345,36 @@ def send_validation_success(request):
     return render(request, 'order/validation_letter_sent.html',context={})
     
 def confirm_reservation(request, validation_key):
-    
     # "unconfirmed" , "confirmed" , "occupy"
-
     print "validation_key =" , validation_key    
     order = get_object_or_404(Orders , validation_key=validation_key)
     if order.status == 'unconfirmed':
         order.status = "confirmed"
     order.save()
+
+    adminUser = User.objects.all()
+    adminUserEmail = []
+    for user in adminUser:
+        if has_permission(user, 'edit_site_admin'):
+            adminUserEmail.append(user)
+
+    subject = u'[車之道體驗中心] 有客戶透過網站預約導覽'
+    message = render_to_string('order/order_confirm.txt', {'order': order})
+    to_email = adminUserEmail
+
+    send_mail(
+        subject,
+        message,
+        'no-reply@tour.yulon-motor.com.tw',
+        to_email,
+        fail_silently=False,
+        #html_message=html_message
+    )
     
     #return redirect('reservation:reservation-confirm', order_pk=order.pk)
     return render(request, 'order/email_confirm.html' , context={'order':order})
     
 class GenICS(Events):
-
     def get_object(self, request, order_pk):
         return Orders.objects.get(pk=order_pk)
     
@@ -365,7 +383,6 @@ class GenICS(Events):
     
     def item_summary(self, item):
         return item.service_type.service_title
-
     
     def item_start(self, item):
         return datetime.datetime.combine(item.time_slot.date , item.time_slot.start_time)
@@ -375,7 +392,6 @@ class GenICS(Events):
             duration = item.service_type.session_time_length
             end_time = self.item_start(item) + datetime.timedelta(hours=int(duration),
                                                                       minutes= int(duration - int(duration)) * 60 )
-            
             return end_time
         else:
             return datetime.datetime.combine(item.time_slot.date , item.time_slot.end_time)
@@ -386,17 +402,12 @@ class GenICS(Events):
     def item_location(self,item):
         return u'367 苗栗縣三義鄉尖豐公路39-1號'
     
-    
 def genGoogle(request, order_pk):
-    
     order = get_object_or_404(Orders, pk=order_pk)
-    
     local = pytz.timezone('Asia/Taipei')
-    
     start_time = datetime.datetime.combine(order.time_slot.date , order.time_slot.start_time)
     duration = order.service_type.session_time_length
     end_time = start_time + datetime.timedelta(hours=int(duration),minutes= int(duration - int(duration)) * 60 )
-    
     start_time = (local.localize(start_time, is_dst=None)).astimezone(pytz.utc)
     end_time = (local.localize(end_time, is_dst=None)).astimezone(pytz.utc)
     
@@ -408,5 +419,3 @@ def genGoogle(request, order_pk):
                }
 
     return JsonResponse(outJSON)
-    
-    
