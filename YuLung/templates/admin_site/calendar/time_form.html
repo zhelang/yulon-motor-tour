@@ -7,21 +7,22 @@
         {% csrf_token %} 
         {{form.start_time.error}}
         <div class="form-group row">
-          <label for="custnumb" class="col-4 col-form-label">起始時間(24小時制)</label>
+          <label for="start_time" class="col-4 col-form-label">時段 (24小時制)</label>
           <div class="col">
               {{form.start_time}}
           </div>
         </div>
         {{form.end_time.error}}
         <div class="form-group row">
-          <label for="custnumb" class="col-4 col-form-label">可用人力</label>
+          <label for="available_manpower" class="col-4 col-form-label">可用人力</label>
           <div class="col">
               {{form.available_manpower}}
           </div>
+          <small id="amHelp" class="col-12 form-text text-muted">此功能為日後擴充預留，目前沒有使用，請保留預設數值不要更動。</small>
         </div>
         {{form.capacity.error}}
         <div class="form-group row">
-          <label for="custnumb" class="col-4 col-form-label">可預約人數</label>
+          <label for="capacity" class="col-4 col-form-label">可預約人數</label>
           <div class="col">
               {{form.capacity}}
           </div>
@@ -29,7 +30,7 @@
         {{form.active.error}}
         <div class="form-check">
             <p class="ml-4">啟用</p>
-            <label class="form-check-label">
+            <label for="active" class="form-check-label">
                 {{form.active}}
             </label>
         </div>

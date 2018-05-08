@@ -13,7 +13,33 @@
   單一日期管理
 </h3>
 <div class="row my-3">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">請選擇日期</h5>
+        <h6 class="card-subtitle mb-2 text-muted">下列選單僅顯示今天以後，且已經有利用「批次設定開放時段」建立時段的日期。</h6>
+        <select class="selectpicker">
+          {% for date in date_list %}
+          <option>{{ date.date | date:'Y-m-d' }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row my-3">
     {% include 'admin_site/calendar/time_renderer.html' %}
     {% include 'admin_site/calendar/time_form.html' %}
 </div>
+<script>
+$(function() {
+  var today = window.location.pathname.split('/')[4];
+  $('.selectpicker').selectpicker('val', today);
+  $('select').on('changed.bs.select', function(e, clickedIndex, newValue, oldValue) {
+    //console.log(this.value, clickedIndex, newValue, oldValue)
+    redirect_url = "/site_admin/calendar/time_slot/" + this.value + '/';
+    window.location.replace(redirect_url);
+  });
+});
+</script>
 {% endblock %}

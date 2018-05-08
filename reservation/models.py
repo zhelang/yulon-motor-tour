@@ -47,9 +47,9 @@ class TimeSlot(models.Model):
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField(blank=True, null=True)
-    available_manpower = models.IntegerField(validators=[MinValueValidator(0)])
+    available_manpower = models.IntegerField(validators=[MinValueValidator(0)], default=2)
     remain_mainpower = models.IntegerField(validators=[MinValueValidator(0)])    
-    capacity = models.IntegerField(validators=[MinValueValidator(0)] ,default=0)
+    capacity = models.IntegerField(validators=[MinValueValidator(0)] ,default=15)
     active = models.BooleanField(default=True)
 
     def __unicode__(self):
