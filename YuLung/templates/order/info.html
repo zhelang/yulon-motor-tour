@@ -87,7 +87,7 @@
       <button class="btn btn-primary d-flex mx-auto" onclick="window.open({% url 'sign-in' %}, '_blank', 'location=yes,height=600,width=420,scrollbars=yes,status=yes');">登入/註冊</button>
       {% endif %}
     </div>
-    <div id="popup" style="display: none;">
+    <div id="popup" class="fancybox-content" style="display: none;">
       <div class="row">
         <div class="col-4">
           <img class="img-fluid w-100 h-100" src="{{ selected_service_obj.service_type_image.url }}" alt="{{ selected_service_obj.service_title }}">
