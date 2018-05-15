@@ -31,21 +31,19 @@
         <div class="row">
           <div class="input-group mt-2 col-4">
             <span class="input-group-addon">
-              <input id="check1" type="checkbox" aria-label="Checkbox for following text input" checked="checked">
+              <input id="check1" type="checkbox" checked="checked">
             </span>
-            <span id="time1" class="input-group-addon">10:00</span>
-            <input id="num1" type="text" class="form-control col" aria-label="Text input with checkbox" placeholder="可預約人數" value="15">
-            <input id="staff1" type="hidden" class="form-control col" aria-label="Text input with checkbox" placeholder="AvailableStaff"
-              value="2">
+            <input id="time1" type="text" class="form-control col-3" placeholder="可預約時段" value="10:00">
+            <input id="num1" type="text" class="form-control col" placeholder="可預約人數" value="15">
+            <input id="staff1" type="hidden" class="form-control col" placeholder="可配置導覽人員數" value="2">
           </div>
           <div class="input-group mt-2 col-4">
             <span class="input-group-addon">
-              <input id="check2" type="checkbox" aria-label="Checkbox for following text input" checked="checked">
+              <input id="check2" type="checkbox" checked="checked">
             </span>
-            <span id="time2" class="input-group-addon">14:00</span>
-            <input id="num2" type="text" class="form-control col" aria-label="Text input with checkbox" placeholder="可預約人數" value="15">
-            <input id="staff2" type="hidden" class="form-control col" aria-label="Text input with checkbox" placeholder="AvailableStaff"
-              value="2">
+            <input id="time2" type="text" class="form-control col-3" placeholder="可預約時段" value="13:30">
+            <input id="num2" type="text" class="form-control col" placeholder="可預約人數" value="15">
+            <input id="staff2" type="hidden" class="form-control col" placeholder="可配置導覽人員數" value="2">
           </div>
         </div>
       </div>
@@ -395,11 +393,11 @@
 
       time_slot = [];
       if (document.getElementById('check1').checked) {
-        time_slot.push({ 'start_time': $('#time1').text(), 'capacity': $('#num1').val(), 'available': $('#staff1').val() });
+        time_slot.push({ 'start_time': $('#time1').val(), 'capacity': $('#num1').val(), 'available': $('#staff1').val() });
       }
 
       if (document.getElementById('check2').checked) {
-        time_slot.push({ 'start_time': $('#time2').text(), 'capacity': $('#num2').val(), 'available': $('#staff2').val() });
+        time_slot.push({ 'start_time': $('#time2').val(), 'capacity': $('#num2').val(), 'available': $('#staff2').val() });
       }
 
       //console.log(time_slot);
