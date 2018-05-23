@@ -312,7 +312,6 @@ def send_validation_email(request , order_pk):
    
     send_mail(
         unicode(email_template.subject.format(order.code)).encode('utf-8'),
-        #unicode(email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).decode('string_escape')).encode('utf-8'),
         email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).encode('utf-8').decode('string_escape').decode('utf-8'),
         email_template.from_email,
         [to_email],
@@ -352,15 +351,13 @@ def confirm_reservation(request, validation_key):
         order.status = "confirmed"
     order.save()
 
-    adminUser = User.objects.all()
-    adminUserEmail = []
-    for user in adminUser:
-        if has_permission(user, 'edit_site_admin'):
-            adminUserEmail.append(user)
+    recievers = []
+    for user in User.objects.filter(groups_name='manager'):
+        recievers.append(user.email)
 
     subject = u'[車之道體驗中心] 有客戶透過網站預約導覽'
     message = render_to_string('order/order_confirm.txt', {'order': order})
-    to_email = adminUserEmail
+    to_email = recievers
 
     send_mail(
         subject,
