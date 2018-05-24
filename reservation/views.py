@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.views.generic import View
 from django.views.generic.edit import CreateView , UpdateView , DeleteView
 from django.views.generic.list import ListView
@@ -352,7 +352,9 @@ def confirm_reservation(request, validation_key):
     order.save()
 
     recievers = []
-    for user in User.objects.filter(groups_name='manager'):
+    group = Group.objects.get(name='manager')
+    users = group.user_set.all()
+    for user in users:
         recievers.append(user.email)
 
     subject = u'[車之道體驗中心] 有客戶透過網站預約導覽'
