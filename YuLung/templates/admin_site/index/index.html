@@ -18,7 +18,7 @@
       <div class="card-body">
         <div class="row">
           {% include 'admin_site/index/index_calendar.html' %}
-          <div class="col pt-2">
+          <div class="col-md-5 col-sm-12 mt-3">
             <div class="card">
               <h5 class="card-title">工作派任單</h5>
               <ul class="nav nav-tabs" role="tablist">
@@ -35,6 +35,14 @@
               <div class="tab-content">
                 {% include 'admin_site/index/assigned_aweek.html'%} {% include 'admin_site/index/assigned_twomonth.html'%} {% include 'admin_site/index/assigned_return.html'%}
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mt-3">
+            <div class="card">
+              <h5 class="card-title">工作單下載</h5>
+              {% include 'admin_site/index/ticket_export.html' %}
             </div>
           </div>
         </div>

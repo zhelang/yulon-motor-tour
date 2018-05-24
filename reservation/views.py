@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.views.generic import View
 from django.views.generic.edit import CreateView , UpdateView , DeleteView
 from django.views.generic.list import ListView
@@ -312,7 +312,6 @@ def send_validation_email(request , order_pk):
    
     send_mail(
         unicode(email_template.subject.format(order.code)).encode('utf-8'),
-        #unicode(email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).decode('string_escape')).encode('utf-8'),
         email_template.email_content.format(ALLOWED_HOSTS[0],validation_key).encode('utf-8').decode('string_escape').decode('utf-8'),
         email_template.from_email,
         [to_email],
@@ -352,15 +351,15 @@ def confirm_reservation(request, validation_key):
         order.status = "confirmed"
     order.save()
 
-    adminUser = User.objects.all()
-    adminUserEmail = []
-    for user in adminUser:
-        if has_permission(user, 'edit_site_admin'):
-            adminUserEmail.append(user)
+    recievers = []
+    group = Group.objects.get(name='manager')
+    users = group.user_set.all()
+    for user in users:
+        recievers.append(user.email)
 
     subject = u'[車之道體驗中心] 有客戶透過網站預約導覽'
     message = render_to_string('order/order_confirm.txt', {'order': order})
-    to_email = adminUserEmail
+    to_email = recievers
 
     send_mail(
         subject,
