@@ -1,0 +1,26 @@
+            <form method="post" action={% url 'admin-data' %}>
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="ticketdate"></label>
+                        <input type="number" min="2017" class="form-control" id="ticket-year-from" name="ticket-year-from" placeholder="年">
+                    </div>
+
+                    <div class="form-group col">
+                        <label for="ticketmonth"></label>
+                        <input type="number" min="1" max="12" class="form-control" id="ticket-month-from" name="ticket-month-from" placeholder="月">
+                    </div>
+                    <i class="fa fa-angle-double-right d-flex align-items-center" aria-hidden="true"></i>
+                    <div class="form-group col">
+                        <label for="ticketdate"></label>
+                        <input type="number" min="2017" class="form-control" id="ticket-year-to" name="ticket-year-to" placeholder="年">
+                    </div>
+
+                    <div class="form-group col">
+                        <label for="ticketmonth"></label>
+                        <input type="number" min="1" max="12" class="form-control" id="ticket-month-to" name="ticket-month-to" placeholder="月">
+                    </div>
+                </div>
+            <form>
+            <label id="lb-count"></label>
+            <button id="btn-download" type="submit" class="btn btn-primary float-right col-2" role="button">下載</button>
