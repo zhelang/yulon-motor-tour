@@ -77,10 +77,11 @@ def get_dayrender(request):
     time_slot_list = TimeSlot.objects.filter(date , active).order_by('start_time')
     
     today = datetime.datetime.now(pytz.timezone('Asia/Taipei')).strftime('%Y-%m-%d')
+    week_ago = (datetime.datetime.now(pytz.timezone('Asia/Taipei')) + datetime.timedelta(days=7)).strftime('%Y-%m-%d')
     
     #print today
     
-    if request.GET['date'] < today:
+    if request.GET['date'] < week_ago:
         for ts in time_slot_list:
             ts.active = False
             ts.save()
