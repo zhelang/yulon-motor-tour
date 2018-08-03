@@ -300,6 +300,25 @@ def cancel_reservation(request, order_pk):
             order.time_slot.save()
             order.status = "cancelled"
             order.save()
+
+	    recievers = []
+	    group = Group.objects.get(name='staff')
+	    users = group.user_set.all()
+	    for user in users:
+	        recievers.append(user.email)
+
+	    subject = u'[車之道體驗中心] 有客戶取消預約導覽'
+	    message = render_to_string('order/order_cancel.txt', {'order': order})
+	    to_email = recievers
+
+	    send_mail(
+	        subject,
+	        message,
+	        'no-reply@tour.yulon-motor.com.tw',
+	        to_email,
+	        fail_silently=False,
+	        #html_message=html_message
+	    )
             
             return render(request, 'order/cancel_success.html')
     return HttpResponseNotFound("Page Not Found")
@@ -353,7 +372,7 @@ def confirm_reservation(request, validation_key):
     order.save()
 
     recievers = []
-    group = Group.objects.get(name='manager')
+    group = Group.objects.get(name='staff')
     users = group.user_set.all()
     for user in users:
         recievers.append(user.email)
