@@ -1,0 +1,11 @@
+有客戶取消導覽服務，以下是預約資訊：
+
+訂單編號: {{ order.code }}
+預約日期: {{ order.time_slot.date|date:'Y/m/d' }} {{ order.time_slot.start_time|date:'H:i' }}
+所屬客群: {{ order.customer_type.customer_title }}
+預約課程: {{ order.service_type.service_title }}
+客戶名稱: {{ order.customer_details.name }}
+聯絡電話: {{ order.customer_details.phone }}
+Email   : {{ order.customer_details.email }}
+居 住 地: {{ order.customer_details.address }}
+參訪人數: {{ order.number_of_customer }}

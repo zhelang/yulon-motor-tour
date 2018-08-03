@@ -25,13 +25,13 @@
 {% endblock %}
 
 {% block body %}
-<div id="main" class="container-fluid mb-3">
-  <div class="row mb-3">
+<div id="main" class="container mb-3">
+  <div class="row mb-5 py-3">
+    {% include 'index/index_welcome.html' %}
     {% include 'index/index_calendar.html' %} 
-    {% include 'index/index_welcome.html' %} 
-    {% include 'index/index_contact.html' %}
   </div>
-  <div class="row" id="map">
+  <div class="row py-3">
+    {% include 'index/index_contact.html' %}
     {% include 'index/index_map.html' %}
   </div>
 </div>

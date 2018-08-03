@@ -7,8 +7,14 @@ body {
   line-height: 1.5em;
   font-weight: 300;
 }
+.heading h4 {
+  border-bottom: 5px solid #0051a2;
+}
 #quick-menu {
   margin-top: -5rem;
+}
+footer {
+  background-color: #0051a2;
 }
 @media (max-width: 480px) {
   .navbar-brand {
@@ -160,6 +166,31 @@ li h6{
 }
 
 /** Calendar **/
+.fc button {
+  border: none;
+  background-color: transparent;
+  background-image: unset;
+  box-shadow: unset;
+}
+.fc-toolbar.fc-header-toolbar {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+@media (min-width: 992px) {
+  .fc-toolbar.fc-header-toolbar {
+    padding: 1rem 5rem;
+  }
+}
+.fc-view-container {
+  padding: 1rem;
+}
+.fc-view-container th.fc-day-header,
+.fc-view-container td.fc-day-top {
+  padding: 0.5rem 0;
+}
+.fc-view-container th.fc-day-header {
+  color: #0051a2;
+}
 .fc-basic-view .fc-body .fc-row {
   min-height: unset;
 }
@@ -205,4 +236,11 @@ li h6{
   max-width: 80%;
   max-height: 80%;
   margin: 0;
+}
+#fc_frame {
+  right: 30px !important;
+  top: 50px !important;
+}
+#fc_frame.h-open-container {
+  top: 0 !important;
 }

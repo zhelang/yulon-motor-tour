@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+}
 
 {% block title %}預約時間{% endblock %}
 
@@ -14,7 +15,7 @@
   {% include 'order/order_step_bar.html' with page_name='date' %}
 
   <div id="section" class="row">
-    <div class="col-lg-4 col-12 d-flex mh-100">
+    <div class="col-lg-4 col-12 d-flex mh-100 my-2">
       <div class="card w-100">
         <img class="card-img-top" src="{{ selected_service.service_type_image.url }}" alt="{{ selected_service.title }}">
         <div class="card-body">
@@ -34,44 +35,47 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-4 col-12 h-100">
-      <div class="">
-        <small class="form-text text-muted mb-3">* 請選擇預約人數</small>
-        <div class="form-group col-8 mx-auto">
-          <select id="inputPerson" class="form-control selectpicker">
-            <option value="" selected>請選擇預約人數...</option>
-            <optgroup label="團體參訪">
-              <option value="15">15 人以上</option>
-            </optgroup>
-            <optgroup label="個人參訪">
-              <!-- <option value="1">1</option>
-              <option value="2">2</option> -->
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-            </optgroup>
-          </select>
-        </div>
+    <div class="col-lg-8 col-12 d-flex mh-100 my-2">
+      <div class="card w-100 shadow rounded">
+	<div class="card-body">
+          <h4 class="card-title">預約人數</h4>
+          <div class="form-group col-lg-6">
+            <select id="inputPerson" class="form-control selectpicker">
+              <option value="" selected>請選擇預約人數...</option>
+              <optgroup label="團體參訪">
+                <option value="15">15 人以上</option>
+              </optgroup>
+              <optgroup label="個人參訪">
+                <!--<option value="1">1</option>
+                <option value="2">2</option>-->
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+              </optgroup>
+            </select>
+          </div>
+          <h4 class="card-title">預約日期</h4>
+	  <h6 class="small text-right">
+            <small class="text-success mr-3"><span class="fc-event-dot fc-event-slot-empty"></span> 為尚可預約</small>
+            <small class="text-danger mr-3"><span class="fc-event-dot fc-event-slot-full"></span> 為預約已滿</small>
+            <small class="text-muted">灰色為非營業日或已過可預約期限</small>
+	  </h6>
+          <div id="calendar" class="p-lg-5"></div>
+          <h4 class="card-title">預約時間</h4>
+	  <!-- <p class="help-text">請先選擇<span class="mark">預約人數</span>與<span class="mark">預約日期</span>，系統會自動顯示當日可預約的時段資訊。</p> -->
+          <div id="timeslot"></div>
+	</div>
       </div>
-      <div class="">
-        <small class="form-text text-muted mb-3">* 請選擇預約日期</small>
-        <div id="calendar"></div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-12 h-100">
-      <small class="form-text text-muted mb-3">* 請選擇預約時間</small>
-      <p class="help-text">請先選擇<span class="mark">預約人數</span>與<span class="mark">預約日期</span>，系統會自動顯示當日可預約的時段資訊。</p>
-      <div id="timeslot"></div>
     </div>
   </div>
   <!-- /#section -->
@@ -89,17 +93,17 @@
     timeslot_html = "<div id=\"timeslot\">";
     for (var i = 0; i < timeslot_object_list.length; i++) {
       if (timeslot_object_list[i].remain_mainpower == 0) {
-        timeslot_html = timeslot_html + "<a class=\"btn btn-outline-secondary btn-block w-75 mx-auto disabled \">" +
-          timeslot_object_list[i].start_time + " <small> 可預約人數:" + " 0 " + "</small> </a>";
+        timeslot_html = timeslot_html + "<a class=\"btn btn-outline-secondary px-5 m-1 disabled \">" +
+	  "<small>" + timeslot_object_list[i].start_time + "</small> 可預約人數:" + " 0 " + "</a>";
       }
       else {
         if (timeslot_object_list[i].capacity - inputPerson >= 0) {
-          timeslot_html = timeslot_html + "<a href=\"" + href_url + time_slot_list[i].pk + "/info/#main" + "\" class=\"btn btn-success btn-block w-75 mx-auto \">" +
-            timeslot_object_list[i].start_time + " <small> 可預約人數:" + timeslot_object_list[i].capacity + "</small> </a>";
+          timeslot_html = timeslot_html + "<a href=\"" + href_url + time_slot_list[i].pk + "/info/#main" + "\" class=\"btn btn-success px-5 m-1 \">" +
+	    "<small>" + timeslot_object_list[i].start_time + "</small> 可預約人數:" + timeslot_object_list[i].capacity + "</a>";
         }
         else {
-          timeslot_html = timeslot_html + "<a class=\"btn btn-outline-secondary btn-block w-75 mx-auto disabled \">" +
-            timeslot_object_list[i].start_time + " <small> 可預約人數:" + timeslot_object_list[i].capacity + "</small> </a>";
+          timeslot_html = timeslot_html + "<a class=\"btn btn-outline-secondary px-5 m-1 disabled \">" +
+            "<small>" + timeslot_object_list[i].start_time + "</small> 可預約人數:" + timeslot_object_list[i].capacity + "</a>";
         }
       }
     }

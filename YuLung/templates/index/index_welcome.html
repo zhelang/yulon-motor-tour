@@ -1,6 +1,12 @@
-<!DOCTYPE html>
-                
-<div class="col-lg-4 col-sm-6 order-1 order-lg-2 mb-3 mb-lg-0">
-    <h4>車之道體驗中心</h4>
+<div class="col-lg-6 col-sm-12 mb-3 mb-lg-0">
+  <div class="heading mb-3">
+    <h4 class="d-inline-flex pb-2">車之道體驗中心</h4>
+  </div>
+  <div class="content">
     <p>{{site_info.site_info_content|safe}}</p>
+  </div>
+  <div>
+    <a class="btn btn-primary px-5 mx-1" href="{% url 'reservation:reservation-index' %}#main">預約參觀</a>
+    <a class="btn btn-success px-5 mx-1" href="{% url 'faq' %}">常見問題</a>
+  </div>
 </div>

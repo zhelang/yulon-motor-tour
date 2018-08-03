@@ -1,6 +1,8 @@
-<footer class="footer container mt-5 p-3 border border-bottom-0 border-left-0 border-right-0">
-  <small class="text-center">
-    <div class="copyright-text text-muted">©2017. YULON-MOTORS All rights reserved.</div>
-    <div class="text-muted"><a href="{% url 'index' %}">回首頁</a>｜<a href="#" onclick="window.open({% url 'tos' %}, '_blank', 'location=yes,width=600,scrollbars=yes,status=yes');">使用權聲明</a>｜<a href="#" onclick="window.open({% url 'privacy' %}, '_blank', 'location=yes,width=600,scrollbars=yes,status=yes');">隱私權保護</a>｜<a href="mailto:{{ site_mail }}">聯絡我們</a></div>
-  </small>
+<footer class="footer container-fluid mt-5 p-3 border border-bottom-0 border-left-0 border-right-0">
+  <div class="container">
+    <small class="text-center">
+      <div class="copyright-text text-light">©2017-{% now "Y" %}. YULON-MOTORS All rights reserved.</div>
+      <div class="text-light"><a class="text-light px-1" href="{% url 'index' %}">回首頁</a>｜<a class="text-light px-1" href="#" onclick="window.open({% url 'tos' %}, '_blank', 'location=yes,width=600,scrollbars=yes,status=yes');">使用權聲明</a>｜<a class="text-light px-1" href="#" onclick="window.open({% url 'privacy' %}, '_blank', 'location=yes,width=600,scrollbars=yes,status=yes');">隱私權保護</a>｜<a class="text-light px-1" href="mailto:{{ site_mail }}">聯絡我們</a></div>
+    </small>
+  </div>
 </footer>

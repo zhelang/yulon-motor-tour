@@ -15,25 +15,30 @@
 
   <div id="section" class="row">
     <div class="col-lg-6 col-sm-12">
-      <div class="form-group row">
-        <label for="theme" class="col-4 col-form-label">預約活動 / Subject:</label>
-        <div class="col-8 font-weight-bold d-flex align-items-center">
-          <a class="" data-fancybox data-src="#popup" href="javascript:;">{{ selected_service_title }}</a>
-        </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <div class="row">
+              <label for="theme" class="col-4 col-form-label">預約活動 / Subject:</label>
+              <div class="col-8 font-weight-bold d-flex align-items-center">
+                <a class="" data-fancybox data-src="#popup" href="javascript:;">{{ selected_service_title }}</a>
+              </div>
+            </div>
+            <div class="row">
+              <label for="date" class="col-4 col-form-label">預約日期 / Date:</label>
+              <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.date|date:"Y/m/d" }}</div>
+            </div>
+            <div class="row">
+              <label for="time" class="col-4 col-form-label">預約時間 / Time:</label>
+              {% if selected_timeslot.end_time %}
+                <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.start_time|date:"H:i" }} - {{ selected_timeslot.end_time|date:"H:i" }}</div>
+                {% else %}
+                <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.start_time|date:"H:i" }}</div>
+              {% endif %}
+            </div>
+          </div>
+	</div>
       </div>
-      <div class="form-group row">
-        <label for="date" class="col-4 col-form-label">預約日期 / Date:</label>
-        <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.date|date:"Y/m/d" }}</div>
-      </div>
-      <div class="form-group row">
-        <label for="time" class="col-4 col-form-label">預約時間 / Time:</label>
-        {% if selected_timeslot.end_time %}
-        <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.start_time|date:"H:i" }} - {{ selected_timeslot.end_time|date:"H:i" }}</div>
-        {% else %}
-        <div class="col-8 font-weight-bold d-flex align-items-center">{{ selected_timeslot.start_time|date:"H:i" }}</div>
-        {% endif %}
-      </div>
-
     </div>
     <div class="col-lg-6 col-sm-12">
       {% if user.is_authenticated %}
