@@ -571,6 +571,7 @@ class AdminSiteInfo(HasPermissionsMixin, View):
         form = self.form_class(instance=self.instance)
         return render(request, self.template_name, context={'form':form})
     
+    @never_cache
     def post(self, request):
         form = self.form_class(request.POST,instance=self.instance)
         if form.is_valid():
