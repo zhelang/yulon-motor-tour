@@ -9,7 +9,7 @@
   </button>
   <div class="navbar-collapse collapse justify-content-end" id="navbarNav">
     <ul class="navbar-nav">
-    
+
       {% if current_page == 'index' %}
           <li class="nav-item active">
             <a class="nav-link" href="/">首頁 <span class="sr-only">(current)</span></a>
@@ -19,7 +19,7 @@
             <a class="nav-link" href="/">首頁</a>
           </li>
       {% endif %}
-      
+
       {% if current_page == 'comment' %}
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'comments' %}">評論 <span class="sr-only">(current)</span></a>
@@ -29,7 +29,7 @@
             <a class="nav-link" href="{% url 'comments' %}">評論</a>
           </li>
       {% endif %}
-      
+
       {% if current_page == 'my_reservaion' %}
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'my_reservation' %}">我的預約 <span class="sr-only">(current)</span></a>
@@ -39,7 +39,7 @@
             <a class="nav-link" href="{% url 'my_reservation' %}">我的預約</a>
           </li>
       {% endif %}
-      
+
       {% if current_page == 'faq' %}
         <li class="nav-item active">
             <a class="nav-link" href="{% url 'faq' %}">常見問題 <span class="sr-only">(current)</span></a>
