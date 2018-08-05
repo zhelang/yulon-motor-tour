@@ -213,7 +213,7 @@ class MyReservation(View):
     def get(self, request):
         if request.user.is_authenticated():
             user = User.objects.get(username=request.user.username)
-            order_list = Orders.objects.filter(user=user).exclude(status='cancelled')
+            order_list = Orders.objects.filter(user=user).exclude(status='cancelled').order_by('-id')
             print order_list
             return render(request, self.template_name, context={'order_list':order_list,'current_page':'my_reservation'})
         return render(request , self.template_name , context={'error_msg':'Please Login 1st','current_page':'my_reservation'})
@@ -839,7 +839,7 @@ def adminTimeSlotDelete(request, date, pk):
     ts.delete()
     return redirect('admin-timeslot-date' , date=date)
     
-@has_permission_decorator('view_site_admin')
+#@has_permission_decorator('view_site_admin')
 def getOrderDetails(request):
     order = Orders.objects.get(pk=request.GET['order_pk'])
     outJson = {'username':order.user.username,
