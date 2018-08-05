@@ -1,13 +1,13 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
-{% block title %}確認預約資料{% endblock %} 
+{% block title %}確認預約資料{% endblock %}
 
-{% block meta %} 
-{% endblock %} 
+{% block meta %}
+{% endblock %}
 
 {% block extraheader %}
-<script src="https://apis.google.com/js/api.js"></script> 
-{% endblock %} 
+<script src="https://apis.google.com/js/api.js"></script>
+{% endblock %}
 
 {% block body %}
 <div id="main" class="container mb-3">
@@ -34,15 +34,29 @@
     </div>
   </div>
   <!-- /#section -->
+  <div class="row mt-5 text-center">
+    <a class="mx-auto" href="{% url 'my_reservation' %}">查看我的預約</a>
+  </div>
 </div>
-{% if order.status == 'unconfirmed' %}
-  <script>
-    $(document).ready(function() {
-      $('a:not(.validate)').click(function(e) {
-        e.preventDefault();
-        alert('提醒您，您尚未完成預約，請選擇使用電子郵件或電話簡訊確認預約行程。');
+<script>
+  $(document).ready(function() {
+    var clickEvent = false;
+    $('a:not(.validate)').click(function(e) {
+      var clickURL = $(this).attr('href');
+      e.preventDefault();
+      $.ajax({
+        url: "{% url 'ajax-get-order' %}",
+        data: { 'order_pk': {{order.pk}} },
+        success: function (response) {
+          //console.log(response);
+          if (response.status == 'unconfirmed') {
+            alert('提醒您，您尚未完成預約，請選擇使用電子郵件或電話簡訊確認預約行程。');
+	  } else {
+            $(location).attr('href', clickURL);
+          }
+        }
       });
     });
-  </script>
-{% endif %}
+  });
+</script>
 {% endblock %}
