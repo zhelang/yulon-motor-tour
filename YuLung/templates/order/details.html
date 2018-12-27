@@ -33,14 +33,34 @@
                         <label class="col-3 col-form-label">預約活動</label>
                         <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.service_type.service_title }}</div>
                     </div>
+		    <div class="form-group row">
+                        <label class="col-3 col-form-label">姓　　名</label>
+                        <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.customer_details.name }}</div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">電子郵件</label>
+                        <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.customer_details.email }}</div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">行動電話</label>
+                        <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.customer_details.phone }}</div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">聯絡電話</label>
+                        <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.customer_details.phone2 }}</div>
+                    </div>
                     <div class="form-group row">
                         <label class="col-3">預約日期</label>
-                        <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.time_slot.date }}</div>
+                        <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.time_slot.date | date:'Y-m-d' }}</div>
                     </div>
                     <div class="form-group row">
                         <label class="col-3">預約時間</label>
-                        <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.time_slot.start_time }}</div>
+                        <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.time_slot.start_time | date:'H:i' }}</div>
                     </div>
+		    <div class="form-group row">
+			<label class="col-3">預約人數</label>
+			<div class="col-9 font-weight-bold d-flex align-items-center">{{ order.number_of_customer }}</div>
+		    </div>
                     <div class="form-group row">
                         <label class="col-3">預約代碼</label>
                         <div class="col-9 font-weight-bold d-flex align-items-center">{{ order.code }}</div>
@@ -49,7 +69,7 @@
                         <label class="col-3">預約狀態</label>
                         <div class="col-9 font-weight-bold d-flex align-items-center">
                             {% if order.status == 'unconfirmed' %}
-                                <span class="text-danger mr-2">未確認</span>(<a class="sendemail" value="{{order.pk}}" href="{% url 'reservation:reservation-send-email' order.pk %}">電子郵件確認</a> / <a class="sendsms" value="{{order.pk}}" href="{% url 'reservation:reservation-send-sms' order.pk %}">電話簡訊確認</a>)
+                                <span class="text-danger mr-2">未確認</span>(<a class="sendemail" value="{{ order.pk }}" href="{% url 'reservation:reservation-send-email' order.pk %}">電子郵件確認</a> / <a class="sendsms" value="{{ order.pk }}" href="{% url 'reservation:reservation-send-sms' order.pk %}">電話簡訊確認</a>)
                             {% elif order.status == 'confirmed' %}
                                 <span class="text-success">服務人員將與您確認</span>
                             {% elif order.status == 'occupy' %}
@@ -71,7 +91,7 @@
                         <div class="col-9">
                             <a href="{% url 'reservation:reservation-genics' order.pk %}" class="mr-3"><i class="fa fa-calendar" aria-hiddne="true"></i> Outlook</a>
                             <a href="{% url 'reservation:reservation-genics' order.pk %}" class="mr-3"><i class="fa fa-calendar" aria-hiddne="true"></i> Apple</a>
-                            <a href="#" value="{{order.pk}}" id="add-google" class="mr-3"><i class="fa fa-calendar" aria-hidden="true"></i> Google</a>
+                            <a href="#" value="{{ order.pk }}" id="add-google" class="mr-3"><i class="fa fa-calendar" aria-hidden="true"></i> Google</a>
                         </div>
                     </div>
                     <div class="form-group row">
