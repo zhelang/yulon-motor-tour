@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'YuLung',
     'reservation',
-    'google_analytics',
+    #'google_analytics',
     'sorl.thumbnail',
 ]
 
@@ -195,9 +195,9 @@ MEDIA_URL = '/media/'
 
 # Google Analytics
 # https://github.com/praekelt/django-google-analytics
-GOOGLE_ANALYTICS = {
-    'google_analytics_id': 'UA-116502914-1',
-}
+#GOOGLE_ANALYTICS = {
+#    'google_analytics_id': 'UA-116502914-1',
+#}
 
 # Session cleanup
 # https://github.com/sandersnewmedia/django-session-cleanup

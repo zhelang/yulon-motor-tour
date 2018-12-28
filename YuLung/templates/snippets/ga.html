@@ -1,0 +1,24 @@
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116502914-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-116502914-1');
+</script>
+<script>
+/**
+* Analytics (分析) 用來追蹤出站連結所獲得點擊的函式。
+* 這個函式需要有效的網址字串做為引數，並使用該網址字串
+* 做為事件標籤。將傳輸方式設為「beacon」(信標)，即可
+* 在支援「navigator.sendBeacon」的瀏覽器中透過該功能傳送匹配。
+*/
+var trackOutboundLink = function(url) {
+  gtag('event', 'click', {
+    'event_category': 'outbound',
+    'event_label': url,
+    'transport_type': 'beacon',
+    'event_callback': function(){document.location = url;}
+  });
+}
+</script>
