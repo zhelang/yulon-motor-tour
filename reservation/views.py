@@ -307,7 +307,7 @@ def cancel_reservation(request, order_pk):
 	    for user in users:
 	        recievers.append(user.email)
 
-	    subject = u'[車之道體驗中心] 有客戶取消預約導覽'
+	    subject = u'[訂單取消] 車之道體驗中心取消預約導覽'
 	    message = render_to_string('order/order_cancel.txt', {'order': order})
 	    to_email = recievers
 
