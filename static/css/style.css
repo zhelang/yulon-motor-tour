@@ -7,6 +7,9 @@ body {
   line-height: 1.5em;
   font-weight: 300;
 }
+:target {
+  padding-top: 80px;
+}
 .heading h4 {
   border-bottom: 5px solid #0051a2;
 }
@@ -176,6 +179,9 @@ li h6{
   padding: 1rem;
   border-bottom: 1px solid #e9ecef;
 }
+.test-ride{
+  border:0px;
+}
 @media (min-width: 992px) {
   .fc-toolbar.fc-header-toolbar {
     padding: 1rem 5rem;
@@ -230,6 +236,15 @@ li h6{
 .fc-day-grid-container {
   overflow-y: hidden !important;
 }
+.icon-full {
+  background: url(../images/ic_unable_s.png) no-repeat;
+  background-size: cover;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: 14px;
+}
 .fancybox-slide--inline .fancybox-content {
   width: 1140px;
   height: 600px;
@@ -243,4 +258,20 @@ li h6{
 }
 #fc_frame.h-open-container {
   top: 0 !important;
+}
+
+
+.navbar-nav, .navbar-nav .nav-link {
+  display: flex;
+}
+.test-ride{
+  border-left: 1px solid #838383;
+  cursor: pointer;
+}
+.test-ride img{
+  height: 40px;
+  padding: 0px 5px;
+}
+.fc-past, .fc-bg .disable{
+  background: #ececec;
 }
