@@ -9,8 +9,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="navbar-collapse collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav align-items-lg-center">
-
+      <ul class="navbar-nav align-items-md-center">
         {% if current_page == 'index' %}
         <li class="nav-item active">
           <a class="nav-link" href="/">首頁
@@ -52,30 +51,26 @@
           <a class="nav-link" href="{% url 'faq' %}">常見問題</a>
         </li>
         {% endif %}
-        <!-- <li class="nav-item">
-        <a class="nav-link" href="#">會員資料</a>
-      </li> -->
         {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'logout' %}?next={{ request.path | urlencode }}">登出</a>
         </li>
         {% endif %}
-
-
-      </ul>
-
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link test-ride align-items-lg-center border-left" onclick="trackOutboundLink('https://service.nissan.com.tw/testdrive?&utm_campaign=yulon&utm_source=yulonec&utm_medium=official'); return false;" target="_blank">
-            <img src="{% static 'images/logo_nissan.png' %}">
-            <div>Nissan
+        <li class="nav-item border-md-left border-secondary">
+          <a class="nav-link test-ride" onclick="trackOutboundLink('https://service.nissan.com.tw/testdrive?&utm_campaign=yulon&utm_source=yulonec&utm_medium=official'); return false;">
+	    <div class="text-center">
+              <img src="{% static 'images/logo_nissan.png' %}">
+	    </div>
+	    <div><span class="brand">Nissan</span>
               <br>預約試乘</div>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link test-ride align-items-lg-center border-left" onclick="trackOutboundLink('https://www.luxgen-motor.com.tw/BuyCars/testDriver/?utm_source=yulon-motor'); return false;" target="_blank">
-            <img src="{% static 'images/logo_luxgen.png' %}">
-            <div>Luxgen
+        <li class="nav-item border-md-left border-secondary">
+          <a class="nav-link test-ride" onclick="trackOutboundLink('https://www.luxgen-motor.com.tw/BuyCars/testDriver/?utm_source=yulon-motor'); return false;">
+            <div class="text-center">
+              <img src="{% static 'images/logo_luxgen.png' %}">
+	    </div>
+	    <div><span class="brand">Luxgen</span>
               <br>預約試乘</div>
           </a>
         </li>

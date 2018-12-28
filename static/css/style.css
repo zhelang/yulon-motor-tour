@@ -179,9 +179,7 @@ li h6{
   padding: 1rem;
   border-bottom: 1px solid #e9ecef;
 }
-.test-ride{
-  border:0px;
-}
+
 @media (min-width: 992px) {
   .fc-toolbar.fc-header-toolbar {
     padding: 1rem 5rem;
@@ -261,17 +259,35 @@ li h6{
 }
 
 
+.test-ride{
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  color: #838383;
+}
+.test-ride > div {
+  height: 40px;
+  width: 80px;
+  line-height: 1.3em;
+}
+.test-ride > div > span.brand {
+  letter-spacing: 0.1em;
+}
+.test-ride > div > img {
+  height: 100%;
+  width: auto;
+}
 .navbar-nav, .navbar-nav .nav-link {
   display: flex;
 }
-.test-ride{
-  border-left: 1px solid #838383;
-  cursor: pointer;
-}
-.test-ride img{
-  height: 40px;
-  padding: 0px 5px;
-}
 .fc-past, .fc-bg .disable{
   background: #ececec;
+}
+
+
+@media (max-width:991px) {
+  .test-ride{
+    border-left:0px solid #ececec;
+    margin-left: 0px;
+  }
 }
