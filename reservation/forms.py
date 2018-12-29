@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.core.validators import validate_email, RegexValidator
-from models import *
+from .models import *
 
 class CustomerDetailsForm(forms.Form):
     county = [

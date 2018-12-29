@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from models import FAQ, SiteInfo, SEO, EmailTemplate
+from .models import FAQ, SiteInfo, SEO, EmailTemplate
 from ckeditor.widgets import CKEditorWidget
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.forms import SetPasswordForm

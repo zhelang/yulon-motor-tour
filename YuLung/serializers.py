@@ -1,7 +1,7 @@
 from rest_framework import serializers as rest_serializers
 from django.contrib.auth.models import User
 from reservation.models import *
-from models import *
+from .models import *
 
 class UserSerializer(rest_serializers.ModelSerializer):
         

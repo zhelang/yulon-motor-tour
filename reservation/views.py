@@ -14,8 +14,8 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from rolepermissions.checkers import has_role, has_permission
 from rolepermissions.decorators import has_permission_decorator
-from forms import *
-from models import *
+from .forms import *
+from .models import *
 from YuLung.models import Ticket
 import random , string
 import datetime, pytz
@@ -301,28 +301,25 @@ def cancel_reservation(request, order_pk):
             order.status = "cancelled"
             order.save()
 
-	    recievers = []
-	    group = Group.objects.get(name='staff')
-	    users = group.user_set.all()
-	    for user in users:
-	        recievers.append(user.email)
+            recievers = []
+            group = Group.objects.get(name='staff')
+            users = group.user_set.all()
+            for user in users:
+                recievers.append(user.email)
+            subject = u'[車之道體驗中心] 有客戶取消預約導覽'
+            message = render_to_string('order/order_cancel.txt', {'order': order})
+            to_email = recievers
+            send_mail(
+                subject,
+                message,
+                'no-reply@tour.yulon-motor.com.tw',
+                to_email,
+                fail_silently=False,
+            )
 
-	    subject = u'[車之道體驗中心] 有客戶取消預約導覽'
-	    message = render_to_string('order/order_cancel.txt', {'order': order})
-	    to_email = recievers
-
-	    send_mail(
-	        subject,
-	        message,
-	        'no-reply@tour.yulon-motor.com.tw',
-	        to_email,
-	        fail_silently=False,
-	        #html_message=html_message
-	    )
-            
             return render(request, 'order/cancel_success.html')
     return HttpResponseNotFound("Page Not Found")
-        
+
 def send_validation_email(request , order_pk):
     order = Orders.objects.get(pk=order_pk)
     validation_key = order.validation_key
@@ -365,7 +362,7 @@ def send_validation_success(request):
     
 def confirm_reservation(request, validation_key):
     # "unconfirmed" , "confirmed" , "occupy"
-    print "validation_key =" , validation_key    
+    print("validation_key =" , validation_key)
     order = get_object_or_404(Orders , validation_key=validation_key)
     if order.status == 'unconfirmed':
         order.status = "confirmed"

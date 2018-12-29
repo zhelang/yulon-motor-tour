@@ -14,7 +14,7 @@ from django.http import HttpResponse , JsonResponse, Http404
 from django.core.exceptions import ObjectDoesNotExist
 from django.core import serializers
 from django.core.mail import send_mail
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.template.loader import render_to_string
 from rolepermissions.mixins import HasPermissionsMixin
 from rolepermissions.decorators import has_permission_decorator
@@ -22,9 +22,9 @@ from rolepermissions.roles import get_user_roles , assign_role , remove_role, cl
 from rolepermissions.checkers import has_role, has_permission
 from rolepermissions.permissions import revoke_permission, grant_permission
 from django.db.models import Q
-from forms import *
-from models import *
-from serializers import *
+from .forms import *
+from .models import *
+from .serializers import *
 from reservation.models import *
 from reservation.forms import *
 import datetime
@@ -214,7 +214,7 @@ class MyReservation(View):
         if request.user.is_authenticated():
             user = User.objects.get(username=request.user.username)
             order_list = Orders.objects.filter(user=user).exclude(status='cancelled').order_by('-id')
-            print order_list
+            print(order_list)
             return render(request, self.template_name, context={'order_list':order_list,'current_page':'my_reservation'})
         return render(request , self.template_name , context={'error_msg':'Please Login 1st','current_page':'my_reservation'})
 
@@ -227,7 +227,7 @@ class MyPage(View):
         if request.user.is_authenticated():
             user = User.objects.get(username=request.user.username)
             order_list = Orders.objects.filter(user=user)
-            print order_list
+            print(order_list)
             return render(request, self.template_name, context={'order_list':order_list,'current_page':'my_reservation'})
         return render(request , self.template_name , context={'error_msg':'Please Login 1st','current_page':'my_reservation'})    
     
@@ -246,7 +246,7 @@ class SignIn(View):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
-            print "User = ", user
+            print("User = ", user)
             if user != None:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 return redirect('login-success')
@@ -361,8 +361,8 @@ class AdminIndex(HasPermissionsMixin, View):
         allOrderForManager = list(Orders.objects.all().values_list('pk', flat=True))
         allTicketForManager = list(Ticket.objects.all().values_list('pk', flat=True))
         
-        print allOrderForManager
-        print allTicketForManager
+        print(allOrderForManager)
+        print(allTicketForManager)
         
         return render(request, self.template_name , context={'allOrder':allOrder,
                                                              'weekTicket':weekTicket,
@@ -421,11 +421,11 @@ class AdminSignIn(View):
                 login(request, user)
                 return redirect('admin-index')
             
-            print "User does not exist"
+            print("User does not exist")
             
             return render(request, self.template_name, context={'error_msg':'User does not exist / Incorrect password','form':form})
         
-        print "Invalid Form"
+        print("Invalid Form")
         return render(request, self.template_name , context={'error_msg':'Invalid Form','form':form})
         
         
@@ -478,7 +478,7 @@ class AdminBanner( HasPermissionsMixin, View):
             
             return redirect('admin-banner')
         
-        print 'Form not valid'
+        print('Form not valid')
         return render(request, self.template_name, context={'banner':last_banner,
                                                             'form':form,
                                                             'error_msg':'Invalid Form'
@@ -721,7 +721,7 @@ class AdminCalendar(HasPermissionsMixin, View):
         
         for workingDay in allWoringDay:
             if TimeSlot.objects.filter(date=workingDay).exists():
-                print 'skip'
+                print('skip')
                 continue
             else:
                 time_slot_array = json.loads( request.POST['time_slot'])
@@ -999,7 +999,7 @@ def adminSearchTicket(request):
     assigned_to = request.GET.get('assigned_to')
     
     if year=="" and month == "" and keywords == "" and assigned_by == "" and assigned_to == "":
-        print "No input"
+        print("No input")
         return HttpResponse("NULL");
     
     ticketSet = None
@@ -1146,7 +1146,7 @@ def adminGetBarChart(request):
     else:
         
         df_ticket['income'] = df_ticket['service_fee'] * df_ticket['customer_count']
-        print "BarChart df ", df_ticket
+        print("BarChart df ", df_ticket)
         
         outJson = {"labels":df_ticket.index.values.tolist(),
                    "data":df_ticket['customer_count'].values.tolist(),
@@ -1306,7 +1306,7 @@ def adminGetUserTicket(request):
         allOrder.append(ticket.order)
     
     allOrder = serializers.serialize('json', allOrder)
-    print allOrder
+    print(allOrder)
     return JsonResponse(allOrder, safe=False)
         
         
@@ -1408,7 +1408,7 @@ class AdminUserAccount(HasPermissionsMixin, View):
                 user = User.objects.create(username=username, first_name=first_name, last_name=last_name, email=email)
                 user.set_password(password)
                 user.save()
-                print request.POST.get('role')
+                print(request.POST.get('role'))
                 assign_role(user, request.POST.get('role'))
     
                 return redirect('admin-user-account')
