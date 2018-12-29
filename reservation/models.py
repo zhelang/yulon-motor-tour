@@ -37,8 +37,11 @@ class CustomersType(models.Model):
     active = models.BooleanField(default=True)
 
     def __unicode__(self):
+<<<<<<< HEAD
         return self.customer_code + '-' + self.customer_title
-
+=======
+       return self.customer_code + '-' + self.customer_title
+>>>>>>> feat: add license_plate field into Order.
 
 class TimeSlot(models.Model):
     date = models.DateField()
@@ -46,6 +49,7 @@ class TimeSlot(models.Model):
     end_time = models.TimeField(null=True, blank=True)
     available_manpower = models.IntegerField(validators=[MinValueValidator(0)], default=2)
     remain_mainpower = models.IntegerField(validators=[MinValueValidator(0)])
+<<<<<<< HEAD
     capacity = models.IntegerField(validators=[MinValueValidator(0)], default=15)
     active = models.BooleanField(default=True)
 
@@ -56,6 +60,15 @@ class TimeSlot(models.Model):
 class CustomerDetails(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                                  message='行動電話號碼格式必須是「0910123456」或「+886910123456」，請再次確認電話號碼。')
+=======
+    capacity = models.IntegerField(validators=[MinValueValidator(0)] ,default=15)
+    active = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return str(self.date) + ' | ' + str( self.start_time)
+
+class CustomerDetails(models.Model):
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message=u'行動電話號碼格式必須是「0910123456」或「+886910123456」，請再次確認電話號碼。')
     name = models.CharField(max_length=255)
     email = models.EmailField(validators=[validate_email])
     phone = models.CharField(max_length=16, validators=[phone_regex])
@@ -64,7 +77,6 @@ class CustomerDetails(models.Model):
 
     def __unicode__(self):
         return self.name + ' - ' + self.email + ' - ' + self.phone
-
 
 class Orders(models.Model):
     customer_type = models.ForeignKey(CustomersType, on_delete=models.CASCADE, null=True)
@@ -78,6 +90,12 @@ class Orders(models.Model):
     status = models.CharField(max_length=25, default='unconfirmed')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     validation_key = models.CharField(max_length=30, blank=True, default='')
+    number_of_customer = models.IntegerField(null=True , validators=[MinValueValidator(0)])
+    license_plate = models.CharField(max_length=255, null=True)
+    code = models.CharField(max_length=15,null=True , unique=True)
+    status = models.CharField(max_length=25, default="unconfirmed")
+    user = models.ForeignKey(User , on_delete=models.CASCADE, null=True)
+    validation_key = models.CharField(max_length=30, null=True)
 
     def __unicode__(self):
         return str(self.code)
