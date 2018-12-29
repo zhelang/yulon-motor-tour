@@ -3,7 +3,7 @@ from ..models import Banner
 
 register = template.Library()
 
-@register.assignment_tag
+@register.simple_tag
 def get_last_banner():
     return Banner.objects.last()
 

@@ -1,7 +1,6 @@
-from django.core.urlresolvers import reverse
 from django.db import models
+from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
-from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator , validate_email, RegexValidator
 from django.conf import settings
 from django.contrib.auth.models import User

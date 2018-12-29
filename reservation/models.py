@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator , validate_email, RegexValidator
 from django.contrib.auth.models import User
 from sorl.thumbnail import ImageField

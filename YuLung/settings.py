@@ -47,9 +47,10 @@ INSTALLED_APPS = [
     'ckeditor',
     'YuLung',
     'reservation',
-    'google_analytics',
     'sorl.thumbnail',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -123,6 +124,9 @@ DATABASES = {
         'USER':'admin',
         'PASSWORD':'zhelang#1qaz',
         'HOST':'localhost',
+        'OPTIONS': {
+              'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"',
+        }
     }
 }
 
@@ -192,12 +196,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'all_static')
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
 MEDIA_URL = '/media/'
-
-# Google Analytics
-# https://github.com/praekelt/django-google-analytics
-GOOGLE_ANALYTICS = {
-    'google_analytics_id': 'UA-116502914-1',
-}
 
 # Session cleanup
 # https://github.com/sandersnewmedia/django-session-cleanup
