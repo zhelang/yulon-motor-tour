@@ -37,16 +37,8 @@ class CustomersType(models.Model):
     active = models.BooleanField(default=True)
 
     def __unicode__(self):
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return self.customer_code + '-' + self.customer_title
-=======
        return self.customer_code + '-' + self.customer_title
->>>>>>> feat: add license_plate field into Order.
-=======
-        return self.customer_code + '-' + self.customer_title
 
->>>>>>> refactor: refactor codebase follow PEP8 code style and correct unicode functions to python3.
 
 class TimeSlot(models.Model):
     date = models.DateField()
@@ -54,8 +46,6 @@ class TimeSlot(models.Model):
     end_time = models.TimeField(null=True, blank=True)
     available_manpower = models.IntegerField(validators=[MinValueValidator(0)], default=2)
     remain_mainpower = models.IntegerField(validators=[MinValueValidator(0)])
-<<<<<<< HEAD
-<<<<<<< HEAD
     capacity = models.IntegerField(validators=[MinValueValidator(0)], default=15)
     active = models.BooleanField(default=True)
 
@@ -66,11 +56,7 @@ class TimeSlot(models.Model):
 class CustomerDetails(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                                  message='行動電話號碼格式必須是「0910123456」或「+886910123456」，請再次確認電話號碼。')
-=======
     capacity = models.IntegerField(validators=[MinValueValidator(0)] ,default=15)
-=======
-    capacity = models.IntegerField(validators=[MinValueValidator(0)], default=15)
->>>>>>> refactor: refactor codebase follow PEP8 code style and correct unicode functions to python3.
     active = models.BooleanField(default=True)
 
     def __unicode__(self):
