@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-from django.conf.global_settings import EMAIL_BACKEND, EMAIL_USE_TLS
 from session_cleanup.settings import weekly_schedule
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -29,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-#CSRF_USE_SESSIONS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,10 +44,10 @@ INSTALLED_APPS = [
     'session_cleanup',
     'ckeditor',
     'YuLung',
-    'reservation',
-    #'google_analytics',
     'sorl.thumbnail',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -67,7 +65,7 @@ ROOT_URLCONF = 'YuLung.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR ,'YuLung' ,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'YuLung', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,32 +84,42 @@ TEMPLATES = [
 ROLEPERMISSIONS_MODULE = 'YuLung.roles'
 ROLEPERMISSIONS_REDIRECT_TO_LOGIN = True
 ROLEPERMISSIONS_REGISTER_ADMIN = True
-LOGIN_URL='admin-login'
+LOGIN_URL = 'admin-login'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '412112655924-6nmhgc8ov9trppfb0imb5l6nq4cq43h9.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'svVS5JNSCtDCWHzVifVjnWMJ'
-
 SOCIAL_AUTH_FACEBOOK_KEY = '294797807684724'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'addd1c4c10fc3f91e23dbfb5f051b8ce'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    'fields': 'id,name,email', 
+    'fields': 'id,name,email',
 }
 SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.10'
-
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'login-success'
-#SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'index'
+
+CKEDITOR_CONFIGS = {
+   'default': {
+       'language': 'zh',
+       'toolbar': 'Custom',
+       'toolbar_Custom': [
+           ['Bold', 'Italic', 'Underline'],
+           ['NumberedList', 'BulletedList'],
+           ['Link', 'Unlink'],
+           ['RemoveFormat', 'Source']
+        ],
+       'width': '100%',
+       'removePlugins': 'stylesheetparser',
+       'extraPlugins': 'codesnippet',
+    },
+}
 
 WSGI_APPLICATION = 'YuLung.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -120,29 +128,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'djangodb',
-        'USER':'admin',
-        'PASSWORD':'zhelang#1qaz',
-        'HOST':'localhost',
+        'USER': 'admin',
+        'PASSWORD': 'zhelang#1qaz',
+        'HOST': 'localhost',
+        'OPTIONS': {
+              'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"',
+        }
     }
 }
-
-CKEDITOR_CONFIGS = {
-   'default': {
-	'language': 'zh',
-        'toolbar': 'Custom',
-	'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList'],
-            ['Link', 'Unlink'],
-            ['RemoveFormat', 'Source']
-	],
-        #'height': 400,
-        'width': '100%',
-        'removePlugins': 'stylesheetparser',
-        'extraPlugins': 'codesnippet',
-   },
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -190,14 +183,8 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'all_static')
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-# Google Analytics
-# https://github.com/praekelt/django-google-analytics
-#GOOGLE_ANALYTICS = {
-#    'google_analytics_id': 'UA-116502914-1',
-#}
 
 # Session cleanup
 # https://github.com/sandersnewmedia/django-session-cleanup
@@ -206,6 +193,9 @@ CELERYBEAT_SCHEDULE = {
     'session_cleanup': weekly_schedule
 }
 
+####################################
+# load settings_local.py if exists
+####################################
 try:
   from local_settings import *
 except ImportError:

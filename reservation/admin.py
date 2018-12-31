@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.contrib import admin
-from models import *
+from .models import (
+    CustomerDetails,
+    CustomersType,
+    Orders,
+    ServicesType,
+    TimeSlot
+)
 
 # Register your models here.
-models_list = [CustomersType , ServicesType, TimeSlot, CustomerDetails,Orders]
-
-admin.site.register(models_list)
+admin.site.register(CustomerDetails)
+admin.site.register(CustomersType)
+admin.site.register(Orders)
+admin.site.register(ServicesType)
+admin.site.register(TimeSlot)
